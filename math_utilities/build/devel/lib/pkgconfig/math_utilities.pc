@@ -1,8 +1,0 @@
-prefix=/home/jordan/Git/catkin_workspace/src/nasa_val_mobility_utilities/math_utilities/build/devel
-
-Name: math_utilities
-Description: Description of math_utilities
-Version: 0.0.0
-Cflags: -I/home/jordan/Git/catkin_workspace/src/nasa_val_mobility_utilities/math_utilities/include
-Libs: -L/home/jordan/Git/catkin_workspace/src/nasa_val_mobility_utilities/math_utilities/build/devel/lib 
-Requires: 

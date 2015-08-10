@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "math_utilities")
-set(math_utilities_MAINTAINER "jordan <jordan@todo.todo>")
-set(math_utilities_DEPRECATED "")
-set(math_utilities_VERSION "0.0.0")
-set(math_utilities_BUILD_DEPENDS )
-set(math_utilities_RUN_DEPENDS )
-set(math_utilities_BUILDTOOL_DEPENDS "catkin")
