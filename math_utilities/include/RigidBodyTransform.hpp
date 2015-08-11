@@ -30,6 +30,27 @@ public:
     void setRotationAndZeroTranslation(const Eigen::Matrix3d matrix);
     void zeroTranslation();
     void setTranslationAndIdentityRotation(const Eigen::Vector3d vector);
+    void setTranslationAndIdentityRotation(const Eigen::Vector3f vector);
+    void setEuler(const Eigen::Vector3d vector);
+    void setEuler(const double rotX, const double rotY, const double rotZ);
+    void getEulerXYZ(Eigen::Vector3d &vector);
+    void getRotation(Eigen::Matrix3d &matrix);
+    void getRotation(Eigen::Matrix3f &matrix);
+    void getTranslation(Eigen::Vector3d &vector);
+    void getTranslation(Eigen::Vector3f &vector);
+    void get(double (&array)[16]);
+    void get(float (&array)[16]);
+    void get(Eigen::Matrix4d &matrix);
+    void get(Eigen::Matrix4f &matrix);
+    void get(Eigen::Matrix3d &matrix, Eigen::Vector3d &vector);
+    void get(Eigen::Matrix3f &matrix, Eigen::Vector3f &vector);
+    void get(Eigen::Matrix3d &matrix);
+    void get(Eigen::Matrix3f &matrix);
+    void get(Eigen::Vector3d &vector);
+    void get(Eigen::Vector3f &vector);
+    void multiply(const RigidBodyTransform transform);
+    void multiply(const RigidBodyTransform transform1, const RigidBodyTransform transform2);
+    void invert();
 
     double mat00;
 	double mat01;
@@ -49,7 +70,6 @@ private:
 
 	void setIdentity();
 	// void setRotationWithAxisAngle();
-	// void invertOrthogonal();
 //	static void almostZero(double a);
 };
 
