@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(math_utilities)
 
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS geometry_msgs)
 find_package(Eigen3 REQUIRED)
 
 set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
@@ -58,7 +58,7 @@ set(TESTS ${TEST_DIR}/test_main.cpp ${TEST_DIR}/RigidBodyTransformTest.cpp)
 catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR}
 #  LIBRARIES math_utilities
-#  CATKIN_DEPENDS other_catkin_pkg
+ CATKIN_DEPENDS geometry_msgs
 #  DEPENDS system_lib
 )
 

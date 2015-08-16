@@ -1,13 +1,17 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(frame_utilities)
 
-find_package(catkin REQUIRED)
+find_package(catkin REQUIRED COMPONENTS geometry_msgs)
 
 # catkin_python_setup()
 
 set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
+
+set(SOURCES ${SOURCES_DIR}/ReferenceFrame.cpp)
+
+set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp)
 
 ###################################
 ## catkin specific configuration ##
@@ -19,9 +23,9 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
- INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/include
+ INCLUDE_DIRS ${INCLUDES_DIR}
 #  LIBRARIES frame_utilities
-#  CATKIN_DEPENDS other_catkin_pkg
+ CATKIN_DEPENDS geometry_msgs
 #  DEPENDS system_lib
 )
 
@@ -34,9 +38,10 @@ catkin_package(
 # include_directories(include)
 
 ## Declare a cpp library
-# add_library(frame_utilities
-#   src/${PROJECT_NAME}/frame_utilities.cpp
-# )
+add_library(${PROJECT_NAME}
+  ${SOURCES} 
+  ${INCLUDES}
+)
 
 ## Declare a cpp executable
 # add_executable(frame_utilities_node src/frame_utilities_node.cpp)

@@ -2,6 +2,7 @@
 #define RIGID_BODY_TRANSFORM_H
 
 #include <eigen3/Eigen/Eigen>
+#include <geometry_msgs/Transform.h>
 
 class RigidBodyTransform
 {
@@ -50,7 +51,15 @@ public:
     void get(Eigen::Vector3f &vector);
     void multiply(const RigidBodyTransform transform);
     void multiply(const RigidBodyTransform transform1, const RigidBodyTransform transform2);
+    void invert(const RigidBodyTransform &transform);
     void invert();
+    void invertOrthogonal();
+    void rotX(double angle);
+    void rotY(double angle);
+    void rotZ(double angle);
+    bool epsilonEquals(double a, double b, double epsilon);
+    bool epsilonEquals(const RigidBodyTransform &transform, double epsilon);
+    bool equals(const RigidBodyTransform &transform);
 
     double mat00;
 	double mat01;

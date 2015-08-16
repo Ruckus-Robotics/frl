@@ -459,33 +459,7 @@ void RigidBodyTransform::get(Eigen::Vector3f &vector)
 
 void RigidBodyTransform::multiply(const RigidBodyTransform transform)
 {
-    double tmp00 = this->mat00 * transform.mat00 + this->mat01 * transform.mat10 + this->mat02 * transform.mat20;
-    double tmp01 = this->mat00 * transform.mat01 + this->mat01 * transform.mat11 + this->mat02 * transform.mat21;
-    double tmp02 = this->mat00 * transform.mat02 + this->mat01 * transform.mat12 + this->mat02 * transform.mat22;
-    double tmp03 = this->mat00 * transform.mat03 + this->mat01 * transform.mat13 + this->mat02 * transform.mat23 + this->mat03;
-
-    double tmp10 = this->mat10 * transform.mat00 + this->mat11 * transform.mat10 + this->mat12 * transform.mat20;
-    double tmp11 = this->mat10 * transform.mat01 + this->mat11 * transform.mat11 + this->mat12 * transform.mat21;
-    double tmp12 = this->mat10 * transform.mat02 + this->mat11 * transform.mat12 + this->mat12 * transform.mat22;
-    double tmp13 = this->mat10 * transform.mat03 + this->mat11 * transform.mat13 + this->mat12 * transform.mat23 + this->mat13;
-
-    double tmp20 = this->mat20 * transform.mat00 + this->mat21 * transform.mat10 + this->mat22 * transform.mat20;
-    double tmp21 = this->mat20 * transform.mat01 + this->mat21 * transform.mat11 + this->mat22 * transform.mat21;
-    double tmp22 = this->mat20 * transform.mat02 + this->mat21 * transform.mat12 + this->mat22 * transform.mat22;
-    double tmp23 = this->mat20 * transform.mat03 + this->mat21 * transform.mat13 + this->mat22 * transform.mat23 + this->mat23;
-
-    this->mat00 = tmp00;
-    this->mat01 = tmp01;
-    this->mat02 = tmp02;
-    this->mat03 = tmp03;
-    this->mat10 = tmp10;
-    this->mat11 = tmp11;
-    this->mat12 = tmp12;
-    this->mat13 = tmp13;
-    this->mat20 = tmp20;
-    this->mat21 = tmp21;
-    this->mat22 = tmp22;
-    this->mat23 = tmp23;
+    multiply(*this,transform);
 }
 
 void RigidBodyTransform::multiply(const RigidBodyTransform transform1, const RigidBodyTransform transform2)
@@ -519,7 +493,21 @@ void RigidBodyTransform::multiply(const RigidBodyTransform transform1, const Rig
     this->mat23 = tmp23;
 }
 
+void RigidBodyTransform::invert(const RigidBodyTransform &transform)
+{
+  if(&transform !=  this)
+  {
+     set(transform);
+  }
+  invert();
+}
+
 void RigidBodyTransform::invert()
+{
+  invertOrthogonal();
+}
+
+void RigidBodyTransform::invertOrthogonal()
 {
     double tmp01 = this->mat01;
     double tmp02 = this->mat02;
@@ -541,4 +529,87 @@ void RigidBodyTransform::invert()
     this->mat13 = newTransY;
 }
 
+void RigidBodyTransform::rotX(double angle)
+{
+    double cosAngle = cos(angle);
+    double sinAngle = sin(angle);
+
+    this->mat00 = 1.0;
+    this->mat01 = 0.0;
+    this->mat02 = 0.0;
+    this->mat03 = 0.0;
+    this->mat10 = 0.0;
+    this->mat11 = cosAngle;
+    this->mat12 = -sinAngle;
+    this->mat13 = 0.0;
+    this->mat20 = 0.0;
+    this->mat21 = sinAngle;
+    this->mat22 = cosAngle;
+    this->mat23 = 0.0;
+}
+
+void RigidBodyTransform::rotY(double angle)
+{
+    double cosAngle = cos(angle);
+    double sinAngle = sin(angle);
+
+    this->mat00 = cosAngle;
+    this->mat01 = 0.0;
+    this->mat02 = sinAngle;
+    this->mat03 = 0.0;
+    this->mat10 = 0.0;
+    this->mat11 = 1.0;
+    this->mat12 = 0.0;
+    this->mat13 = 0.0;
+    this->mat20 = -sinAngle;
+    this->mat21 = 0.0;
+    this->mat22 = cosAngle;
+    this->mat23 = 0.0;
+}
+
+void RigidBodyTransform::rotZ(double angle)
+{
+    double cosAngle = cos(angle);
+    double sinAngle = sin(angle);
+
+    this->  mat00 = cosAngle;
+    this->  mat01 = -sinAngle;
+    this->  mat02 = 0.0;
+    this->  mat03 = 0.0;
+    this->  mat10 = sinAngle;
+    this->  mat11 = cosAngle;
+    this->  mat12 = 0.0;
+    this->  mat13 = 0.0;
+    this->  mat20 = 0.0;
+    this->  mat21 = 0.0;
+    this->  mat22 = 1.0;
+    this->  mat23 = 0.0;
+}
+
+bool RigidBodyTransform::epsilonEquals(double a, double b, double epsilon)
+{
+    return ((fabs(a-b) < epsilon) ? true : false);
+}
+
+bool RigidBodyTransform::epsilonEquals(const RigidBodyTransform &transform, double epsilon)
+{
+    if (!epsilonEquals(mat00, transform.mat00, epsilon)) return false;
+    if (!epsilonEquals(mat01, transform.mat01, epsilon)) return false;
+    if (!epsilonEquals(mat02, transform.mat02, epsilon)) return false;
+    if (!epsilonEquals(mat03, transform.mat03, epsilon)) return false;
+    if (!epsilonEquals(mat10, transform.mat10, epsilon)) return false;
+    if (!epsilonEquals(mat11, transform.mat11, epsilon)) return false;
+    if (!epsilonEquals(mat12, transform.mat12, epsilon)) return false;
+    if (!epsilonEquals(mat13, transform.mat13, epsilon)) return false;
+    if (!epsilonEquals(mat20, transform.mat20, epsilon)) return false;
+    if (!epsilonEquals(mat21, transform.mat21, epsilon)) return false;
+    if (!epsilonEquals(mat22, transform.mat22, epsilon)) return false;
+    if (!epsilonEquals(mat23, transform.mat23, epsilon)) return false;
+    return true;
+}
+
+bool RigidBodyTransform::equals(const RigidBodyTransform &transform)
+{
+    return epsilonEquals(transform, 1e-10);
+}
 
