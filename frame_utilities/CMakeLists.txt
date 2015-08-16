@@ -1,7 +1,18 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(frame_utilities)
 
-find_package(catkin REQUIRED COMPONENTS geometry_msgs)
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+elseif(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x")
+else()
+        message(STATUS "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
+
+find_package(catkin REQUIRED COMPONENTS geometry_msgs tf)
 
 # catkin_python_setup()
 
@@ -10,8 +21,8 @@ set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(SOURCES ${SOURCES_DIR}/ReferenceFrame.cpp)
-
 set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp)
+set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/ReferenceFrameTest.cpp)
 
 ###################################
 ## catkin specific configuration ##
@@ -25,7 +36,7 @@ set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp)
 catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR}
 #  LIBRARIES frame_utilities
- CATKIN_DEPENDS geometry_msgs
+ CATKIN_DEPENDS geometry_msgs tf
 #  DEPENDS system_lib
 )
 
@@ -35,7 +46,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-# include_directories(include)
+include_directories(${INCLUDES_DIR})
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME}
@@ -51,9 +62,10 @@ add_library(${PROJECT_NAME}
 # add_dependencies(frame_utilities_node frame_utilities_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(frame_utilities_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(${PROJECT_NAME} 
+  ${catkin_LIBRARIES}
+  ${EIGEN3_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -95,10 +107,10 @@ add_library(${PROJECT_NAME}
 #############
 
 ## Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test test/test_frame_utilities.cpp)
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME})
-# endif()
+catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
+if(TARGET ${PROJECT_NAME}-test)
+  target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} ${GTEST_LIBRARIES} pthread)
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

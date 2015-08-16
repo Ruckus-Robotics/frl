@@ -1,0 +1,7 @@
+set(_CATKIN_CURRENT_PACKAGE "frame_utilities")
+set(frame_utilities_MAINTAINER "jordan <jordan@todo.todo>")
+set(frame_utilities_DEPRECATED "")
+set(frame_utilities_VERSION "0.0.0")
+set(frame_utilities_BUILD_DEPENDS "geometry_msgs" "tf")
+set(frame_utilities_RUN_DEPENDS "geometry_msgs" "tf")
+set(frame_utilities_BUILDTOOL_DEPENDS "catkin")

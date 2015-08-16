@@ -1,0 +1,8 @@
+prefix=/home/jordan/Git/catkin_workspace/src/nasa_val_mobility_utilities/build-frame_utilities-Desktop-Default/devel
+
+Name: frame_utilities
+Description: Description of frame_utilities
+Version: 0.0.0
+Cflags: -I/home/jordan/Git/catkin_workspace/src/nasa_val_mobility_utilities/frame_utilities/include
+Libs: -L/home/jordan/Git/catkin_workspace/src/nasa_val_mobility_utilities/build-frame_utilities-Desktop-Default/devel/lib 
+Requires: geometry_msgs tf

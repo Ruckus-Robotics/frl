@@ -8,9 +8,9 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp)
-set(INCLUDES ${INCLUDES_DIR}/RigidBodyTransform.hpp)
-set(TESTS ${TEST_DIR}/test_main.cpp ${TEST_DIR}/RigidBodyTransformTest.cpp)
+set(SOURCES )
+set(INCLUDES )
+set(TESTS )
 
 # set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
 
@@ -71,10 +71,10 @@ catkin_package(
  include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
 ## Declare a cpp library
- add_library(${PROJECT_NAME}
-   ${SOURCES}
-   ${INCLUDES}
- )
+ # add_library(${PROJECT_NAME}
+ #   ${SOURCES}
+ #   ${INCLUDES}
+ # )
 
 ## Declare a cpp executable
 # add_executable(math_utilities_node src/math_utilities_node.cpp)
@@ -130,10 +130,10 @@ catkin_package(
 set(TEST_SOURCES ${SOURCES} ${INCLUDES} ${TESTS})
 
 # Add gtest based cpp test target and link libraries
-catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
-if(TARGET ${PROJECT_NAME}-test)
-  target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} pthread)
-endif()
+# catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
+# if(TARGET ${PROJECT_NAME}-test)
+#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} pthread)
+# endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)
