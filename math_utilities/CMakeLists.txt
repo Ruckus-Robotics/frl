@@ -1,16 +1,16 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(math_utilities)
 
-find_package(catkin REQUIRED COMPONENTS geometry_msgs)
-find_package(Eigen3 REQUIRED)
+find_package(catkin REQUIRED COMPONENTS)
+# find_package(Eigen3 REQUIRED)
 
-set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
-set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
-set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
+# set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
+# set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
+# set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES )
-set(INCLUDES )
-set(TESTS )
+# set(SOURCES )
+# set(INCLUDES )
+# set(TESTS )
 
 # set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
 
@@ -56,9 +56,9 @@ set(TESTS )
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
- INCLUDE_DIRS ${INCLUDES_DIR}
+ # INCLUDE_DIRS ${INCLUDES_DIR}
 #  LIBRARIES math_utilities
- CATKIN_DEPENDS geometry_msgs
+ # CATKIN_DEPENDS geometry_msgs
 #  DEPENDS system_lib
 )
 
@@ -68,7 +68,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
- include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
+ # include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
 ## Declare a cpp library
  # add_library(${PROJECT_NAME}
@@ -127,7 +127,7 @@ catkin_package(
 ## Testing ##
 #############
 
-set(TEST_SOURCES ${SOURCES} ${INCLUDES} ${TESTS})
+# set(TEST_SOURCES ${SOURCES} ${INCLUDES} ${TESTS})
 
 # Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
