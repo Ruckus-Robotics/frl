@@ -7,7 +7,8 @@ protected:
 
 	virtual void SetUp() 
 	{
-		ReferenceFrame *rootFrame = ReferenceFrame::createARootFrame("root");
+		// std::unique_ptr<ReferenceFrame> ReferenceFrame::worldFrame = ReferenceFrame::createAWorldFrame("World");
+		std::unique_ptr<ReferenceFrame> rootFrame = ReferenceFrame::createARootFrame("root");
 	}
 	virtual void TearDown()
 	{

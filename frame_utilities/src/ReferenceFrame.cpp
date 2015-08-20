@@ -2,23 +2,28 @@
 #include <random>
 #include "tf/LinearMath/Quaternion.h"
 
-ReferenceFrame* ReferenceFrame::worldFrame = ReferenceFrame::createAWorldFrame("World");
+std::unique_ptr<ReferenceFrame> ReferenceFrame::worldFrame = ReferenceFrame::createAWorldFrame("World");
 
-ReferenceFrame* ReferenceFrame::createAWorldFrame(const std::string &frameName)
+std::unique_ptr<ReferenceFrame> ReferenceFrame::createAWorldFrame(const std::string &frameName)
 {
-	ReferenceFrame *worldFrame = new ReferenceFrame(frameName, true, false);
+	std::unique_ptr<ReferenceFrame> worldFrame( new ReferenceFrame(frameName, true, false) );
 	return worldFrame;
 }
 
-ReferenceFrame* ReferenceFrame::createARootFrame(const std::string &frameName)
+std::unique_ptr<ReferenceFrame> ReferenceFrame::createARootFrame(const std::string &frameName)
 {
-	ReferenceFrame *rootFrame = new ReferenceFrame(frameName, false, false);
+	std::unique_ptr<ReferenceFrame> rootFrame( new ReferenceFrame(frameName, false, false) );
 	return rootFrame;
 }
 
 ReferenceFrame* ReferenceFrame::getWorldFrame()
 {
-	return worldFrame;
+	return worldFrame.get();
+}
+
+ReferenceFrame::~ReferenceFrame()
+{
+	
 }
 
 ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame)
