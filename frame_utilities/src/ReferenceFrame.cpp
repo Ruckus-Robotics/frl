@@ -16,7 +16,7 @@ std::unique_ptr<ReferenceFrame> ReferenceFrame::createARootFrame(const std::stri
 	return rootFrame;
 }
 
-ReferenceFrame* ReferenceFrame::getWorldFrame()
+const ReferenceFrame* ReferenceFrame::getWorldFrame()
 {
 	return worldFrame.get();
 }
@@ -45,6 +45,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 
 }
 
+
 ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame *parentFrame, const geometry_msgs::Transform &transformToParent, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
@@ -52,27 +53,4 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame *par
 	this->transformToParent = transformToParent;
 	this->isWorldFrame = false;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
-}
-
-geometry_msgs::Transform ReferenceFrame::createRandomTransformationMatrix()
-{
-	geometry_msgs::Transform transform;
-	tf::Quaternion quaternion = generateRandomQuaternion();
-}
-
-tf::Quaternion ReferenceFrame::generateRandomQuaternion()
-{
-	tf::Quaternion quaternion;
-	quaternion.setRPY(generateRandomAngle(),generateRandomAngle(),generateRandomAngle());
-
-	return quaternion;
-}
-
-double ReferenceFrame::generateRandomAngle()
-{
-	std::random_device randomDevice;
-    std::mt19937 mt(randomDevice());
-    std::uniform_real_distribution<double> dist(0, 1);
-
-    return (dist(mt)*6.28 - 3.14);
 }

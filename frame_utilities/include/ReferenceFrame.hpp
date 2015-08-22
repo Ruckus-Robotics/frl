@@ -13,15 +13,13 @@ public:
 	~ReferenceFrame();
 	static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 	static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
-	static ReferenceFrame* getWorldFrame();
+	static const ReferenceFrame* getWorldFrame();
 
-	virtual void updateTransformToParent(const geometry_msgs::Transform &transformToParent);
+	virtual void updateTransformToParent(const geometry_msgs::Transform &transformToParent){};
 	inline geometry_msgs::Transform getTransformToParent(){return this->transformToParent;}
+	ReferenceFrame createFrameWithUnchangingTransformToParent(std::string &name, ReferenceFrame* parentFrame, geometry_msgs::Transform transformToParent);
 	
 private:
-	geometry_msgs::Transform createRandomTransformationMatrix();
-	tf::Quaternion generateRandomQuaternion();
-	double generateRandomAngle();
 
 	static std::unique_ptr<ReferenceFrame> worldFrame;
 	std::string frameName;
