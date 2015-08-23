@@ -46,11 +46,29 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 }
 
 
-ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame *parentFrame, const geometry_msgs::Transform &transformToParent, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, const geometry_msgs::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
 	this->transformToParent = transformToParent;
-	this->isWorldFrame = false;
+	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 }
+
+static ReferenceFrame constructFrameWithUnchangingTransformToParent(const std::string &frameName, ReferenceFrame* const parentFrame, const geometry_msgs::Transform &transformToParent,
+         bool isBodyCenteredFrame, bool isWorldFrame)
+   {
+      // //      if (!RotationFunctions.isRotationProper(transformToParent))
+      // //         throw new RuntimeException("Rotation not normalized: " + transformToParent);
+      // ReferenceFrame ret = new ReferenceFrame(frameName, parentFrame, isBodyCenteredFrame, isWorldFrame, isZupFrame)
+      // {
+      //    private static final long serialVersionUID = 4694374344134623529L;
+
+      //    protected void updateTransformToParent(RigidBodyTransform transformToParent)
+      //    {
+      //    }
+      // };
+   		ReferenceFrame frame(frameName,parentFrame,transformToParent, isWorldFrame, isBodyCenteredFrame);
+
+      return frame;
+   }

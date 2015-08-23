@@ -8,16 +8,17 @@
 class ReferenceFrame
 {
 public:
-	ReferenceFrame(const std::string &frameName, ReferenceFrame *parentFrame, const geometry_msgs::Transform &transformToParent, bool isBodyCenteredFrame);
+	ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, const geometry_msgs::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 	ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 	~ReferenceFrame();
 	static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 	static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
 	static const ReferenceFrame* getWorldFrame();
 
+	static ReferenceFrame createFrameWithUnchangingTransformToParent(const std::string &name, ReferenceFrame* const parentFrame, const geometry_msgs::Transform &transformToParent);
+
 	virtual void updateTransformToParent(const geometry_msgs::Transform &transformToParent){};
 	inline geometry_msgs::Transform getTransformToParent(){return this->transformToParent;}
-	ReferenceFrame createFrameWithUnchangingTransformToParent(std::string &name, ReferenceFrame* parentFrame, geometry_msgs::Transform transformToParent);
 	
 private:
 
