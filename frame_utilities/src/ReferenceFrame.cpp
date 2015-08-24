@@ -33,20 +33,14 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->parentFrame = NULL;
 
-	this->transformToParent = geometry_msgs::Transform();
-	this->transformToParent.rotation.x = 0.0;
-	this->transformToParent.rotation.y = 0.0;
-	this->transformToParent.rotation.z = 0.0;
-	this->transformToParent.rotation.w = 1.0;
-
-	this->transformToParent.translation.x = 0.0;
-	this->transformToParent.translation.x = 0.0;
-	this->transformToParent.translation.x = 0.0;
+	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
+	tf::Vector3 translation(0.0, 0.0, 0.0);
+	this->transformToParent = tf::Transform(quaternion, translation);
 
 }
 
 
-ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, const geometry_msgs::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
@@ -55,10 +49,24 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* con
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 }
 
-static ReferenceFrame constructFrameWithUnchangingTransformToParent(const std::string &frameName, ReferenceFrame* const parentFrame, const geometry_msgs::Transform &transformToParent,
+ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, bool isWorldFrame, bool isBodyCenteredFrame)
+{
+	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
+	tf::Vector3 translation(0.0, 0.0, 0.0);
+	tf::Transform transformToParent(quaternion, translation);
+
+	this->transformToParent = transformToParent;
+
+	this->frameName = frameName;
+	this->parentFrame = parentFrame;
+	this->isWorldFrame = isWorldFrame;
+	this->isBodyCenteredFrame = isBodyCenteredFrame;
+}
+
+ReferenceFrame ReferenceFrame::createFrameWithUnchangingTransformToParent(const std::string &frameName, ReferenceFrame* const parentFrame, const tf::Transform &transformToParent,
         bool isBodyCenteredFrame, bool isWorldFrame)
 {
-	//Need to check here if the quaternion in geometry_msgs is valid. Its possible geometry_msgs makes sure it is, not sure.
+	//Need to check here if the quaternion in tf is valid. Its possible tf makes sure it is, not sure.
 	ReferenceFrame frame(frameName, parentFrame, transformToParent, isWorldFrame, isBodyCenteredFrame);
 
 	return frame;

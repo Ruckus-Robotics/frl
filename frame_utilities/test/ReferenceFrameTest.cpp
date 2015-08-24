@@ -1,46 +1,50 @@
 #include <gtest/gtest.h>
 #include "ReferenceFrame.hpp"
+#include "ReferenceFrameTestHelper.hpp"
 
-class ReferenceFrameTest : public ::testing::Test 
+class ReferenceFrameTest : public ::testing::Test
 {
-protected:
+	protected:
 
-	virtual void SetUp() 
-	{
-		std::unique_ptr<ReferenceFrame> rootFrame = ReferenceFrame::createARootFrame("root");
-	}
-	virtual void TearDown()
-	{
-	}
+		virtual void SetUp()
+		{
+			std::unique_ptr<ReferenceFrame> root = ReferenceFrame::createARootFrame("root1");
+			// RandomlyChangingFrame frame1("frame1", root.get());
 
-	geometry_msgs::Transform createRandomTransformationMatrix()
-	{
-		geometry_msgs::Transform transform;
-		tf::Quaternion quaternion = generateRandomQuaternion();
-	}
-
-	tf::Quaternion generateRandomQuaternion()
-	{
-		tf::Quaternion quaternion;
-		quaternion.setRPY(generateRandomAngle(),generateRandomAngle(),generateRandomAngle());
-
-		return quaternion;
-	}
-
-	double generateRandomAngle()
-	{
-		std::random_device randomDevice;
-	    std::mt19937 mt(randomDevice());
-	    std::uniform_real_distribution<double> dist(0, 1);
-
-	    return (dist(mt)*6.28 - 3.14);
-	}
+			std::unique_ptr<ReferenceFrame> root2 = ReferenceFrame::createARootFrame("root2");
+		}
+		virtual void TearDown()
+		{
+		}
 };
 
-TEST(ReferenceFrameTest,testWorldFramePointerStuff)
+class RandomlyChangingFrame : public ReferenceFrame
+{
+	public:
+		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+		{
+
+		}
+
+	protected:
+		void updateTransformToParent(tf::Transform &transformToParent)
+		{
+
+		}
+};
+
+TEST(ReferenceFrameTest, testWorldFramePointerStuff)
 {
 	const ReferenceFrame* worldFrame1 = ReferenceFrame::getWorldFrame();
 	const ReferenceFrame* worldFrame2 = ReferenceFrame::getWorldFrame();
 
-	ASSERT_TRUE(worldFrame1==worldFrame2);
+	ASSERT_TRUE(worldFrame1 == worldFrame2);
+}
+
+TEST(ReferenceFrameTest, testRootFramesArentTheSame)
+{
+	std::unique_ptr<ReferenceFrame> testRoot1 = ReferenceFrame::createARootFrame("TestRoot1");
+	std::unique_ptr<ReferenceFrame> testRoot2 = ReferenceFrame::createARootFrame("TestRoot2");
+
+	ASSERT_FALSE(testRoot1.get() == testRoot2.get());
 }

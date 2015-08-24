@@ -22,7 +22,7 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(SOURCES ${SOURCES_DIR}/ReferenceFrame.cpp)
 set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp)
-set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/ReferenceFrameTest.cpp)
+set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/ReferenceFrameTest.cpp ${TEST_DIR}/ReferenceFrameTestHelper.hpp)
 
 ###################################
 ## catkin specific configuration ##
