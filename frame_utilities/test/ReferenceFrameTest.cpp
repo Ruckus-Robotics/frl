@@ -9,28 +9,30 @@ class ReferenceFrameTest : public ::testing::Test
 		virtual void SetUp()
 		{
 			std::unique_ptr<ReferenceFrame> root = ReferenceFrame::createARootFrame("root1");
-			// RandomlyChangingFrame frame1("frame1", root.get());
+			RandomlyChangingFrame frame1("frame1", root.get());
 
 			std::unique_ptr<ReferenceFrame> root2 = ReferenceFrame::createARootFrame("root2");
 		}
 		virtual void TearDown()
 		{
 		}
-};
 
-class RandomlyChangingFrame : public ReferenceFrame
-{
-	public:
-		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+
+	private:
+		class RandomlyChangingFrame : public ReferenceFrame
 		{
+			public:
+				RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+				{
 
-		}
+				}
 
-	protected:
-		void updateTransformToParent(tf::Transform &transformToParent)
-		{
+			protected:
+				void updateTransformToParent(tf::Transform &transformToParent)
+				{
 
-		}
+				}
+		};
 };
 
 TEST(ReferenceFrameTest, testWorldFramePointerStuff)
