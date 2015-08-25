@@ -10,23 +10,26 @@ class ReferenceFrameTestHelper
 	public:
 		ReferenceFrameTestHelper();
 
-		ReferenceFrame createRandomUnchangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame)
+		static ReferenceFrame createRandomUnchangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame)
 		{
 			tf::Transform randomTransform = createRandomTransformationMatrix();
 
 			ReferenceFrame frame = ReferenceFrame::createFrameWithUnchangingTransformToParent(frameName, parentFrame, randomTransform,
 			                       false, false);
+			return frame;
 		}
 
-		tf::Transform createRandomTransformationMatrix()
+		static tf::Transform createRandomTransformationMatrix()
 		{
 			tf::Quaternion quaternion = generateRandomQuaternion();
 			tf::Vector3 translation = generateRandomTranslation();
 			tf::Transform transform(quaternion, translation);
+
+			return transform;
 		}
 
 	private:
-		tf::Vector3 generateRandomTranslation()
+		static tf::Vector3 generateRandomTranslation()
 		{
 			tf::Vector3 vector;
 			vector.setX(rand() % 10 - 5);
@@ -36,7 +39,7 @@ class ReferenceFrameTestHelper
 			return vector;
 		}
 
-		tf::Quaternion generateRandomQuaternion()
+		static tf::Quaternion generateRandomQuaternion()
 		{
 			tf::Quaternion quaternion;
 			quaternion.setRPY(generateRandomAngle(), generateRandomAngle(), generateRandomAngle());
@@ -44,7 +47,7 @@ class ReferenceFrameTestHelper
 			return quaternion;
 		}
 
-		double generateRandomAngle()
+		static double generateRandomAngle()
 		{
 			std::random_device randomDevice;
 			std::mt19937 mt(randomDevice());
