@@ -14,6 +14,8 @@ class ReferenceFrame
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 		~ReferenceFrame();
+
+		static std::vector<ReferenceFrame> constructVectorOfFramesStartingWithRootEndingWithThis();
 		static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
 		static const ReferenceFrame* getWorldFrame();
