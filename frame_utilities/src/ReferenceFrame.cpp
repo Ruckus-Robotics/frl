@@ -26,6 +26,18 @@ ReferenceFrame::~ReferenceFrame()
 
 }
 
+// copy constructor
+ReferenceFrame::ReferenceFrame(const ReferenceFrame &referenceFrameToCopy)
+{
+	parentFrame = referenceFrameToCopy.parentFrame;
+	frameName = referenceFrameToCopy.frameName;
+	framesStartingWithRootEndingWithThis = referenceFrameToCopy.framesStartingWithRootEndingWithThis;
+	transformToParent = referenceFrameToCopy.transformToParent;
+	transformToRoot = referenceFrameToCopy.transformToRoot;
+	isWorldFrame = referenceFrameToCopy.isWorldFrame;
+	isBodyCenteredFrame = referenceFrameToCopy.isBodyCenteredFrame;
+}
+
 std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame)
 {
 	if (thisFrame->parentFrame == NULL)

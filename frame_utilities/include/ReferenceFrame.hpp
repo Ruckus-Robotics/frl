@@ -16,6 +16,7 @@ class ReferenceFrame
 {
 	public:
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const ReferenceFrame &referenceFrameToCopy);
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 		~ReferenceFrame();
