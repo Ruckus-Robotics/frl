@@ -6,6 +6,7 @@
 #include <tf/LinearMath/Quaternion.h>
 #include <tf/LinearMath/Vector3.h>
 #include <string>
+#include <vector>
 
 class ReferenceFrame
 {
@@ -15,7 +16,6 @@ class ReferenceFrame
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 		~ReferenceFrame();
 
-		static std::vector<ReferenceFrame> constructVectorOfFramesStartingWithRootEndingWithThis();
 		static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
 		static const ReferenceFrame* getWorldFrame();
@@ -32,6 +32,7 @@ class ReferenceFrame
 		}
 
 	private:
+		static std::vector<ReferenceFrame> constructVectorOfFramesStartingWithRootEndingWithThis();
 
 		static std::unique_ptr<ReferenceFrame> worldFrame;
 		std::string frameName;

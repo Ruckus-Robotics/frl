@@ -26,6 +26,11 @@ ReferenceFrame::~ReferenceFrame()
 
 }
 
+std::vector<ReferenceFrame> ReferenceFrame::constructVectorOfFramesStartingWithRootEndingWithThis()
+{
+
+}
+
 ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
