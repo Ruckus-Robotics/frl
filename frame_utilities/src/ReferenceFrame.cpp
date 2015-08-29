@@ -108,13 +108,3 @@ ReferenceFrame ReferenceFrame::createFrameWithUnchangingTransformToParent(const 
 
 	return frame;
 }
-
-const ReferenceFrame* const ReferenceFrame::getParentFrame()
-{
-	return this->parentFrame;
-}
-
-const std::string ReferenceFrame::getName()
-{
-	return this->frameName;
-}

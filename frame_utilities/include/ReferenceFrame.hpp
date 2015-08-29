@@ -21,8 +21,15 @@ class ReferenceFrame
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 		~ReferenceFrame();
 
-		inline const ReferenceFrame* const getParentFrame();
-		inline const std::string getName();
+		inline const ReferenceFrame* const getParentFrame()
+		{
+			return this->parentFrame;
+		}
+
+		inline const std::string getName()
+		{
+			return this->frameName;
+		}
 
 		static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);

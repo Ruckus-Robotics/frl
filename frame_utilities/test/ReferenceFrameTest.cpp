@@ -8,7 +8,7 @@ class ReferenceFrameTest : public ::testing::Test
 
 		virtual void SetUp()
 		{
-			this->root = ReferenceFrame::createARootFrame("root1");
+			// this->root = ReferenceFrame::createARootFrame("root1");
 
 		}
 		virtual void TearDown()
@@ -16,8 +16,8 @@ class ReferenceFrameTest : public ::testing::Test
 		}
 
 		// Single chain of frames
-		std::unique_ptr<ReferenceFrame> root;// = ReferenceFrame::createARootFrame("root1");
-		RandomlyChangingFrame frame1;//("frame1", root.get());
+		std::unique_ptr<ReferenceFrame> root1 = ReferenceFrame::createARootFrame("root1");
+		// RandomlyChangingFrame frame1("frame1", root.get());
 		// ReferenceFrame frame2 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame2", &frame1);
 		// RandomlyChangingFrame frame3("frame3", &frame2);
 		// ReferenceFrame frame4 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame4", &frame3);
@@ -47,7 +47,7 @@ class ReferenceFrameTest : public ::testing::Test
 		};
 };
 
-TEST(ReferenceFrameTest, testWorldFramePointerStuff)
+TEST_F(ReferenceFrameTest, testWorldFramePointerStuff)
 {
 	const ReferenceFrame* worldFrame1 = ReferenceFrame::getWorldFrame();
 	const ReferenceFrame* worldFrame2 = ReferenceFrame::getWorldFrame();
@@ -55,7 +55,7 @@ TEST(ReferenceFrameTest, testWorldFramePointerStuff)
 	ASSERT_TRUE(worldFrame1 == worldFrame2);
 }
 
-TEST(ReferenceFrameTest, testRootFramesArentTheSame)
+TEST_F(ReferenceFrameTest, testRootFramesArentTheSame)
 {
 	std::unique_ptr<ReferenceFrame> testRoot1 = ReferenceFrame::createARootFrame("TestRoot1");
 	std::unique_ptr<ReferenceFrame> testRoot2 = ReferenceFrame::createARootFrame("TestRoot2");
@@ -63,6 +63,7 @@ TEST(ReferenceFrameTest, testRootFramesArentTheSame)
 	ASSERT_FALSE(testRoot1.get() == testRoot2.get());
 }
 
-TEST(ReferenceFrameTest, testFrameParents)
+TEST_F(ReferenceFrameTest, testFrameParents)
 {
+	root1.get()->getParentFrame();
 }
