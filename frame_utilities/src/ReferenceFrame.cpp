@@ -16,7 +16,7 @@ std::unique_ptr<ReferenceFrame> ReferenceFrame::createARootFrame(const std::stri
 	return rootFrame;
 }
 
-const ReferenceFrame* ReferenceFrame::getWorldFrame()
+const ReferenceFrame* const ReferenceFrame::getWorldFrame()
 {
 	return worldFrame.get();
 }
@@ -26,9 +26,29 @@ ReferenceFrame::~ReferenceFrame()
 
 }
 
-std::vector<ReferenceFrame> ReferenceFrame::constructVectorOfFramesStartingWithRootEndingWithThis()
+std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame)
 {
+	if (thisFrame->parentFrame == NULL)
+	{
+		// referenceFrame is the root frame.
+		std::vector<ReferenceFrame*> vector;
+		vector.push_back(thisFrame);
 
+		return vector;
+	}
+
+	// Need to add refereceFrame to the chain.
+	int nElements = thisFrame->framesStartingWithRootEndingWithThis.size() + 1;
+	std::vector<ReferenceFrame*> vector(nElements);
+
+	for (int i = 0; i < nElements - 1; i++)
+	{
+		vector[i] = thisFrame->parentFrame->framesStartingWithRootEndingWithThis[i];
+	}
+
+	vector[nElements] = thisFrame;
+
+	return vector;
 }
 
 ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame)
@@ -75,4 +95,14 @@ ReferenceFrame ReferenceFrame::createFrameWithUnchangingTransformToParent(const 
 	ReferenceFrame frame(frameName, parentFrame, transformToParent, isWorldFrame, isBodyCenteredFrame);
 
 	return frame;
+}
+
+const ReferenceFrame* const ReferenceFrame::getParentFrame()
+{
+	return this->parentFrame;
+}
+
+const std::string ReferenceFrame::getName()
+{
+	return this->frameName;
 }

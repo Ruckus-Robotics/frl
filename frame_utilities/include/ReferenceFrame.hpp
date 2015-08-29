@@ -1,6 +1,10 @@
 #ifndef REFERENCE_FRAME_HPP
 #define REFERENCE_FRAME_HPP
 
+/** This class and its implementation are an adaptation of the ReferenceFrame.java by Jerry Pratt and the IHMC robotics group.
+**  All credit goes to them.
+**/
+
 #include <memory>
 #include <tf/LinearMath/Transform.h>
 #include <tf/LinearMath/Quaternion.h>
@@ -16,9 +20,12 @@ class ReferenceFrame
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 		~ReferenceFrame();
 
+		inline const ReferenceFrame* const getParentFrame();
+		inline const std::string getName();
+
 		static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
-		static const ReferenceFrame* getWorldFrame();
+		static const ReferenceFrame* const getWorldFrame();
 
 		static ReferenceFrame createFrameWithUnchangingTransformToParent(const std::string &name, ReferenceFrame* const parentFrame, const tf::Transform &transformToParent,
 		        bool isBodyCenteredFrame, bool isWorldFrame);
@@ -32,9 +39,10 @@ class ReferenceFrame
 		}
 
 	private:
-		static std::vector<ReferenceFrame> constructVectorOfFramesStartingWithRootEndingWithThis();
+		static std::vector<ReferenceFrame*> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame);
 
 		static std::unique_ptr<ReferenceFrame> worldFrame;
+		std::vector<ReferenceFrame*> framesStartingWithRootEndingWithThis;
 		std::string frameName;
 		ReferenceFrame *parentFrame;
 		tf::Transform transformToParent;
