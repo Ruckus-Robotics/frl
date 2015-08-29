@@ -19,14 +19,15 @@ class ReferenceFrame
 		ReferenceFrame(const ReferenceFrame &referenceFrameToCopy);
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame() {};
 		~ReferenceFrame();
 
-		inline const ReferenceFrame* const getParentFrame()
+		inline const ReferenceFrame* const getParentFrame() const
 		{
 			return this->parentFrame;
 		}
 
-		inline const std::string getName()
+		inline const std::string getName() const
 		{
 			return this->frameName;
 		}

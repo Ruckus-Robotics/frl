@@ -40,7 +40,7 @@ ReferenceFrame::ReferenceFrame(const ReferenceFrame &referenceFrameToCopy)
 
 std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame)
 {
-	if (thisFrame->parentFrame == NULL)
+	if (thisFrame->parentFrame == nullptr)
 	{
 		// referenceFrame is the root frame.
 		std::vector<ReferenceFrame*> vector;
@@ -68,7 +68,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 	this->frameName = frameName;
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
-	this->parentFrame = NULL;
+	this->parentFrame = nullptr;
 
 	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
 	tf::Vector3 translation(0.0, 0.0, 0.0);

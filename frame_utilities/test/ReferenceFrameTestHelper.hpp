@@ -4,6 +4,21 @@
 #include <tf/LinearMath/Vector3.h>
 #include <random>
 
+class RandomlyChangingFrame : public ReferenceFrame
+{
+	public:
+		RandomlyChangingFrame() : ReferenceFrame() {};
+		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+		{
+
+		}
+
+	protected:
+		void updateTransformToParent(tf::Transform &transformToParent)
+		{
+
+		}
+};
 
 class ReferenceFrameTestHelper
 {

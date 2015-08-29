@@ -8,7 +8,17 @@ class ReferenceFrameTest : public ::testing::Test
 
 		virtual void SetUp()
 		{
-			// this->root = ReferenceFrame::createARootFrame("root1");
+			RandomlyChangingFrame tmpFrame1("frame1", root1.get());
+			frame1 = tmpFrame1;
+			RandomlyChangingFrame tmpFrame3("frame3", &frame2);
+			frame3 = tmpFrame3;
+
+			RandomlyChangingFrame tmpFrame5("frame5", root2.get());
+			frame5 = tmpFrame5;
+			RandomlyChangingFrame tmpFrame7("frame7", &frame6);
+			frame7 = tmpFrame7;
+			RandomlyChangingFrame tmpFrame9("frame9", &frame8);
+			frame9 = tmpFrame9;
 
 		}
 		virtual void TearDown()
@@ -17,34 +27,21 @@ class ReferenceFrameTest : public ::testing::Test
 
 		// Single chain of frames
 		std::unique_ptr<ReferenceFrame> root1 = ReferenceFrame::createARootFrame("root1");
-		// RandomlyChangingFrame frame1("frame1", root.get());
-		// ReferenceFrame frame2 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame2", &frame1);
-		// RandomlyChangingFrame frame3("frame3", &frame2);
-		// ReferenceFrame frame4 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame4", &frame3);
+		RandomlyChangingFrame frame1;
+		ReferenceFrame frame2 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame2", &frame1);
+		RandomlyChangingFrame frame3;
+		ReferenceFrame frame4 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame4", &frame3);
 
-		// // Chain with 2 branches
-		// std::unique_ptr<ReferenceFrame> root2 = ReferenceFrame::createARootFrame("root2");
-		// RandomlyChangingFrame frame5("frame5", root2.get());
-		// ReferenceFrame frame6 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame6", &frame5);
-		// RandomlyChangingFrame frame7("frame7", root2.get());
-		// ReferenceFrame frame8 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame8", &frame7);
-		// RandomlyChangingFrame frame9("frame9", &frame8);
+		// Chain with 2 branches
+		std::unique_ptr<ReferenceFrame> root2 = ReferenceFrame::createARootFrame("root2");
+		RandomlyChangingFrame frame5;
+		ReferenceFrame frame6 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame6", &frame5);
+		RandomlyChangingFrame frame7;
+		ReferenceFrame frame8 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame8", &frame7);
+		RandomlyChangingFrame frame9;
 
 	private:
-		class RandomlyChangingFrame : public ReferenceFrame
-		{
-			public:
-				RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
-				{
 
-				}
-
-			protected:
-				void updateTransformToParent(tf::Transform &transformToParent)
-				{
-
-				}
-		};
 };
 
 TEST_F(ReferenceFrameTest, testWorldFramePointerStuff)
@@ -65,5 +62,7 @@ TEST_F(ReferenceFrameTest, testRootFramesArentTheSame)
 
 TEST_F(ReferenceFrameTest, testFrameParents)
 {
-	root1.get()->getParentFrame();
+	const ReferenceFrame* test = root1.get()->getParentFrame();
+	ASSERT_TRUE(test == NULL);
+
 }
