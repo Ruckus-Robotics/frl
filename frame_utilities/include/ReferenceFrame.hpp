@@ -1,7 +1,8 @@
 #ifndef REFERENCE_FRAME_HPP
 #define REFERENCE_FRAME_HPP
 
-/** This class and its implementation are an adaptation of the ReferenceFrame.java by Jerry Pratt and the IHMC robotics group.
+/** This class and its implementation are an adaptation
+**  of the ReferenceFrame.java by Jerry Pratt and the IHMC robotics group.
 **  All credit goes to them.
 **/
 
