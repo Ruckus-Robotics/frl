@@ -40,6 +40,8 @@ class ReferenceFrameTest : public ::testing::Test
 		ReferenceFrame frame8 = ReferenceFrameTestHelper::createRandomUnchangingFrame("frame8", &frame7);
 		RandomlyChangingFrame frame9;
 
+		int nTests = 100;
+
 	private:
 
 };
@@ -62,36 +64,39 @@ TEST_F(ReferenceFrameTest, testRootFramesArentTheSame)
 
 TEST_F(ReferenceFrameTest, testFrameParents)
 {
-	const ReferenceFrame* root1ParentFrame = root1.get()->getParentFrame();
-	ASSERT_TRUE(root1ParentFrame == NULL);
+	for (int i = 0; i < nTests; i++)
+	{
+		const ReferenceFrame* root1ParentFrame = root1.get()->getParentFrame();
+		ASSERT_TRUE(root1ParentFrame == NULL);
 
-	const ReferenceFrame* frame1ParentFrame = frame1.getParentFrame();
-	ASSERT_TRUE(frame1ParentFrame == root1.get());
+		const ReferenceFrame* frame1ParentFrame = frame1.getParentFrame();
+		ASSERT_TRUE(frame1ParentFrame == root1.get());
 
-	const ReferenceFrame* frame2ParentFrame = frame2.getParentFrame();
-	ASSERT_TRUE(frame2ParentFrame == &frame1	);
+		const ReferenceFrame* frame2ParentFrame = frame2.getParentFrame();
+		ASSERT_TRUE(frame2ParentFrame == &frame1	);
 
-	const ReferenceFrame* frame3ParentFrame = frame3.getParentFrame();
-	ASSERT_TRUE(frame3ParentFrame == &frame2);
+		const ReferenceFrame* frame3ParentFrame = frame3.getParentFrame();
+		ASSERT_TRUE(frame3ParentFrame == &frame2);
 
-	const ReferenceFrame* frame4ParentFrame = frame4.getParentFrame();
-	ASSERT_TRUE(frame4ParentFrame == &frame3);
+		const ReferenceFrame* frame4ParentFrame = frame4.getParentFrame();
+		ASSERT_TRUE(frame4ParentFrame == &frame3);
 
-	const ReferenceFrame* root2ParentFrame = root2.get()->getParentFrame();
-	ASSERT_TRUE(root2ParentFrame == NULL);
+		const ReferenceFrame* root2ParentFrame = root2.get()->getParentFrame();
+		ASSERT_TRUE(root2ParentFrame == NULL);
 
-	const ReferenceFrame* frame5ParentFrame = frame5.getParentFrame();
-	ASSERT_TRUE(frame5ParentFrame == root2.get());
+		const ReferenceFrame* frame5ParentFrame = frame5.getParentFrame();
+		ASSERT_TRUE(frame5ParentFrame == root2.get());
 
-	const ReferenceFrame* frame6ParentFrame = frame6.getParentFrame();
-	ASSERT_TRUE(frame6ParentFrame == &frame5);
+		const ReferenceFrame* frame6ParentFrame = frame6.getParentFrame();
+		ASSERT_TRUE(frame6ParentFrame == &frame5);
 
-	const ReferenceFrame* frame7ParentFrame = frame7.getParentFrame();
-	ASSERT_TRUE(frame7ParentFrame == root2.get());
+		const ReferenceFrame* frame7ParentFrame = frame7.getParentFrame();
+		ASSERT_TRUE(frame7ParentFrame == root2.get());
 
-	const ReferenceFrame* frame8ParentFrame = frame8.getParentFrame();
-	ASSERT_TRUE(frame8ParentFrame == &frame7);
+		const ReferenceFrame* frame8ParentFrame = frame8.getParentFrame();
+		ASSERT_TRUE(frame8ParentFrame == &frame7);
 
-	const ReferenceFrame* frame9ParentFrame = frame9.getParentFrame();
-	ASSERT_TRUE(frame9ParentFrame == &frame8);
+		const ReferenceFrame* frame9ParentFrame = frame9.getParentFrame();
+		ASSERT_TRUE(frame9ParentFrame == &frame8);
+	}
 }
