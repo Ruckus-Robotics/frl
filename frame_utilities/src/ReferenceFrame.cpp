@@ -50,6 +50,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->parentFrame = nullptr;
+	this->transformToRoot = createIdentityTransform();
 
 	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
 	tf::Vector3 translation(0.0, 0.0, 0.0);
@@ -57,12 +58,13 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
 }
 
-ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform transfomToParent, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform &transfomToParent, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
 	this->transformToParent = transformToParent;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
+	this->transformToRoot = createIdentityTransform();
 	this->isWorldFrame = false;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
 }
@@ -73,6 +75,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* par
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
 	this->transformToParent = transformToParent;
+	this->transformToRoot = createIdentityTransform();
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
@@ -83,6 +86,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, std::unique_ptr<Ref
 	this->frameName = frameName;
 	this->parentFrame = parentFrame.get();
 	this->transformToParent = transformToParent;
+	this->transformToRoot = createIdentityTransform();
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
@@ -90,11 +94,8 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, std::unique_ptr<Ref
 
 ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, bool isWorldFrame, bool isBodyCenteredFrame)
 {
-	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
-	tf::Vector3 translation(0.0, 0.0, 0.0);
-	tf::Transform transformToParent(quaternion, translation);
-
-	this->transformToParent = transformToParent;
+	this->transformToParent = createIdentityTransform();
+	this->transformToRoot = createIdentityTransform();
 
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
@@ -155,4 +156,13 @@ void ReferenceFrame::setTransformToParent(const tf::Transform &transformToParent
 void ReferenceFrame::computeTransform()
 {
 
+}
+
+tf::Transform ReferenceFrame::createIdentityTransform()
+{
+	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
+	tf::Vector3 translation(0.0, 0.0, 0.0);
+	tf::Transform transform(quaternion, translation);
+
+	return transform;
 }

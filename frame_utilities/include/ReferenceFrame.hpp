@@ -21,7 +21,7 @@ class ReferenceFrame
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform transfomToParent, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform &transfomToParent, bool isBodyCenteredFrame);
 		ReferenceFrame() {};
 		~ReferenceFrame();
 
@@ -63,6 +63,7 @@ class ReferenceFrame
 		static std::vector<ReferenceFrame*> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame);
 
 		void computeTransform();
+		tf::Transform createIdentityTransform();
 
 		static std::unique_ptr<ReferenceFrame> worldFrame;
 		std::vector<ReferenceFrame*> framesStartingWithRootEndingWithThis;
