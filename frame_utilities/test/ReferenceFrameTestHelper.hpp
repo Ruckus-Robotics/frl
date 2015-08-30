@@ -17,6 +17,11 @@ class ReferenceFrameTestHelper
 			return transform;
 		}
 
+		static ReferenceFrame* getRandomFrameFromVectorOfFrames(std::vector<ReferenceFrame*> vectorOfFrames)
+		{
+			return vectorOfFrames[rand() % 10];
+		}
+
 	private:
 		static tf::Vector3 generateRandomTranslation()
 		{
@@ -32,6 +37,7 @@ class ReferenceFrameTestHelper
 		{
 			tf::Quaternion quaternion;
 			quaternion.setRPY(generateRandomAngle(), generateRandomAngle(), generateRandomAngle());
+			quaternion.normalize();
 
 			return quaternion;
 		}
@@ -42,7 +48,7 @@ class ReferenceFrameTestHelper
 			std::mt19937 mt(randomDevice());
 			std::uniform_real_distribution<double> dist(0, 1);
 
-			return (dist(mt) * 6.28 - 3.14);
+			return (dist(mt) * 6.2 - 3.1);
 		}
 };
 
@@ -80,14 +86,15 @@ class RandomUnchangingFrame : public ReferenceFrame
 	public:
 		RandomUnchangingFrame() : ReferenceFrame() {}
 
-		RandomUnchangingFrame(const std::string &frameName, ReferenceFrame* parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+		RandomUnchangingFrame(const std::string &frameName, ReferenceFrame* parentFrame, tf::Transform transformToParent) : ReferenceFrame(frameName, parentFrame, transformToParent, false, false)
 		{
 
 		}
 
 		static std::shared_ptr<RandomUnchangingFrame> create(const std::string &frameName, ReferenceFrame* parentFrame)
 		{
-			std::shared_ptr<RandomUnchangingFrame> frame(new RandomUnchangingFrame(frameName, parentFrame));
+			tf::Transform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+			std::shared_ptr<RandomUnchangingFrame> frame(new RandomUnchangingFrame(frameName, parentFrame, randomTransform));
 			return frame;
 		}
 

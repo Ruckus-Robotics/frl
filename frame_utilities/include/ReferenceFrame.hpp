@@ -26,6 +26,7 @@ class ReferenceFrame
 		ReferenceFrame() {};
 		~ReferenceFrame();
 
+		void update();
 		void getTransformToDesiredFrame(tf::Transform &transformToPack, ReferenceFrame* desiredFrame);
 		tf::Transform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
 		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
@@ -74,6 +75,7 @@ class ReferenceFrame
 		ReferenceFrame *parentFrame;
 		tf::Transform transformToParent;
 		tf::Transform transformToRoot;
+		tf::Transform inverseTransformToRoot;
 		bool isWorldFrame;
 		bool isBodyCenteredFrame;
 };

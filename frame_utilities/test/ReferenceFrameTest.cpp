@@ -8,9 +8,20 @@ class ReferenceFrameTest : public ::testing::Test
 
 		virtual void SetUp()
 		{
+			allFrames.push_back(root1.get());
+			allFrames.push_back(frame1.get());
+			allFrames.push_back(frame2.get());
+			allFrames.push_back(frame3.get());
+
+			allFrames.push_back(root2.get());
+			allFrames.push_back(frame4.get());
+			allFrames.push_back(frame5.get());
+			allFrames.push_back(frame6.get());
+			allFrames.push_back(frame7.get());
 		}
 		virtual void TearDown()
 		{
+			allFrames.clear();
 		}
 
 		std::unique_ptr<ReferenceFrame> root1 = ReferenceFrame::createARootFrame("root1");
@@ -25,6 +36,8 @@ class ReferenceFrameTest : public ::testing::Test
 		std::shared_ptr<RandomlyChangingFrame> frame5 = RandomlyChangingFrame::create("frame5", frame4.get());
 		std::shared_ptr<RandomUnchangingFrame> frame6 = RandomUnchangingFrame::create("frame6", root2.get());
 		std::shared_ptr<RandomlyChangingFrame> frame7 = RandomlyChangingFrame::create("frame7", frame6.get());
+
+		std::vector<ReferenceFrame*> allFrames;
 
 		int nTests = 100;
 
@@ -65,4 +78,18 @@ TEST_F(ReferenceFrameTest, testGetRootFrame)
 	{
 		ASSERT_TRUE(true);
 	}
+}
+
+TEST_F(ReferenceFrameTest, testTypicalExample)
+{
+	tf::Transform transformFrom7To6 = frame7.get()->getTransformToDesiredFrame(frame6.get());
+	tf::Transform transformFrom6To7 = frame6.get()->getTransformToDesiredFrame(frame7.get());
+
+	std::cout << frame6->getTransformToParent().getRotation().getAngle() << std::endl;
+
+	tf::Transform shouldBeIdentity = transformFrom7To6;
+
+	shouldBeIdentity *= transformFrom6To7;
+
+	// std::cout << shouldBeIdentity.getRotation().getAxis().getX() << std::endl;
 }

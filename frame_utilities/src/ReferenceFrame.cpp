@@ -53,6 +53,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->parentFrame = nullptr;
 	this->transformToRoot = createIdentityTransform();
+	this->transformToRoot = createIdentityTransform();
 
 	this->transformToParent = createIdentityTransform();
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
@@ -65,6 +66,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* par
 	this->transformToParent = transformToParent;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->transformToRoot = createIdentityTransform();
+	this->inverseTransformToRoot = createIdentityTransform();
 	this->isWorldFrame = false;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
 }
@@ -76,6 +78,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* par
 	this->parentFrame = parentFrame;
 	this->transformToParent = transformToParent;
 	this->transformToRoot = createIdentityTransform();
+	this->inverseTransformToRoot = createIdentityTransform();
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
@@ -87,6 +90,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, std::unique_ptr<Ref
 	this->parentFrame = parentFrame.get();
 	this->transformToParent = transformToParent;
 	this->transformToRoot = createIdentityTransform();
+	this->inverseTransformToRoot = createIdentityTransform();
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
@@ -96,6 +100,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, ReferenceFrame* par
 {
 	this->transformToParent = createIdentityTransform();
 	this->transformToRoot = createIdentityTransform();
+	this->inverseTransformToRoot = createIdentityTransform();
 
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
@@ -130,14 +135,26 @@ std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWith
 	return vector;
 }
 
-// void ReferenceFrame::getTransformToDesiredFrame(ReferenceFrame* desiredFrame)
-// {
-// 	verifyFramesHaveSameRoot(desiredFrame);
-// }
+tf::Transform ReferenceFrame::getTransformToDesiredFrame(ReferenceFrame* desiredFrame)
+{
+	tf::Transform transform;
+	getTransformToDesiredFrame(transform, desiredFrame);
+}
 
 void ReferenceFrame::getTransformToDesiredFrame(tf::Transform &transformToPack, ReferenceFrame* desiredFrame)
 {
 	verifyFramesHaveSameRoot(desiredFrame);
+
+	this->computeTransform();
+	desiredFrame->computeTransform();
+
+	tf::Transform tmpTransform = desiredFrame->inverseTransformToRoot;
+	tf::Transform tmpTransform2 = this->transformToRoot;
+
+	tmpTransform *= tmpTransform2;
+
+	transformToPack = tmpTransform;
+
 }
 
 void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
@@ -151,6 +168,13 @@ void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
 void ReferenceFrame::setTransformToParent(const tf::Transform &transformToParent)
 {
 	this->transformToParent = transformToParent;
+}
+
+void ReferenceFrame::update()
+{
+	// Do some updatey stuff
+
+	this->transformToRootID = LLONG_MIN;
 }
 
 void ReferenceFrame::computeTransform()
@@ -181,21 +205,12 @@ void ReferenceFrame::computeTransform()
 
 				frame->transformToRoot = parentsTransformToRoot;
 
-				// if (referenceFrame.preCorruptionTransform != null)
-				// {
-				// 	referenceFrame.transformToRoot.multiply(referenceFrame.preCorruptionTransform);
-				// }
-
 				frame->transformToRoot *= frame->transformToParent;
 
-				// if (referenceFrame.postCorruptionTransform != null)
-				// {
-				// 	referenceFrame.transformToRoot.multiply(referenceFrame.postCorruptionTransform);
-				// }
+				tf::Transform transformToRoot = frame->transformToRoot;
+				frame->inverseTransformToRoot = transformToRoot.inverse();
 
-				// referenceFrame.inverseTransformToRoot.invert(referenceFrame.transformToRoot);
-
-				// referenceFrame.transformToRootID = nextTransformToRootID;
+				frame->transformToRootID = nextTransformToRootID;
 			}
 		}
 
