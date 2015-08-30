@@ -12,6 +12,7 @@
 #include <tf/LinearMath/Vector3.h>
 #include <string>
 #include <vector>
+#include <climits>
 
 class ReferenceFrame
 {
@@ -65,6 +66,8 @@ class ReferenceFrame
 		void computeTransform();
 		tf::Transform createIdentityTransform();
 
+		static long nextTransformToRootID;
+		long transformToRootID = LLONG_MIN;
 		static std::unique_ptr<ReferenceFrame> worldFrame;
 		std::vector<ReferenceFrame*> framesStartingWithRootEndingWithThis;
 		std::string frameName;

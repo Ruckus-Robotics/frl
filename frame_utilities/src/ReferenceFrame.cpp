@@ -9,6 +9,7 @@
 **/
 
 std::unique_ptr<ReferenceFrame> ReferenceFrame::worldFrame = ReferenceFrame::createAWorldFrame("World");
+long ReferenceFrame::nextTransformToRootID = 1;
 
 std::unique_ptr<ReferenceFrame> ReferenceFrame::createAWorldFrame(const std::string &frameName)
 {
@@ -44,6 +45,7 @@ ReferenceFrame::ReferenceFrame(const ReferenceFrame &referenceFrameToCopy)
 	isBodyCenteredFrame = referenceFrameToCopy.isBodyCenteredFrame;
 }
 
+/** Create a top level ReferenceFrame with parentFrame = null **/
 ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
@@ -52,9 +54,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 	this->parentFrame = nullptr;
 	this->transformToRoot = createIdentityTransform();
 
-	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
-	tf::Vector3 translation(0.0, 0.0, 0.0);
-	this->transformToParent = tf::Transform(quaternion, translation);
+	this->transformToParent = createIdentityTransform();
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
 }
 
