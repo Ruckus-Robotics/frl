@@ -3,14 +3,43 @@
 #include <tf/LinearMath/Quaternion.h>
 #include <tf/LinearMath/Vector3.h>
 #include <random>
+#include <memory>
 
 class RandomlyChangingFrame : public ReferenceFrame
 {
 	public:
 		RandomlyChangingFrame() : ReferenceFrame() {};
-		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
 		{
 
+		}
+
+		static std::shared_ptr<RandomlyChangingFrame> create(const std::string &frameName, ReferenceFrame* parentFrame)
+		{
+			std::shared_ptr<RandomlyChangingFrame> frame(new RandomlyChangingFrame(frameName, parentFrame));
+			return frame;
+		}
+
+	protected:
+		void updateTransformToParent(tf::Transform &transformToParent)
+		{
+
+		}
+};
+
+class RandomUnchangingFrame : public ReferenceFrame
+{
+	public:
+		RandomUnchangingFrame() : ReferenceFrame() {};
+		RandomUnchangingFrame(const std::string &frameName, ReferenceFrame* parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+		{
+
+		}
+
+		static std::shared_ptr<RandomUnchangingFrame> create(const std::string &frameName, ReferenceFrame* parentFrame)
+		{
+			std::shared_ptr<RandomUnchangingFrame> frame(new RandomUnchangingFrame(frameName, parentFrame));
+			return frame;
 		}
 
 	protected:
@@ -23,17 +52,6 @@ class RandomlyChangingFrame : public ReferenceFrame
 class ReferenceFrameTestHelper
 {
 	public:
-		ReferenceFrameTestHelper();
-
-		static ReferenceFrame createRandomUnchangingFrame(const std::string &frameName, ReferenceFrame* const parentFrame)
-		{
-			tf::Transform randomTransform = createRandomTransformationMatrix();
-
-			ReferenceFrame frame = ReferenceFrame::createFrameWithUnchangingTransformToParent(frameName, parentFrame, randomTransform,
-			                       false, false);
-			return frame;
-		}
-
 		static tf::Transform createRandomTransformationMatrix()
 		{
 			tf::Quaternion quaternion = generateRandomQuaternion();

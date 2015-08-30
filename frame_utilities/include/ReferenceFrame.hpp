@@ -16,19 +16,31 @@
 class ReferenceFrame
 {
 	public:
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const ReferenceFrame &referenceFrameToCopy);
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* const parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform transfomToParent, bool isBodyCenteredFrame);
 		ReferenceFrame() {};
 		~ReferenceFrame();
 
-		inline const ReferenceFrame* const getParentFrame() const
+		void getTransformToDesiredFrame(tf::Transform &transformToPack, const ReferenceFrame desiredFrame);
+		tf::Transform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
+		void verifyFramesHaveSameRoot(const ReferenceFrame &frame);
+		void setTransformToParent(const tf::Transform &transformToParent);
+
+		const ReferenceFrame* getRootFrame()
+		{
+			return this->framesStartingWithRootEndingWithThis[0];
+		}
+
+		inline ReferenceFrame* getParentFrame()
 		{
 			return this->parentFrame;
 		}
 
-		inline const std::string getName() const
+		inline std::string getName()
 		{
 			return this->frameName;
 		}
@@ -37,9 +49,6 @@ class ReferenceFrame
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
 		static const ReferenceFrame* const getWorldFrame();
 
-		static ReferenceFrame createFrameWithUnchangingTransformToParent(const std::string &name, ReferenceFrame* const parentFrame, const tf::Transform &transformToParent,
-		        bool isBodyCenteredFrame, bool isWorldFrame);
-
 		//Super classes are expected to override this method.
 		virtual void updateTransformToParent(tf::Transform &transformToParent) {};
 
@@ -47,6 +56,8 @@ class ReferenceFrame
 		{
 			return this->transformToParent;
 		}
+
+	protected:
 
 	private:
 		static std::vector<ReferenceFrame*> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame);
