@@ -30,17 +30,17 @@ class ReferenceFrame
 		void verifyFramesHaveSameRoot(const ReferenceFrame &frame);
 		void setTransformToParent(const tf::Transform &transformToParent);
 
-		const ReferenceFrame* getRootFrame()
+		ReferenceFrame* getRootFrame()
 		{
 			return this->framesStartingWithRootEndingWithThis[0];
 		}
 
-		inline ReferenceFrame* getParentFrame()
+		ReferenceFrame* getParentFrame()
 		{
 			return this->parentFrame;
 		}
 
-		inline std::string getName()
+		std::string getName()
 		{
 			return this->frameName;
 		}
