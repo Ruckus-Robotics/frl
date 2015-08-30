@@ -5,50 +5,6 @@
 #include <random>
 #include <memory>
 
-class RandomlyChangingFrame : public ReferenceFrame
-{
-	public:
-		RandomlyChangingFrame() : ReferenceFrame() {};
-		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
-		{
-
-		}
-
-		static std::shared_ptr<RandomlyChangingFrame> create(const std::string &frameName, ReferenceFrame* parentFrame)
-		{
-			std::shared_ptr<RandomlyChangingFrame> frame(new RandomlyChangingFrame(frameName, parentFrame));
-			return frame;
-		}
-
-	protected:
-		void updateTransformToParent(tf::Transform &transformToParent)
-		{
-
-		}
-};
-
-class RandomUnchangingFrame : public ReferenceFrame
-{
-	public:
-		RandomUnchangingFrame() : ReferenceFrame() {};
-		RandomUnchangingFrame(const std::string &frameName, ReferenceFrame* parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
-		{
-
-		}
-
-		static std::shared_ptr<RandomUnchangingFrame> create(const std::string &frameName, ReferenceFrame* parentFrame)
-		{
-			std::shared_ptr<RandomUnchangingFrame> frame(new RandomUnchangingFrame(frameName, parentFrame));
-			return frame;
-		}
-
-	protected:
-		void updateTransformToParent(tf::Transform &transformToParent)
-		{
-
-		}
-};
-
 class ReferenceFrameTestHelper
 {
 	public:
@@ -87,5 +43,57 @@ class ReferenceFrameTestHelper
 			std::uniform_real_distribution<double> dist(0, 1);
 
 			return (dist(mt) * 6.28 - 3.14);
+		}
+};
+
+class RandomlyChangingFrame : public ReferenceFrame
+{
+	public:
+		RandomlyChangingFrame() : ReferenceFrame() {}
+		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+		{
+
+		}
+
+		RandomlyChangingFrame(const std::string &frameName, ReferenceFrame* parentFrame, tf::Transform transformToParent) : ReferenceFrame(frameName, parentFrame, transformToParent, false, false)
+		{
+
+		}
+
+		static std::shared_ptr<RandomlyChangingFrame> create(const std::string & frameName, ReferenceFrame * parentFrame)
+		{
+			tf::Transform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+			std::shared_ptr<RandomlyChangingFrame> frame(new RandomlyChangingFrame(frameName, parentFrame, randomTransform));
+			return frame;
+		}
+
+	protected:
+		void updateTransformToParent(tf::Transform &transformToParent)
+		{
+			tf::Transform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+			transformToParent = randomTransform;
+		}
+};
+
+class RandomUnchangingFrame : public ReferenceFrame
+{
+	public:
+		RandomUnchangingFrame() : ReferenceFrame() {}
+
+		RandomUnchangingFrame(const std::string &frameName, ReferenceFrame* parentFrame) : ReferenceFrame(frameName, parentFrame, false, false)
+		{
+
+		}
+
+		static std::shared_ptr<RandomUnchangingFrame> create(const std::string &frameName, ReferenceFrame* parentFrame)
+		{
+			std::shared_ptr<RandomUnchangingFrame> frame(new RandomUnchangingFrame(frameName, parentFrame));
+			return frame;
+		}
+
+	protected:
+		void updateTransformToParent(tf::Transform &transformToParent)
+		{
+
 		}
 };

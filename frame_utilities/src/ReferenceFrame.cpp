@@ -129,10 +129,15 @@ std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWith
 	return vector;
 }
 
-void ReferenceFrame::getTransformToDesiredFrame(tf::Transform &transformToPack, const ReferenceFrame desiredFrame)
-{
+// void ReferenceFrame::getTransformToDesiredFrame(ReferenceFrame* desiredFrame)
+// {
+// 	verifyFramesHaveSameRoot(desiredFrame);
+// }
 
-}
+// void ReferenceFrame::getTransformToDesiredFrame(tf::Transform &transformToPack, ReferenceFrame* desiredFrame)
+// {
+// 	verifyFramesHaveSameRoot(desiredFrame);
+// }
 
 void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
 {
@@ -145,4 +150,9 @@ void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
 void ReferenceFrame::setTransformToParent(const tf::Transform &transformToParent)
 {
 	this->transformToParent = transformToParent;
+}
+
+void ReferenceFrame::computeTransform()
+{
+
 }

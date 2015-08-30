@@ -25,9 +25,9 @@ class ReferenceFrame
 		ReferenceFrame() {};
 		~ReferenceFrame();
 
-		void getTransformToDesiredFrame(tf::Transform &transformToPack, const ReferenceFrame desiredFrame);
+		void getTransformToDesiredFrame(tf::Transform &transformToPack, ReferenceFrame* desiredFrame);
 		tf::Transform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
-		void verifyFramesHaveSameRoot(ReferenceFrame* frame);
+		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
 		void setTransformToParent(const tf::Transform &transformToParent);
 
 		ReferenceFrame* getRootFrame()
@@ -61,6 +61,8 @@ class ReferenceFrame
 
 	private:
 		static std::vector<ReferenceFrame*> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame);
+
+		void computeTransform();
 
 		static std::unique_ptr<ReferenceFrame> worldFrame;
 		std::vector<ReferenceFrame*> framesStartingWithRootEndingWithThis;
