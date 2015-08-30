@@ -135,10 +135,10 @@ std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWith
 // 	verifyFramesHaveSameRoot(desiredFrame);
 // }
 
-// void ReferenceFrame::getTransformToDesiredFrame(tf::Transform &transformToPack, ReferenceFrame* desiredFrame)
-// {
-// 	verifyFramesHaveSameRoot(desiredFrame);
-// }
+void ReferenceFrame::getTransformToDesiredFrame(tf::Transform &transformToPack, ReferenceFrame* desiredFrame)
+{
+	verifyFramesHaveSameRoot(desiredFrame);
+}
 
 void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
 {
@@ -155,7 +155,52 @@ void ReferenceFrame::setTransformToParent(const tf::Transform &transformToParent
 
 void ReferenceFrame::computeTransform()
 {
+	int chainLength = this->framesStartingWithRootEndingWithThis.size();
 
+	bool updateFromHereOnOut = false;
+	long previousUpdateID = 0;
+
+	for (int i = 0; i < chainLength; i++)
+	{
+		ReferenceFrame* frame = this->framesStartingWithRootEndingWithThis[i];
+
+		if (!updateFromHereOnOut)
+		{
+			if (frame->transformToRootID < previousUpdateID)
+			{
+				updateFromHereOnOut = true;
+				nextTransformToRootID++;
+			}
+		}
+
+		if (updateFromHereOnOut)
+		{
+			if (frame->getParentFrame() != nullptr)
+			{
+				tf::Transform parentsTransformToRoot = frame->getParentFrame()->transformToRoot;
+
+				frame->transformToRoot = parentsTransformToRoot;
+
+				// if (referenceFrame.preCorruptionTransform != null)
+				// {
+				// 	referenceFrame.transformToRoot.multiply(referenceFrame.preCorruptionTransform);
+				// }
+
+				frame->transformToRoot *= frame->transformToParent;
+
+				// if (referenceFrame.postCorruptionTransform != null)
+				// {
+				// 	referenceFrame.transformToRoot.multiply(referenceFrame.postCorruptionTransform);
+				// }
+
+				// referenceFrame.inverseTransformToRoot.invert(referenceFrame.transformToRoot);
+
+				// referenceFrame.transformToRootID = nextTransformToRootID;
+			}
+		}
+
+		previousUpdateID = frame->transformToRootID;
+	}
 }
 
 tf::Transform ReferenceFrame::createIdentityTransform()
