@@ -134,12 +134,12 @@ void ReferenceFrame::getTransformToDesiredFrame(tf::Transform &transformToPack, 
 
 }
 
-void ReferenceFrame::verifyFramesHaveSameRoot(const ReferenceFrame &frame)
+void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
 {
-	// if (!(frame.getRootFrame() == this->getRootFrame()))
-	// {
-	// 	throw std::runtime_error("Frames do not have the same root!");
-	// }
+	if (!(frame->getRootFrame() == this->getRootFrame()))
+	{
+		throw std::runtime_error("Frames do not have the same root!");
+	}
 }
 
 void ReferenceFrame::setTransformToParent(const tf::Transform &transformToParent)

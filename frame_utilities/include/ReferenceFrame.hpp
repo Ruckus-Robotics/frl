@@ -27,7 +27,7 @@ class ReferenceFrame
 
 		void getTransformToDesiredFrame(tf::Transform &transformToPack, const ReferenceFrame desiredFrame);
 		tf::Transform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
-		void verifyFramesHaveSameRoot(const ReferenceFrame &frame);
+		void verifyFramesHaveSameRoot(ReferenceFrame* frame);
 		void setTransformToParent(const tf::Transform &transformToParent);
 
 		ReferenceFrame* getRootFrame()

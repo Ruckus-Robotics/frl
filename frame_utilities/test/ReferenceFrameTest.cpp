@@ -53,4 +53,16 @@ TEST_F(ReferenceFrameTest, testGetRootFrame)
 {
 	ASSERT_TRUE(frame2->getRootFrame() == root1.get());
 	ASSERT_TRUE(frame7->getRootFrame() == frame5->getRootFrame());
+
+	//Throws error if these frames dont have the same root frames.
+	frame7.get()->verifyFramesHaveSameRoot(frame6.get());
+	try
+	{
+		frame7.get()->verifyFramesHaveSameRoot(frame1.get());
+		ASSERT_TRUE(false);
+	}
+	catch ( ... )
+	{
+		ASSERT_TRUE(true);
+	}
 }
