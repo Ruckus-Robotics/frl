@@ -118,19 +118,13 @@ std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWith
 	// Need to add refereceFrame to the chain.
 	int nElements = parentFrame->framesStartingWithRootEndingWithThis.size() + 1;
 	std::vector<ReferenceFrame*> vector(nElements);
-	// std::vector<ReferenceFrame*> vector;
 
 	for (int i = 0; i < (nElements - 1); i++)
 	{
 		vector[i] = parentFrame->framesStartingWithRootEndingWithThis[i];
-		// vector.push_back(parentFrame->framesStartingWithRootEndingWithThis[i]);
 	}
 
 	vector[nElements - 1] = thisFrame;
-	// vector.push_back(thisFrame);
-
-	// std::cout << "FrameName:" << thisFrame->getName() << std::endl;
-	// std::cout << "Size Of Vector:" << vector.size() << std::endl;
 
 	return vector;
 }
