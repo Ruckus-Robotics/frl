@@ -2,6 +2,7 @@
 #include <random>
 #include "tf/LinearMath/Quaternion.h"
 #include <iostream>
+#include <math.h>
 
 /** This class and its implementation are an adaptation
 **  of the ReferenceFrame.java by Jerry Pratt and the IHMC robotics group.
@@ -54,6 +55,7 @@ ReferenceFrame::ReferenceFrame(const std::string &frameName, bool isWorldFrame, 
 	this->parentFrame = nullptr;
 	this->transformToRoot = createIdentityTransform();
 	this->transformToRoot = createIdentityTransform();
+	this->transformToRootID = 0;
 
 	this->transformToParent = createIdentityTransform();
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
@@ -187,11 +189,16 @@ void ReferenceFrame::computeTransform()
 	for (int i = 0; i < chainLength; i++)
 	{
 		ReferenceFrame* frame = this->framesStartingWithRootEndingWithThis[i];
+		std::cout << "Name: " << frame->getName() << std::endl;
 
 		if (!updateFromHereOnOut)
 		{
 			if (frame->transformToRootID < previousUpdateID)
 			{
+				std::cout << "FrameName: " << frame->getName() << std::endl;
+				tf::Quaternion q = frame->getTransformToParent().getRotation();
+				std::cout << "\n x:" << q.getX() << "\n y:" << q.getY() << "\n z:" << q.getZ() << "\n w:" << q.getW() << std::endl;
+
 				updateFromHereOnOut = true;
 				nextTransformToRootID++;
 			}
@@ -207,8 +214,15 @@ void ReferenceFrame::computeTransform()
 
 				frame->transformToRoot *= frame->transformToParent;
 
+
+				// frame->transformToRoot.getRotation().normalize();
+
 				tf::Transform transformToRoot = frame->transformToRoot;
 				frame->inverseTransformToRoot = transformToRoot.inverse();
+
+				std::cout << "FrameName: " << frame->getName() << std::endl;
+				tf::Quaternion q = frame->getTransformToParent().getRotation();
+				std::cout << "\n x:" << q.getX() << "\n y:" << q.getY() << "\n z:" << q.getZ() << "\n w:" << q.getW() << std::endl;
 
 				frame->transformToRootID = nextTransformToRootID;
 			}
@@ -220,7 +234,8 @@ void ReferenceFrame::computeTransform()
 
 tf::Transform ReferenceFrame::createIdentityTransform()
 {
-	tf::Quaternion quaternion(0.0, 0.0, 0.0, 1.0);
+	tf::Quaternion quaternion;
+	quaternion = tf::Quaternion::getIdentity();
 	tf::Vector3 translation(0.0, 0.0, 0.0);
 	tf::Transform transform(quaternion, translation);
 

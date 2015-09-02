@@ -32,6 +32,16 @@ class ReferenceFrame
 		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
 		void setTransformToParent(const tf::Transform &transformToParent);
 
+		tf::Transform getTransformToRoot()
+		{
+			return this->transformToRoot;
+		}
+
+		tf::Transform getInverseTransformToRoot()
+		{
+			return this->inverseTransformToRoot;
+		}
+
 		ReferenceFrame* getRootFrame()
 		{
 			return this->framesStartingWithRootEndingWithThis[0];

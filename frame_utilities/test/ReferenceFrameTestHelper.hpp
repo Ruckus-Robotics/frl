@@ -4,6 +4,7 @@
 #include <tf/LinearMath/Vector3.h>
 #include <random>
 #include <memory>
+#include <math.h>
 
 class ReferenceFrameTestHelper
 {
@@ -20,6 +21,22 @@ class ReferenceFrameTestHelper
 		static ReferenceFrame* getRandomFrameFromVectorOfFrames(std::vector<ReferenceFrame*> vectorOfFrames)
 		{
 			return vectorOfFrames[rand() % 10];
+		}
+
+		static double getQuaternionMagnitude(tf::Quaternion q)
+		{
+			return sqrt(pow(q.getX(), 2) + pow(q.getY(), 2) + pow(q.getZ(), 2) + pow(q.getW(), 2));
+		}
+
+		static void printQuaternion(tf::Quaternion q)
+		{
+			std::cout << "x:" << q.getX() << "y:" << q.getY() << "z:" << q.getZ() << "w:" << q.getW() << std::endl;
+		}
+
+		static void printQuaternion(tf::Transform transform)
+		{
+			tf::Quaternion q = transform.getRotation();
+			std::cout << "\n x:" << q.getX() << "\n y:" << q.getY() << "\n z:" << q.getZ() << "\n w:" << q.getW() << std::endl;
 		}
 
 	private:
@@ -48,7 +65,8 @@ class ReferenceFrameTestHelper
 			std::mt19937 mt(randomDevice());
 			std::uniform_real_distribution<double> dist(0, 1);
 
-			return (dist(mt) * 6.2 - 3.1);
+			// return (dist(mt) * 6.2 - 3.1);
+			return 0.0;
 		}
 };
 
@@ -94,6 +112,7 @@ class RandomUnchangingFrame : public ReferenceFrame
 		static std::shared_ptr<RandomUnchangingFrame> create(const std::string &frameName, ReferenceFrame* parentFrame)
 		{
 			tf::Transform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+
 			std::shared_ptr<RandomUnchangingFrame> frame(new RandomUnchangingFrame(frameName, parentFrame, randomTransform));
 			return frame;
 		}
