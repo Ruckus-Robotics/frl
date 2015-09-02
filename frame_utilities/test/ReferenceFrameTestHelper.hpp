@@ -18,6 +18,21 @@ public:
         return transform;
     }
 
+    static bool isTransformIdentityWithinEpsilon(tf::Transform transform, double epsilon)
+    {
+        return (isVectorZeroWithinEpsilon(transform.getOrigin(), epsilon) && isIdentityQuaternionWithinEpsilon(transform.getRotation(), epsilon)) ? true : false;
+    }
+
+    static bool isVectorZeroWithinEpsilon(tf::Vector3 vector, double epsilon)
+    {
+        return (fabs(vector.getX()) < epsilon && fabs(vector.getY()) < epsilon && fabs(vector.getZ()) < epsilon) ? true : false;
+    }
+
+    static bool isIdentityQuaternionWithinEpsilon(tf::Quaternion q, double epsilon)
+    {
+        return (fabs(q.getX()) < epsilon && fabs(q.getY()) < epsilon && fabs(q.getZ()) < epsilon && (fabs(q.getW()) - 1) < epsilon) ? true : false;
+    }
+
     static ReferenceFrame* getRandomFrameFromVectorOfFrames(std::vector<ReferenceFrame*> vectorOfFrames)
     {
         return vectorOfFrames[rand() % 10];

@@ -191,7 +191,6 @@ void ReferenceFrame::computeTransform()
     for (int i = 0; i < chainLength; i++)
     {
         ReferenceFrame* frame = this->framesStartingWithRootEndingWithThis[i];
-        std::cout << "Name: " << frame->getName() << std::endl;
 
         if (!updateFromHereOnOut)
         {
