@@ -58,7 +58,9 @@ ReferenceFrame::ReferenceFrame(const std::string& frameName, bool isWorldFrame, 
     this->transformToRootID = 0;
 
     this->transformToParent = createIdentityTransform();
-    this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
+    std::vector<ReferenceFrame*> vector;
+    vector.push_back(this);
+    this->framesStartingWithRootEndingWithThis = vector;
 }
 
 ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const tf::Transform& transfomToParent, bool isBodyCenteredFrame)
