@@ -57,6 +57,11 @@ class ReferenceFrame
 			return this->frameName;
 		}
 
+		const std::vector<ReferenceFrame*> getFramesStartingWithRootEndingWithThis()
+		{
+			return this->framesStartingWithRootEndingWithThis;
+		}
+
 		static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
 		static const ReferenceFrame* const getWorldFrame();

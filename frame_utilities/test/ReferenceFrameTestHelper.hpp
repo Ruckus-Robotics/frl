@@ -27,8 +27,23 @@ class ReferenceFrameTestHelper
 			}
 		}
 
-		static tf::Transform getTransformToRootByClimbingTree(ReferenceFrame* rootFrame)
+		static tf::Transform getTransformToRootByClimbingTree(ReferenceFrame* frame)
 		{
+			const std::vector<ReferenceFrame*> framesStartingWithRootEndingWithFrame = frame->getFramesStartingWithRootEndingWithThis();
+
+			tf::Transform transform = tf::Transform::getIdentity();
+
+			if (frame->getParentFrame() != nullptr)
+			{
+				for (int i = 0; i < framesStartingWithRootEndingWithFrame.size(); i++)
+				{
+
+				}
+			}
+			else
+			{
+				return transform;
+			}
 
 		}
 
