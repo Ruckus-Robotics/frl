@@ -18,6 +18,7 @@ class ReferenceFrameTest : public ::testing::Test
 			allFrames.push_back(frame5.get());
 			allFrames.push_back(frame6.get());
 			allFrames.push_back(frame7.get());
+			allFrames.push_back(frame8.get());
 
 			frames1.push_back(root1.get());
 			frames1.push_back(frame1.get());
@@ -29,6 +30,7 @@ class ReferenceFrameTest : public ::testing::Test
 			frames2.push_back(frame5.get());
 			frames2.push_back(frame6.get());
 			frames2.push_back(frame7.get());
+			frames2.push_back(frame8.get());
 		}
 		virtual void TearDown()
 		{
@@ -48,6 +50,7 @@ class ReferenceFrameTest : public ::testing::Test
 		std::shared_ptr<RandomlyChangingFrame> frame5 = RandomlyChangingFrame::create("frame5", frame4.get());
 		std::shared_ptr<RandomUnchangingFrame> frame6 = RandomUnchangingFrame::create("frame6", root2.get());
 		std::shared_ptr<RandomlyChangingFrame> frame7 = RandomlyChangingFrame::create("frame7", frame6.get());
+		std::shared_ptr<RandomlyChangingFrame> frame8 = RandomlyChangingFrame::create("frame8", frame7.get());
 
 		std::vector<ReferenceFrame*> allFrames;
 		std::vector<ReferenceFrame*> frames1;
@@ -125,7 +128,7 @@ TEST_F(ReferenceFrameTest, testGetTransformToParent)
 
 		if (parentFrame != nullptr)
 		{
-			ReferenceFrameTestHelper::areTransformsEpsilonEqual(tmpFrame2->getTransformToParent(), tmpFrame2->getTransformToDesiredFrame(parentFrame), 1e-5);
+			EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(tmpFrame2->getTransformToParent(), tmpFrame2->getTransformToDesiredFrame(parentFrame), 1e-5));
 		}
 	}
 }
@@ -133,4 +136,12 @@ TEST_F(ReferenceFrameTest, testGetTransformToParent)
 TEST_F(ReferenceFrameTest, testGetTransformToRoot)
 {
 	ReferenceFrameTestHelper::updateAllFrames(allFrames);
+
+	for (int i = 0; i < allFrames.size(); i++)
+	{
+		ReferenceFrame* frame = allFrames[i];
+		tf::Transform transformToRoot = ReferenceFrameTestHelper::getTransformToRootByClimbingTree(frame);
+
+		EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(transformToRoot, frame->getTransformToRoot(), 1e-5));
+	}
 }

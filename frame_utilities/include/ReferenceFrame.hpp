@@ -34,6 +34,7 @@ class ReferenceFrame
 
 		tf::Transform getTransformToRoot()
 		{
+			computeTransform();
 			return this->transformToRoot;
 		}
 

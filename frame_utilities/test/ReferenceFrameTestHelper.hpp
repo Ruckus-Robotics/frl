@@ -35,16 +35,13 @@ class ReferenceFrameTestHelper
 
 			if (frame->getParentFrame() != nullptr)
 			{
-				for (int i = 0; i < framesStartingWithRootEndingWithFrame.size(); i++)
+				for (int i = 0; i < framesStartingWithRootEndingWithFrame.size() ; i++)
 				{
-
+					transform *= framesStartingWithRootEndingWithFrame[i]->getTransformToParent();
 				}
 			}
-			else
-			{
-				return transform;
-			}
 
+			return transform;
 		}
 
 		static bool areTransformsEpsilonEqual(tf::Transform t1, tf::Transform t2, double epsilon)
