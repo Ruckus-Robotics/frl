@@ -18,6 +18,20 @@ class ReferenceFrameTestHelper
 			return transform;
 		}
 
+		static void updateAllFrames(std::vector<ReferenceFrame*> frames)
+		{
+			for (int i = 0; i < frames.size(); i++)
+			{
+				ReferenceFrame* tmpFrame = frames[i];
+				tmpFrame->update();
+			}
+		}
+
+		static tf::Transform getTransformToRootByClimbingTree(ReferenceFrame* rootFrame)
+		{
+
+		}
+
 		static bool areTransformsEpsilonEqual(tf::Transform t1, tf::Transform t2, double epsilon)
 		{
 			return (areQuaternionsEpsilonEqual(t1.getRotation(), t2.getRotation(), epsilon) && areVectorsEqual(t1.getOrigin(), t2.getOrigin(), epsilon));
@@ -125,6 +139,7 @@ class RandomlyChangingFrame : public ReferenceFrame
 		void updateTransformToParent(tf::Transform& transformToParent)
 		{
 			tf::Transform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+			// std::cout << "RandomlyChangingFrame updating!!" << std::endl;
 			transformToParent = randomTransform;
 		}
 };
@@ -150,6 +165,6 @@ class RandomUnchangingFrame : public ReferenceFrame
 	protected:
 		void updateTransformToParent(tf::Transform& transformToParent)
 		{
-
+			// std::cout << "RandomUnchangingFrame updating!!" << std::endl;
 		}
 };
