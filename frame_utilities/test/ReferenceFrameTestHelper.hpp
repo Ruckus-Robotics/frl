@@ -18,6 +18,13 @@ class ReferenceFrameTestHelper
 			return transform;
 		}
 
+		static ReferenceFrame* getARandomFrame(std::vector<ReferenceFrame*> frames)
+		{
+			int index = rand() % frames.size();
+
+			return frames[index];
+		}
+
 		static void updateAllFrames(std::vector<ReferenceFrame*> frames)
 		{
 			for (int i = 0; i < frames.size(); i++)

@@ -56,7 +56,7 @@ class ReferenceFrameTest : public ::testing::Test
 		std::vector<ReferenceFrame*> frames1;
 		std::vector<ReferenceFrame*> frames2;
 
-		int nTests = 100;
+		int nTests = 1000;
 
 	private:
 
@@ -98,24 +98,34 @@ TEST_F(ReferenceFrameTest, testGetRootFrame)
 	}
 }
 
-TEST_F(ReferenceFrameTest, testGetTransformToDesiredFrame)
+TEST_F(ReferenceFrameTest, testGetTransformBetweenFrames)
 {
-	tf::Transform transformFrom7To6 = frame7.get()->getTransformToDesiredFrame(frame6.get());
-	tf::Transform transformFrom6To7 = frame6.get()->getTransformToDesiredFrame(frame7.get());
 
-	tf::Transform shouldBeIdentity = transformFrom7To6;
+	for (int i = 0; i < nTests; i++)
+	{
+		ReferenceFrameTestHelper::updateAllFrames(allFrames);
 
-	shouldBeIdentity *= transformFrom6To7;
+		ReferenceFrame* tmpFrame1 = ReferenceFrameTestHelper::getARandomFrame(allFrames);
+		ReferenceFrame* tmpFrame2 = ReferenceFrameTestHelper::getARandomFrame(allFrames);
 
-	EXPECT_TRUE(ReferenceFrameTestHelper::isTransformIdentityWithinEpsilon(shouldBeIdentity, 1e-5));
+		if (tmpFrame1->getRootFrame() != tmpFrame2->getRootFrame())
+		{
+			continue;
+		}
 
-	tf::Transform transformFrom4To7 = frame4.get()->getTransformToDesiredFrame(frame7.get());
-	tf::Transform transformFrom7To4 = frame7.get()->getTransformToDesiredFrame(frame4.get());
+		tf::Transform transform1 = tmpFrame1->getTransformToDesiredFrame(tmpFrame2);
+		tf::Transform transform2 = tmpFrame2->getTransformToDesiredFrame(tmpFrame1);
 
-	shouldBeIdentity = transformFrom4To7;
-	shouldBeIdentity *= transformFrom7To4;
+		tf::Transform shouldBeIdentity = transform1 * transform2;
 
-	EXPECT_TRUE(ReferenceFrameTestHelper::isTransformIdentityWithinEpsilon(shouldBeIdentity, 1e-5));
+		if (!(ReferenceFrameTestHelper::isTransformIdentityWithinEpsilon(shouldBeIdentity, 1e-5)))
+		{
+			std::cout << "Failure frame 1: " << tmpFrame1->getName() << std::endl;
+			std::cout << "Failure frame 2: " << tmpFrame2->getName() << std::endl;
+
+			throw std::runtime_error("ERROR!");
+		}
+	}
 }
 
 TEST_F(ReferenceFrameTest, testGetTransformToParent)
