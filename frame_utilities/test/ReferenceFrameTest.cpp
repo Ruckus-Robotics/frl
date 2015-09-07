@@ -135,13 +135,31 @@ TEST_F(ReferenceFrameTest, testGetTransformToParent)
 
 TEST_F(ReferenceFrameTest, testGetTransformToRoot)
 {
-	ReferenceFrameTestHelper::updateAllFrames(allFrames);
-
-	for (int i = 0; i < allFrames.size(); i++)
+	for (int j = 0; j < nTests; j++)
 	{
-		ReferenceFrame* frame = allFrames[i];
-		tf::Transform transformToRoot = ReferenceFrameTestHelper::getTransformToRootByClimbingTree(frame);
+		ReferenceFrameTestHelper::updateAllFrames(allFrames);
 
-		EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(transformToRoot, frame->getTransformToRoot(), 1e-5));
+		for (int i = 0; i < allFrames.size(); i++)
+		{
+			ReferenceFrame* frame = allFrames[i];
+			tf::Transform transformToRoot = ReferenceFrameTestHelper::getTransformToRootByClimbingTree(frame);
+
+			EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(transformToRoot, frame->getTransformToRoot(), 1e-5));
+		}
+	}
+}
+
+TEST_F(ReferenceFrameTest, testGetTransformToSelf)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		ReferenceFrameTestHelper::updateAllFrames(allFrames);
+
+		for (int j = 0; j < allFrames.size(); j++)
+		{
+			ReferenceFrame* tmpFrame = allFrames[j];
+			tf::Transform shouldBeIdentity = tmpFrame->getTransformToDesiredFrame(tmpFrame);
+			EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(shouldBeIdentity, tf::Transform::getIdentity(), 1e-5));
+		}
 	}
 }
