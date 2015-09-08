@@ -2,6 +2,8 @@
 #include "ReferenceFrame.hpp"
 #include "ReferenceFrameTestHelper.hpp"
 
+using namespace frame_utilities;
+
 class ReferenceFrameTest : public ::testing::Test
 {
 	protected:

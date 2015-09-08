@@ -14,6 +14,9 @@
 #include <vector>
 #include <climits>
 
+namespace frame_utilities
+{
+
 class ReferenceFrame
 {
 	public:
@@ -95,5 +98,7 @@ class ReferenceFrame
 		bool isWorldFrame;
 		bool isBodyCenteredFrame;
 };
+
+}
 
 #endif

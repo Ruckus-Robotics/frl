@@ -9,6 +9,9 @@
 **  All credit goes to them.
 **/
 
+namespace frame_utilities
+{
+
 std::unique_ptr<ReferenceFrame> ReferenceFrame::worldFrame = ReferenceFrame::createAWorldFrame("World");
 long ReferenceFrame::nextTransformToRootID = 1;
 
@@ -237,4 +240,6 @@ tf::Transform ReferenceFrame::createIdentityTransform()
 	tf::Transform transform(quaternion, translation);
 
 	return transform;
+}
+
 }

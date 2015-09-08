@@ -6,6 +6,8 @@
 #include <memory>
 #include <math.h>
 
+using namespace frame_utilities;
+
 class ReferenceFrameTestHelper
 {
 	public:
