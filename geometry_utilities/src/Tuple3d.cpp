@@ -1,4 +1,6 @@
 #include "Tuple3d.hpp"
+#include <math.h>
+#include <cmath>
 
 namespace geometry_utilities
 {
@@ -131,4 +133,91 @@ void Tuple3d::scaleAdd(const double &value, const Tuple3d &tuple1, const Tuple3d
 	scale(value);
 	add(tuple2);
 }
+
+bool Tuple3d::epsilonEquals(const Tuple3d &tuple, const double &epsilon)
+{
+	if (std::isnan(this->x) || std::isnan(this->y) || std::isnan(this->z) || std::isnan(tuple.x) || std::isnan(tuple.y) || std::isnan(tuple.z))
+	{
+		return false;
+	}
+
+	return (fabs(this->x - tuple.x) < epsilon && fabs(this->y - tuple.y) < epsilon && fabs(this->z - tuple.z) < epsilon);
+}
+
+bool Tuple3d::equals(const Tuple3d &tuple)
+{
+	if (std::isnan(this->x) || std::isnan(this->y) || std::isnan(this->z) || std::isnan(tuple.x) || std::isnan(tuple.y) || std::isnan(tuple.z))
+	{
+		return false;
+	}
+
+	return (this->x == tuple.x && this->y == tuple.y && this->z == tuple.z);
+}
+
+void Tuple3d::clampMin(const double &min, const Tuple3d &tuple)
+{
+	if (tuple.x < min)
+	{
+		this->x = min;
+	}
+	else
+	{
+		this->x = tuple.x;
+	}
+
+	if (tuple.y < min)
+	{
+		this->y = min;
+	}
+	else
+	{
+		this->y = tuple.y;
+	}
+
+	if (tuple.z < min)
+	{
+		this->z = min;
+	}
+	else
+	{
+		this->z = tuple.z;
+	}
+}
+
+void Tuple3d::clampMax(const double &max, const Tuple3d &tuple)
+{
+	if (tuple.x > max)
+	{
+		this->x = max;
+	}
+	else
+	{
+		this->x = tuple.x;
+	}
+
+	if (tuple.y > max)
+	{
+		this->y = max;
+	}
+	else
+	{
+		this->y = tuple.y;
+	}
+
+	if (tuple.z > max)
+	{
+		this->z = max;
+	}
+	else
+	{
+		this->z = tuple.z;
+	}
+}
+
+void Tuple3d::clampMinMax(const double &min, const double &max, const Tuple3d &tuple)
+{
+	clampMin(min, tuple);
+	clampMax(max, tuple);
+}
+
 }

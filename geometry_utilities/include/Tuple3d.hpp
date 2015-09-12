@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <stdexcept>
+#include <iostream>
 
 namespace geometry_utilities
 {
@@ -36,11 +37,24 @@ class Tuple3d
 		void scaleAdd(const double &value, const Tuple3d &tuple);
 		void scaleAdd(const double &value, const Tuple3d &tuple1, const Tuple3d &tuple2);
 
+		bool equals(const Tuple3d &tuple);
+		bool epsilonEquals(const Tuple3d &tuple, const double &epsilon);
+
+		void clampMin(const double &min, const Tuple3d &tuple);
+		void clampMax(const double &max, const Tuple3d &tuple);
+		void clampMinMax(const double &min, const double &max, const Tuple3d &tuple);
+
 		double x, y, z;
 
 	private:
 
 };
+}
+
+std::ostream& operator<<(std::ostream& os, const geometry_utilities::Tuple3d &tuple)
+{
+	os << "x: " << tuple.x << '\n' << "y: " << tuple.y << '\n' << "z: " << tuple.z << "\n";
+	return os;
 }
 
 #endif
