@@ -1,16 +1,25 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(math_utilities)
+project(geometry_utilities)
+
+# check c++11 / c++0x
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+if(COMPILER_SUPPORTS_CXX0X)
+    set(CMAKE_CXX_FLAGS "-std=c++0x")
+else()
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
+endif()
 
 find_package(catkin REQUIRED COMPONENTS)
 # find_package(Eigen3 REQUIRED)
 
-# set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
-# set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
-# set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
+set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
+set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
+set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-# set(SOURCES )
-# set(INCLUDES )
-# set(TESTS )
+set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp)
+set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp)
+set(TESTS )
 
 # set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
 
@@ -56,7 +65,7 @@ find_package(catkin REQUIRED COMPONENTS)
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
- # INCLUDE_DIRS ${INCLUDES_DIR}
+ INCLUDE_DIRS ${INCLUDES_DIR}
 #  LIBRARIES math_utilities
  # CATKIN_DEPENDS geometry_msgs
 #  DEPENDS system_lib
@@ -68,13 +77,13 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
- # include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
+ include_directories(${INCLUDES_DIR})
 
 ## Declare a cpp library
- # add_library(${PROJECT_NAME}
- #   ${SOURCES}
- #   ${INCLUDES}
- # )
+ add_library(${PROJECT_NAME}
+   ${SOURCES}
+   ${INCLUDES}
+ )
 
 ## Declare a cpp executable
 # add_executable(math_utilities_node src/math_utilities_node.cpp)
