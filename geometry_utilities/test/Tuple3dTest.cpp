@@ -64,5 +64,70 @@ TEST(Tuple3dTest, testAdd3)
 
 TEST(Tuple3dTest, testSubtract1)
 {
+	for (int i = 0; i < 1000; i++)
+	{
+		Tuple3d tuple1 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple2 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple3(tuple1.getX() - tuple2.getX(), tuple1.getY() - tuple2.getY(), tuple1.getZ() - tuple2.getZ());
+		tuple1.subtract(tuple2);
 
+		EXPECT_TRUE(tuple3.epsilonEquals(tuple1, 1e-12));
+	}
+}
+
+TEST(Tuple3dTest, testSubtract2)
+{
+	for (int i = 0; i < 1000; i++)
+	{
+		Tuple3d tuple1 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple2 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple3(tuple1.getX() - tuple2.getX(), tuple1.getY() - tuple2.getY(), tuple1.getZ() - tuple2.getZ());
+		tuple1.subtract(tuple2.getX(), tuple2.getY(), tuple2.getZ());
+
+		EXPECT_TRUE(tuple3.epsilonEquals(tuple1, 1e-12));
+	}
+}
+
+TEST(Tuple3dTest, testSubtract3)
+{
+	for (int i = 0; i < 1000; i++)
+	{
+		Tuple3d tuple1 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple2 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple3;
+		tuple3.subtract(tuple1, tuple2);
+
+		tuple1.subtract(tuple2);
+
+		EXPECT_TRUE(tuple3.epsilonEquals(tuple1, 1e-12));
+	}
+}
+
+TEST(Tuple3dTest, testNegate1)
+{
+	for (int i = 0; i < 1000; i++)
+	{
+		Tuple3d tuple1 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple2 = tuple1;
+		tuple1.negate();
+
+		EXPECT_TRUE(tuple1.getX() == -tuple2.getX());
+		EXPECT_TRUE(tuple1.getY() == -tuple2.getY());
+		EXPECT_TRUE(tuple1.getZ() == -tuple2.getZ());
+	}
+}
+
+TEST(Tuple3dTest, testNegate2)
+{
+	for (int i = 0 ; i < 1000; i++)
+	{
+		Tuple3d tuple1 = GeometryUtilitiesTestHelper::getRandomTuple3d();
+		Tuple3d tuple2;
+
+		tuple2.negate(tuple1);
+
+		EXPECT_TRUE(tuple1.getX() == -tuple2.getX());
+		EXPECT_TRUE(tuple1.getY() == -tuple2.getY());
+		EXPECT_TRUE(tuple1.getZ() == -tuple2.getZ());
+	}
 }
