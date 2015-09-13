@@ -40,9 +40,9 @@ class Tuple3d
 		bool equals(const Tuple3d &tuple);
 		bool epsilonEquals(const Tuple3d &tuple, const double &epsilon);
 
-		void clampMin(const double &min, const Tuple3d &tuple);
-		void clampMax(const double &max, const Tuple3d &tuple);
-		void clampMinMax(const double &min, const double &max, const Tuple3d &tuple);
+		void clampMin(const double &min);
+		void clampMax(const double &max);
+		void clampMinMax(const double &min, const double &max);
 
 		void absoluteValue(const Tuple3d &tuple);
 		void absoluteValue();

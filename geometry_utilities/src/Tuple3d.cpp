@@ -1,6 +1,7 @@
 #include "Tuple3d.hpp"
 #include <math.h>
 #include <cmath>
+#include <stdexcept>
 
 namespace geometry_utilities
 {
@@ -154,70 +155,78 @@ bool Tuple3d::equals(const Tuple3d &tuple)
 	return (this->x == tuple.x && this->y == tuple.y && this->z == tuple.z);
 }
 
-void Tuple3d::clampMin(const double &min, const Tuple3d &tuple)
+void Tuple3d::clampMin(const double &min)
 {
-	if (tuple.x < min)
+	if (this->x < min)
+	{
+		this->x = min;
+	}
+
+	if (this->y < min)
+	{
+		this->y = min;
+	}
+
+	if (this->z < min)
+	{
+		this->z = min;
+	}
+}
+
+void Tuple3d::clampMax(const double &max)
+{
+	if (this->x > max)
+	{
+		this->x = max;
+	}
+
+	if (this->y > max)
+	{
+		this->y = max;
+	}
+
+	if (this->z > max)
+	{
+		this->z = max;
+	}
+}
+
+void Tuple3d::clampMinMax(const double &min, const double &max)
+{
+	if (min > max)
+	{
+		throw std::runtime_error("Invalid bounds!");
+	}
+
+	if (this->x < min)
 	{
 		this->x = min;
 	}
 	else
-	{
-		this->x = tuple.x;
-	}
+		if (this->x > max)
+		{
+			this->x = max;
+		}
 
-	if (tuple.y < min)
+	if (this->y < min)
 	{
 		this->y = min;
 	}
 	else
-	{
-		this->y = tuple.y;
-	}
+		if (this->y > max)
+		{
+			this->y = max;
+		}
 
-	if (tuple.z < min)
+	if (this->z < min)
 	{
 		this->z = min;
 	}
 	else
-	{
-		this->z = tuple.z;
-	}
-}
-
-void Tuple3d::clampMax(const double &max, const Tuple3d &tuple)
-{
-	if (tuple.x > max)
-	{
-		this->x = max;
-	}
-	else
-	{
-		this->x = tuple.x;
-	}
-
-	if (tuple.y > max)
-	{
-		this->y = max;
-	}
-	else
-	{
-		this->y = tuple.y;
-	}
-
-	if (tuple.z > max)
-	{
-		this->z = max;
-	}
-	else
-	{
-		this->z = tuple.z;
-	}
-}
-
-void Tuple3d::clampMinMax(const double &min, const double &max, const Tuple3d &tuple)
-{
-	clampMin(min, tuple);
-	clampMax(max, tuple);
+		if (this->z > max)
+		{
+			this->z = max;
+		}
 }
 
 void Tuple3d::absoluteValue()
