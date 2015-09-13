@@ -14,7 +14,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
-find_package(catkin REQUIRED COMPONENTS geometry_msgs tf)
+find_package(catkin REQUIRED COMPONENTS geometry_msgs tf geometry_utilities)
 
 # catkin_python_setup()
 
@@ -22,8 +22,8 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/ReferenceFrame.cpp ${SOURCES_DIR}/FramePoint.cpp)
-set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp ${INCLUDES_DIR}/FramePoint.hpp)
+set(SOURCES ${SOURCES_DIR}/ReferenceFrame.cpp ${SOURCES_DIR}/FramePoint.cpp ${SOURCES_DIR}/FrameTuple.cpp)
+set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp ${INCLUDES_DIR}/FramePoint.hpp ${INCLUDES_DIR}/FrameTuple.hpp ${INCLUDES_DIR}/ReferenceFrameHolder.hpp)
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/ReferenceFrameTest.cpp ${TEST_DIR}/ReferenceFrameTestHelper.hpp)
 
 ###################################
@@ -38,7 +38,7 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/ReferenceFrameTest.cpp ${
 catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR}
 #  LIBRARIES frame_utilities
- CATKIN_DEPENDS geometry_msgs tf
+ CATKIN_DEPENDS geometry_msgs tf geometry_utilities
 #  DEPENDS system_lib
 )
 
@@ -48,7 +48,8 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(${INCLUDES_DIR})
+message(${geometry_utilities_INCLUDE_DIRS})
+include_directories(${INCLUDES_DIR} ${geometry_utilities_INCLUDE_DIRS})
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME}
