@@ -19,51 +19,8 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp)
 set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp)
-set(TESTS )
+set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
 
-# set(CMAKE_CXX_FLAGS "-std=c++0x ${CMAKE_CXX_FLAGS}")
-
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
-# catkin_python_setup()
-
-## Generate messages in the 'msg' folder
-# add_message_files(
-#   FILES
-#   Message1.msg
-#   Message2.msg
-# )
-
-## Generate services in the 'srv' folder
-# add_service_files(
-#   FILES
-#   Service1.srv
-#   Service2.srv
-# )
-
-## Generate actions in the 'action' folder
-# add_action_files(
-#   FILES
-#   Action1.action
-#   Action2.action
-# )
-
-## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   std_msgs  # Or other packages containing msgs
-# )
-
-###################################
-## catkin specific configuration ##
-###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if you package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR}
 #  LIBRARIES math_utilities
@@ -136,13 +93,12 @@ catkin_package(
 ## Testing ##
 #############
 
-# set(TEST_SOURCES ${SOURCES} ${INCLUDES} ${TESTS})
 
 # Add gtest based cpp test target and link libraries
-# catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
-# if(TARGET ${PROJECT_NAME}-test)
-#   target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} pthread)
-# endif()
+catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
+if(TARGET ${PROJECT_NAME}-test)
+  target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} ${catkin_LIBRARIES} ${GTEST_LIBRARIES} pthread)
+endif()
 
 ## Add folders to be run by python nosetests
 # catkin_add_nosetests(test)

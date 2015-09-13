@@ -44,6 +44,34 @@ class Tuple3d
 		void clampMax(const double &max, const Tuple3d &tuple);
 		void clampMinMax(const double &min, const double &max, const Tuple3d &tuple);
 
+		void absoluteValue(const Tuple3d &tuple);
+		void absoluteValue();
+
+		inline double getX()
+		{
+			return this->x;
+		};
+		inline double getY()
+		{
+			return this->y;
+		};
+		inline double getZ()
+		{
+			return this->z;
+		};
+		inline void setX(double x)
+		{
+			this->x = x;
+		}
+		inline void setY(double y)
+		{
+			this->y = y;
+		}
+		inline void setZ(double z)
+		{
+			this->z = z;
+		}
+
 		double x, y, z;
 
 	private:

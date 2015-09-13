@@ -220,4 +220,17 @@ void Tuple3d::clampMinMax(const double &min, const double &max, const Tuple3d &t
 	clampMax(max, tuple);
 }
 
+void Tuple3d::absoluteValue()
+{
+	this->x = fabs(this->x);
+	this->y = fabs(this->y);
+	this->z = fabs(this->z);
+}
+
+void Tuple3d::absoluteValue(const Tuple3d &tuple)
+{
+	set(tuple.x, tuple.y, tuple.z);
+	absoluteValue();
+}
+
 }
