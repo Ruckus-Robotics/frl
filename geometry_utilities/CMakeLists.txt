@@ -23,7 +23,7 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DI
 
 catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR}
-#  LIBRARIES math_utilities
+ LIBRARIES ${PROJECT_NAME}
  # CATKIN_DEPENDS geometry_msgs
 #  DEPENDS system_lib
 )

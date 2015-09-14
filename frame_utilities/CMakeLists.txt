@@ -37,7 +37,7 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/ReferenceFrameTest.cpp ${
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR}
-#  LIBRARIES frame_utilities
+ LIBRARIES ${PROJECT_NAME}
  CATKIN_DEPENDS geometry_msgs tf geometry_utilities
 #  DEPENDS system_lib
 )
@@ -48,7 +48,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(${INCLUDES_DIR} ${geometry_utilities_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
+include_directories(${INCLUDES_DIR} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME}
