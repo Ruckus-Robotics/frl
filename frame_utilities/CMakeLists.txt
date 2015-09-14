@@ -48,8 +48,7 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-message(${geometry_utilities_INCLUDE_DIRS})
-include_directories(${INCLUDES_DIR} ${geometry_utilities_INCLUDE_DIRS})
+include_directories(${INCLUDES_DIR} ${geometry_utilities_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME}

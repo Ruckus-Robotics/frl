@@ -11,7 +11,6 @@ namespace frame_utilities
 class FrameTuple3d : public ReferenceFrameHolder
 {
 	public:
-		bool checkReferenceFramesMatch();
 		ReferenceFrame* getReferenceFrame();
 	protected:
 		ReferenceFrame* referenceFrame;

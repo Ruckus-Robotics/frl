@@ -1,8 +1,10 @@
 #include "ReferenceFrame.hpp"
+#include "ReferenceFrameHolder.hpp"
 #include <random>
 #include "tf/LinearMath/Quaternion.h"
 #include <iostream>
 #include <math.h>
+#include <stdexcept>
 
 /** This class and its implementation are an adaptation
 **  of the ReferenceFrame.java by Jerry Pratt and the IHMC robotics group.
@@ -240,6 +242,14 @@ tf::Transform ReferenceFrame::createIdentityTransform()
 	tf::Transform transform(quaternion, translation);
 
 	return transform;
+}
+
+void ReferenceFrame::checkReferenceFramesMatch(ReferenceFrame* referenceFrame)
+{
+    if (referenceFrame != this)
+    {
+        throw std::runtime_error("Frame mismatch!");
+    }
 }
 
 }
