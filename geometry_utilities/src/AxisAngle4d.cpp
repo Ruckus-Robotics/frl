@@ -3,16 +3,8 @@
 namespace geometry_utilities
 {
 
-// #define EPS = 1.0e-12;
+#define EPS = 1.0e-12;
 
-/**
- * Constructs and initializes an AxisAngle4d from the specified
- * x, y, z, and angle.
- * @param x the x coordinate
- * @param y the y coordinate
- * @param z the z coordinate
- * @param angle the angle of rotation in radians
- */
 AxisAngle4d::AxisAngle4d(const double &x, const double &y, const double &z, const double &angle)
 {
 	this->x = x;
@@ -21,10 +13,6 @@ AxisAngle4d::AxisAngle4d(const double &x, const double &y, const double &z, cons
 	this->angle = angle;
 }
 
-/**
- * Constructs and initializes an AxisAngle4d from the specified AxisAngle4d.
- * @param a1 the AxisAngle4d containing the initialization x y z angle data
- */
 AxisAngle4d::AxisAngle4d(const AxisAngle4d &axisAngle)
 {
 	this->x = axisAngle.x;
@@ -33,14 +21,6 @@ AxisAngle4d::AxisAngle4d(const AxisAngle4d &axisAngle)
 	this->angle = axisAngle.angle;
 }
 
-/**
- * Constructs and initializes an AxisAngle4d from the specified
- * axis and angle.
- * @param axis the axis
- * @param angle the angle of rotation in radian
- *
- * @since vecmath 1.2
- */
 AxisAngle4d::AxisAngle4d(const Eigen::Vector3d &axis, const double &angle)
 {
 	this->x = axis(0);
@@ -49,17 +29,13 @@ AxisAngle4d::AxisAngle4d(const Eigen::Vector3d &axis, const double &angle)
 	this->angle = angle;
 }
 
-
-// /**
-//  * Constructs and initializes an AxisAngle4d to (0,0,1,0).
-//  */
-// public AxisAngle4d()
-// {
-//  this->x = 0.0;
-//  this->y = 0.0;
-//  this->z = 1.0;
-//  this->angle = 0.0;
-// }
+AxisAngle4d::AxisAngle4d()
+{
+	this->x = 0.0;
+	this->y = 0.0;
+	this->z = 1.0;
+	this->angle = 0.0;
+}
 
 
 // /**
