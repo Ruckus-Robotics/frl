@@ -259,7 +259,7 @@ TEST(Tuple3dTest, testClampMinMax2)
 
 TEST(Tuple3dTest, testClampMinMax3)
 {
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < 1000; i++)
 	{
 		Tuple3d tuple1(100, 200, 300);
 		Tuple3d tuple2 = tuple1;
