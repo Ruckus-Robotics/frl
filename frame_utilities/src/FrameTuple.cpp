@@ -27,13 +27,6 @@ FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame)
 	setToZero();
 }
 
-FrameTuple::FrameTuple(const std::string &name)
-{
-	this->name = name;
-	this->referenceFrame = nullptr;
-	setToZero();
-}
-
 FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3])
 {
 	this->name = name;

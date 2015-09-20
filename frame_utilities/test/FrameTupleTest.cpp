@@ -63,7 +63,7 @@ TEST_F(FrameTupleTest, testGetName)
 	FrameTuple tuple1;
 	ASSERT_TRUE(tuple1.getName() == "");
 
-	FrameTuple tuple2("Yippy");
+	FrameTuple tuple2("Yippy", nullptr);
 	ASSERT_TRUE(tuple2.getName() == "Yippy");
 }
 
