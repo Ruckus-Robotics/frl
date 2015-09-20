@@ -72,6 +72,22 @@ void FrameTuple::set(std::vector<double> vector)
 	set(vector[0], vector[1], vector[2]);
 }
 
+void FrameTuple::setX(const double &value)
+{
+	this->x = value;
+}
+
+void FrameTuple::setY(const double &value)
+{
+	this->y = value;
+}
+
+void FrameTuple::setZ(const double &value)
+{
+	this->z = value;
+}
+
+
 void FrameTuple::setIncludingFrame(const FrameTuple &frameTuple)
 {
 	this->x = frameTuple.x;

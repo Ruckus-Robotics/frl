@@ -32,6 +32,10 @@ class FrameTuple : public ReferenceFrameHolder
 		void set(double array[3]);
 		void set(std::vector<double> vector);
 
+		void setX(const double &value);
+		void setY(const double &value);
+		void setZ(const double &value);
+
 		void setToZero();
 
 		void setIncludingFrame(const FrameTuple &frameTuple);
