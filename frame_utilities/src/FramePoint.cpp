@@ -33,4 +33,34 @@ FramePoint::FramePoint(const std::string &name, ReferenceFrame* referenceFrame) 
 
 }
 
+double FramePoint::distance(const FramePoint &point)
+{
+	checkReferenceFramesMatch(point.getReferenceFrame());
+
+	double dx = this->x - point.x;
+	double dy = this->y - point.y;
+	double dz = this->z - point.z;
+
+	return sqrt(pow(dx, 2) + pow(dy, 2) + pow(dz, 2));
+}
+
+double FramePoint::distanceSquared(const FramePoint &point)
+{
+	checkReferenceFramesMatch(point.getReferenceFrame());
+
+	double dx = this->x - point.x;
+	double dy = this->y - point.y;
+	double dz = this->z - point.z;
+
+	return pow(dx, 2) + pow(dy, 2) + pow(dz, 2);
+}
+
+void FramePoint::changeFrame(ReferenceFrame* desiredFrame)
+{
+	// if (desiredFrame != this->referenceFrame)
+	// {
+	// 	this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
+	// }
+}
+
 }

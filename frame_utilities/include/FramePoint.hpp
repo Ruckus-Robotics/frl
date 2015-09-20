@@ -16,6 +16,11 @@ class FramePoint : public FrameTuple
 		FramePoint(const std::string &name, ReferenceFrame* referenceFrame, std::vector<double> vector);
 		FramePoint(const FramePoint &framePoint);
 		FramePoint(const std::string &name, ReferenceFrame* referenceFrame);
+
+		double distance(const FramePoint &point);
+		double distanceSquared(const FramePoint &point);
+
+		void changeFrame(ReferenceFrame* desiredFrame);
 };
 
 }

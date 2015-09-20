@@ -52,15 +52,15 @@ class Tuple3d
 		void absoluteValue(const Tuple3d &tuple);
 		void absoluteValue();
 
-		inline double getX()
+		inline double getX() const
 		{
 			return this->x;
 		};
-		inline double getY()
+		inline double getY() const
 		{
 			return this->y;
 		};
-		inline double getZ()
+		inline double getZ() const
 		{
 			return this->z;
 		};
