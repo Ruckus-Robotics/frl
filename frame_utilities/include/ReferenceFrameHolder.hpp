@@ -14,7 +14,7 @@ namespace frame_utilities
 class ReferenceFrameHolder
 {
 	public:
-		virtual ReferenceFrame* getReferenceFrame() = 0;
+		virtual ReferenceFrame* getReferenceFrame() const = 0;
 
 		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame)
 		{

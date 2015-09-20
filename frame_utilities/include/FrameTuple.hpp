@@ -23,7 +23,7 @@ class FrameTuple : public ReferenceFrameHolder
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3]);
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const std::vector<double> &vector);
 
-		ReferenceFrame* getReferenceFrame()
+		ReferenceFrame* getReferenceFrame() const
 		{
 			return this->referenceFrame.get();
 		}
@@ -40,37 +40,38 @@ class FrameTuple : public ReferenceFrameHolder
 		void add(const FrameTuple &frameTuple);
 		void add(const FrameTuple &frameTuple1, const FrameTuple &frameTuple2);
 
-		// void subtract(const Tuple3d &tuple);
-		// void subtract(const double &x, const double &y, const double &z);
-		// void subtract(const Tuple3d &tuple1, const Tuple3d &tuple2);
+		void subtract(const FrameTuple &tuple);
+		void subtract(const FrameTuple &tuple1, const FrameTuple &tuple2);
 
-		// void negate();
-		// void negate(const Tuple3d &tuple);
+		void negate();
+		void negate(const FrameTuple &frameTuple);
 
-		// void scale(const double &value);
-		// void scale(const double &value, const Tuple3d &tuple);
+		void scale(const double &value);
+		void scale(const double &value, const FrameTuple &frameTuple);
+		void scaleXYZ(const double &scaleX, const double &scaleY, const double &scaleZ);
 
-		// void scaleAdd(const double &value, const Tuple3d &tuple);
-		// void scaleAdd(const double &value, const Tuple3d &tuple1, const Tuple3d &tuple2);
+		// void scaleAdd(const double &value, const FrameTuple &tuple);
+		// void scaleAdd(const double &value, const FrameTuple &tuple1, const FrameTuple &tuple2);
 
-		// bool equals(const Tuple3d &tuple);
-		// bool epsilonEquals(const Tuple3d &tuple, const double &epsilon);
+		// bool equals(const FrameTuple &tuple);
+		// bool epsilonEquals(const FrameTuple &tuple, const double &epsilon);
 
 		// void clampMin(const double &min);
 		// void clampMax(const double &max);
 		// void clampMinMax(const double &min, const double &max);
 
-		// void absoluteValue(const Tuple3d &tuple);
+		// void absoluteValue(const FrameTuple &tuple);
 		// void absoluteValue();
 
-		inline std::string getName()
+		inline std::string getName() const
 		{
 			return this->name;
 		}
 
+		double x, y, z;
+
 	protected:
 		std::unique_ptr<ReferenceFrame> referenceFrame;
-		double x, y, z;
 		std::string name;
 
 	private:

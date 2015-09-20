@@ -87,4 +87,65 @@ void FrameTuple::setToZero()
 	this->z = 0.0;
 }
 
+void FrameTuple::add(const FrameTuple &frameTuple)
+{
+	this->referenceFrame.get()->checkReferenceFramesMatch(frameTuple.getReferenceFrame());
+
+	this->x += frameTuple.x;
+	this->y += frameTuple.y;
+	this->z += frameTuple.z;
+}
+
+void FrameTuple::add(const FrameTuple &frameTuple1, const FrameTuple &frameTuple2)
+{
+	setIncludingFrame(frameTuple1);
+	add(frameTuple2);
+}
+
+void FrameTuple::subtract(const FrameTuple &frameTuple)
+{
+	this->referenceFrame.get()->checkReferenceFramesMatch(frameTuple.getReferenceFrame());
+
+	this->x -= frameTuple.x;
+	this->y -= frameTuple.y;
+	this->z -= frameTuple.z;
+}
+
+void FrameTuple::subtract(const FrameTuple &frameTuple1, const FrameTuple &frameTuple2)
+{
+	setIncludingFrame(frameTuple1);
+	subtract(frameTuple2);
+}
+
+void FrameTuple::negate()
+{
+	this->x = -this->x;
+	this->y = -this->y;
+	this->z = -this->z;
+}
+
+void FrameTuple::negate(const FrameTuple &frameTuple)
+{
+	setIncludingFrame(frameTuple);
+	negate();
+}
+
+void FrameTuple::scale(const double &value)
+{
+	scaleXYZ(value, value, value);
+}
+
+void FrameTuple::scale(const double &value, const FrameTuple &frameTuple)
+{
+	setIncludingFrame(frameTuple);
+	scale(value);
+}
+
+void FrameTuple::scaleXYZ(const double &scaleX, const double &scaleY, const double &scaleZ)
+{
+	this->x *= scaleX;
+	this->y *= scaleY;
+	this->z *= scaleZ;
+}
+
 }
