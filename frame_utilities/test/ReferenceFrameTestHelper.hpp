@@ -1,7 +1,11 @@
+#ifndef REFERENCE_FRAME_TEST_HELPER_HPP
+#define REFERENCE_FRAME_TEST_HELPER_HPP
+
 #include "ReferenceFrame.hpp"
 #include <tf/LinearMath/Transform.h>
 #include <tf/LinearMath/Quaternion.h>
 #include <tf/LinearMath/Vector3.h>
+#include <iostream>
 #include <random>
 #include <memory>
 #include <math.h>
@@ -189,3 +193,5 @@ class RandomUnchangingFrame : public ReferenceFrame
 			// std::cout << "RandomUnchangingFrame updating!!" << std::endl;
 		}
 };
+
+#endif
