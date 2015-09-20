@@ -10,15 +10,15 @@ else()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-find_package(catkin REQUIRED COMPONENTS)
-# find_package(Eigen3 REQUIRED)
+find_package(catkin REQUIRED COMPONENTS tf2)
+find_package(Eigen3 REQUIRED)
 
 set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp)
-set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp)
+set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp ${SOURCES_DIR}/RigidBodyTransform.cpp)
+set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp ${INCLUDES_DIR}/RigidBodyTransform.hpp)
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
 
 ###########
@@ -27,7 +27,8 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DI
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
- include_directories(${INCLUDES_DIR})
+
+include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
 ## Declare a cpp library
  add_library(${PROJECT_NAME}
@@ -36,10 +37,10 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DI
  )
 
  catkin_package(
- INCLUDE_DIRS ${INCLUDES_DIR}
+ INCLUDE_DIRS ${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR}
  LIBRARIES ${PROJECT_NAME}
- # CATKIN_DEPENDS geometry_msgs
-#  DEPENDS system_lib
+ CATKIN_DEPENDS tf2
+ DEPENDS
 )
 
 ## Declare a cpp executable
@@ -50,9 +51,9 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DI
 # add_dependencies(math_utilities_node math_utilities_generate_messages_cpp)
 
 ## Specify libraries to link a library or executable target against
-# target_link_libraries(math_utilities_node
-#   ${catkin_LIBRARIES}
-# )
+target_link_libraries(${PROJECT_NAME}
+  ${catkin_LIBRARIES}
+)
 
 #############
 ## Install ##
@@ -97,7 +98,7 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DI
 # Add gtest based cpp test target and link libraries
 catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
 if(TARGET ${PROJECT_NAME}-test)
-  target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} ${catkin_LIBRARIES} ${GTEST_LIBRARIES} pthread)
+  target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} pthread)
 endif()
 
 ## Add folders to be run by python nosetests

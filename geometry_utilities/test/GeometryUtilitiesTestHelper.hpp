@@ -34,6 +34,15 @@ class GeometryUtilitiesTestHelper
 
 			return tuple;
 		}
+
+		// static RigidBodyTransform generateRandomTransform(Random random)
+		// {
+		// 	RigidBodyTransform ret = new RigidBodyTransform();
+		// 	ret.setRotationAndZeroTranslation(RandomTools.generateRandomRotation(random));
+		// 	ret.setTranslation(RandomTools.generateRandomVector(random));
+
+		// 	return ret;
+		// }
 };
 
 }

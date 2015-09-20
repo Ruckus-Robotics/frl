@@ -4,6 +4,7 @@
 #include <vector>
 #include <stdexcept>
 #include <iostream>
+#include <eigen3/Eigen/Eigen>
 
 /** This class and its implementation are an adaptation
 **  of the ReferenceFrame.java by Jerry Pratt and the IHMC robotics group.
@@ -19,7 +20,8 @@ class Tuple3d
 		Tuple3d(const double &x, const double &y, const double &z);
 		Tuple3d(const Tuple3d &tupleToCopy);
 		Tuple3d(double array[3]);
-		Tuple3d(std::vector<double> vector);
+		Tuple3d(const std::vector<double> &vector);
+		Tuple3d(const Eigen::Vector3d &vector);
 
 		void set(const double &x, const double &y, const double &z);
 		void set(double array[3]);

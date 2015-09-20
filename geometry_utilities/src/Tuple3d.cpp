@@ -27,7 +27,7 @@ Tuple3d::Tuple3d(double array[3])
 	set(array[0], array[1], array[2]);
 }
 
-Tuple3d::Tuple3d(std::vector<double> vector)
+Tuple3d::Tuple3d(const std::vector<double> &vector)
 {
 	if (vector.size() != 3)
 	{
@@ -35,6 +35,11 @@ Tuple3d::Tuple3d(std::vector<double> vector)
 	}
 
 	set(vector[0], vector[1], vector[2]);
+}
+
+Tuple3d::Tuple3d(const Eigen::Vector3d &vector)
+{
+	set(vector(0), vector(1), vector(2));
 }
 
 void Tuple3d::set(const double &x, const double &y, const double &z)
