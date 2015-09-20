@@ -17,8 +17,8 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp ${SOURCES_DIR}/RigidBodyTransform.cpp)
-set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp ${INCLUDES_DIR}/RigidBodyTransform.hpp)
+set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp ${SOURCES_DIR}/RigidBodyTransform.cpp ${SOURCES_DIR}/AxisAngle4d.cpp)
+set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp ${INCLUDES_DIR}/RigidBodyTransform.hpp ${INCLUDES_DIR}/AxisAngle4d.hpp)
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
 
 ###########
