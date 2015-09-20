@@ -22,9 +22,20 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/ReferenceFrame.cpp ${SOURCES_DIR}/FramePoint.cpp ${SOURCES_DIR}/FrameTuple.cpp)
-set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp ${INCLUDES_DIR}/FramePoint.hpp ${INCLUDES_DIR}/FrameTuple.hpp ${INCLUDES_DIR}/ReferenceFrameHolder.hpp)
-set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/ReferenceFrameTest.cpp ${TEST_DIR}/FrameTupleTest.cpp ${TEST_DIR}/ReferenceFrameTestHelper.hpp ${TEST_DIR}/FrameUtilitiesTestHelper.hpp)
+set(SOURCES ${SOURCES_DIR}/ReferenceFrame.cpp 
+			${SOURCES_DIR}/FramePoint.cpp 
+			${SOURCES_DIR}/FrameTuple.cpp)
+
+set(INCLUDES ${INCLUDES_DIR}/ReferenceFrame.hpp 
+			 ${INCLUDES_DIR}/FramePoint.hpp 
+			 ${INCLUDES_DIR}/FrameTuple.hpp 
+			 ${INCLUDES_DIR}/ReferenceFrameHolder.hpp)
+
+set(TEST_SOURCES ${TEST_DIR}/test_main.cpp 
+				 ${TEST_DIR}/ReferenceFrameTest.cpp 
+				 ${TEST_DIR}/FrameTupleTest.cpp 
+				 ${TEST_DIR}/ReferenceFrameTestHelper.hpp 
+				 ${TEST_DIR}/FrameUtilitiesTestHelper.hpp)
 
 include_directories(${INCLUDES_DIR} ${catkin_INCLUDE_DIRS})
 
