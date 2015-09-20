@@ -21,13 +21,6 @@ set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp)
 set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp)
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
 
-catkin_package(
- INCLUDE_DIRS ${INCLUDES_DIR}
- LIBRARIES ${PROJECT_NAME}
- # CATKIN_DEPENDS geometry_msgs
-#  DEPENDS system_lib
-)
-
 ###########
 ## Build ##
 ###########
@@ -41,6 +34,13 @@ catkin_package(
    ${SOURCES}
    ${INCLUDES}
  )
+
+ catkin_package(
+ INCLUDE_DIRS ${INCLUDES_DIR}
+ LIBRARIES ${PROJECT_NAME}
+ # CATKIN_DEPENDS geometry_msgs
+#  DEPENDS system_lib
+)
 
 ## Declare a cpp executable
 # add_executable(math_utilities_node src/math_utilities_node.cpp)
