@@ -20,11 +20,6 @@ class ReferenceFrameHolder
 		{
 			getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
 		}
-
-		void checkReferenceFramesMatch(ReferenceFrameHolder* referenceFrameHolder)
-		{
-			checkReferenceFramesMatch(referenceFrameHolder->getReferenceFrame());
-		}
 };
 
 }

@@ -17,8 +17,8 @@ class FrameTuple : public ReferenceFrameHolder
 {
 	public:
 		FrameTuple();
-		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame);
 		FrameTuple(const std::string &name);
+		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame);
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const double &x, const double &y, const double &z);
 		FrameTuple(const FrameTuple &frameTuple);
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3]);

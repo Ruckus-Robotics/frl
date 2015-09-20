@@ -6,42 +6,49 @@
 namespace frame_utilities
 {
 
-FrameTuple::FrameTuple()
+FrameTuple::FrameTuple() : ReferenceFrameHolder()
 {
 	this->name = "";
 	this->referenceFrame = ReferenceFrame::getWorldFrame();
 	setToZero();
 }
 
-FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const double &x, const double &y, const double &z)
+FrameTuple::FrameTuple(const std::string &name) : ReferenceFrameHolder()
+{
+	this->name = name;
+	this->referenceFrame = ReferenceFrame::getWorldFrame();
+	setToZero();
+}
+
+FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const double &x, const double &y, const double &z) : ReferenceFrameHolder()
 {
 	this->name = name;
 	this->referenceFrame = referenceFrame;
 	set(x, y, z);
 }
 
-FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame)
+FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame) : ReferenceFrameHolder()
 {
 	this->name = name;
 	this->referenceFrame = referenceFrame;
 	setToZero();
 }
 
-FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3])
+FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3]) : ReferenceFrameHolder()
 {
 	this->name = name;
 	this->referenceFrame = referenceFrame;
 	set(array);
 }
 
-FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const std::vector<double> &vector)
+FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const std::vector<double> &vector) : ReferenceFrameHolder()
 {
 	this->name = name;
 	this->referenceFrame = referenceFrame;
 	set(vector);
 }
 
-FrameTuple::FrameTuple(const FrameTuple &frameTuple)
+FrameTuple::FrameTuple(const FrameTuple &frameTuple) : ReferenceFrameHolder()
 {
 	this->name = frameTuple.name;
 	this->x = frameTuple.x;
@@ -187,6 +194,7 @@ void FrameTuple::scaleAdd(const double &value, const FrameTuple &frameTuple1, co
 
 bool FrameTuple::equals(const FrameTuple &frameTuple)
 {
+	checkReferenceFramesMatch(frameTuple.getReferenceFrame());
 	if (std::isnan(this->x) || std::isnan(this->y) || std::isnan(this->z) || std::isnan(frameTuple.x) || std::isnan(frameTuple.y) || std::isnan(frameTuple.z))
 	{
 		return false;
@@ -197,6 +205,7 @@ bool FrameTuple::equals(const FrameTuple &frameTuple)
 
 bool FrameTuple::epsilonEquals(const FrameTuple &frameTuple, const double &epsilon)
 {
+	checkReferenceFramesMatch(frameTuple.getReferenceFrame());
 	if (std::isnan(this->x) || std::isnan(this->y) || std::isnan(this->z) || std::isnan(frameTuple.x) || std::isnan(frameTuple.y) || std::isnan(frameTuple.z))
 	{
 		return false;
