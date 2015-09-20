@@ -77,17 +77,17 @@ class Tuple3d
 			this->z = z;
 		}
 
+		friend std::ostream &operator<<( std::ostream &os, const Tuple3d &tuple )
+		{
+			os << "x: " << tuple.x << '\n' << "y: " << tuple.y << '\n' << "z: " << tuple.z << "\n";
+			return os;
+		}
+
 		double x, y, z;
 
 	private:
 
 };
-}
-
-std::ostream& operator<<(std::ostream& os, const geometry_utilities::Tuple3d &tuple)
-{
-	os << "x: " << tuple.x << '\n' << "y: " << tuple.y << '\n' << "z: " << tuple.z << "\n";
-	return os;
 }
 
 #endif

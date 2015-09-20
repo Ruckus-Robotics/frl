@@ -4,6 +4,7 @@
 #include "ReferenceFrame.hpp"
 #include "ReferenceFrameHolder.hpp"
 #include <memory>
+#include <iostream>
 
 /** This class and its implementation are an adaptation
 **  of the ReferenceFrame.java by Jerry Pratt and the IHMC robotics group.
@@ -91,6 +92,12 @@ class FrameTuple : public ReferenceFrameHolder
 		inline std::string getName() const
 		{
 			return this->name;
+		}
+
+		friend std::ostream &operator<<( std::ostream &os, const FrameTuple &tuple )
+		{
+			os << "x: " << tuple.x << '\n' << "y: " << tuple.y << '\n' << "z: " << tuple.z << "\n";
+			return os;
 		}
 
 		double x, y, z;

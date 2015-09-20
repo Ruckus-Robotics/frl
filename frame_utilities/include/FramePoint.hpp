@@ -1,3 +1,6 @@
+#ifndef FRAME_POINT_HPP
+#define FRAME_POINT_HPP
+
 #include "FrameTuple.hpp"
 
 namespace frame_utilities
@@ -16,3 +19,5 @@ class FramePoint : public FrameTuple
 };
 
 }
+
+#endif
