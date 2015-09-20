@@ -18,6 +18,7 @@ class FrameTuple : public ReferenceFrameHolder
 	public:
 		FrameTuple();
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame);
+		FrameTuple(const std::string &name);
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const double &x, const double &y, const double &z);
 		FrameTuple(const FrameTuple &frameTuple);
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3]);
@@ -25,7 +26,7 @@ class FrameTuple : public ReferenceFrameHolder
 
 		ReferenceFrame* getReferenceFrame() const
 		{
-			return this->referenceFrame.get();
+			return this->referenceFrame;
 		}
 
 		void set(const double &x, const double &y, const double &z);
@@ -35,6 +36,26 @@ class FrameTuple : public ReferenceFrameHolder
 		void setX(const double &value);
 		void setY(const double &value);
 		void setZ(const double &value);
+
+		double getX() const
+		{
+			return this->x;
+		}
+
+		double getY() const
+		{
+			return this->y;
+		}
+
+		double getZ() const
+		{
+			return this->z;
+		}
+
+		void setName(const std::string &name)
+		{
+			this->name = name;
+		}
 
 		void setToZero();
 
@@ -75,7 +96,7 @@ class FrameTuple : public ReferenceFrameHolder
 		double x, y, z;
 
 	protected:
-		std::unique_ptr<ReferenceFrame> referenceFrame;
+		ReferenceFrame* referenceFrame;
 		std::string name;
 
 	private:

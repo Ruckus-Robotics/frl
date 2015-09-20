@@ -9,35 +9,42 @@ namespace frame_utilities
 FrameTuple::FrameTuple()
 {
 	this->name = "";
-	this->referenceFrame.reset(nullptr);
+	this->referenceFrame = nullptr;
 	setToZero();
 }
 
 FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const double &x, const double &y, const double &z)
 {
 	this->name = name;
-	this->referenceFrame.reset(referenceFrame);
+	this->referenceFrame = referenceFrame;
 	set(x, y, z);
 }
 
 FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame)
 {
 	this->name = name;
-	this->referenceFrame.reset(referenceFrame);
+	this->referenceFrame = referenceFrame;
+	setToZero();
+}
+
+FrameTuple::FrameTuple(const std::string &name)
+{
+	this->name = name;
+	this->referenceFrame = nullptr;
 	setToZero();
 }
 
 FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3])
 {
 	this->name = name;
-	this->referenceFrame.reset(referenceFrame);
+	this->referenceFrame = referenceFrame;
 	set(array);
 }
 
 FrameTuple::FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const std::vector<double> &vector)
 {
 	this->name = name;
-	this->referenceFrame.reset(referenceFrame);
+	this->referenceFrame = referenceFrame;
 	set(vector);
 }
 
@@ -47,7 +54,7 @@ FrameTuple::FrameTuple(const FrameTuple &frameTuple)
 	this->x = frameTuple.x;
 	this->y = frameTuple.y;
 	this->z = frameTuple.z;
-	this->referenceFrame.reset(frameTuple.referenceFrame.get());
+	this->referenceFrame = frameTuple.referenceFrame;
 }
 
 void FrameTuple::set(const double &x, const double &y, const double &z)
@@ -93,12 +100,12 @@ void FrameTuple::setIncludingFrame(const FrameTuple &frameTuple)
 	this->x = frameTuple.x;
 	this->y = frameTuple.y;
 	this->z = frameTuple.z;
-	this->referenceFrame.reset(frameTuple.referenceFrame.get());
+	this->referenceFrame = frameTuple.referenceFrame;
 }
 
 void FrameTuple::setIncludingFrame(ReferenceFrame* referenceFrame, const double &x, const double &y, const double &z)
 {
-	this->referenceFrame.reset(referenceFrame);
+	this->referenceFrame = referenceFrame;
 	this->x = x;
 	this->y = y;
 	this->z = z;
@@ -113,7 +120,7 @@ void FrameTuple::setToZero()
 
 void FrameTuple::add(const FrameTuple &frameTuple)
 {
-	this->referenceFrame.get()->checkReferenceFramesMatch(frameTuple.getReferenceFrame());
+	this->referenceFrame->checkReferenceFramesMatch(frameTuple.getReferenceFrame());
 
 	this->x += frameTuple.x;
 	this->y += frameTuple.y;
@@ -128,7 +135,7 @@ void FrameTuple::add(const FrameTuple &frameTuple1, const FrameTuple &frameTuple
 
 void FrameTuple::subtract(const FrameTuple &frameTuple)
 {
-	this->referenceFrame.get()->checkReferenceFramesMatch(frameTuple.getReferenceFrame());
+	this->referenceFrame->checkReferenceFramesMatch(frameTuple.getReferenceFrame());
 
 	this->x -= frameTuple.x;
 	this->y -= frameTuple.y;

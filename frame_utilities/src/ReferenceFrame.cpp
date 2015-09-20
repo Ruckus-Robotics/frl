@@ -246,6 +246,11 @@ tf::Transform ReferenceFrame::createIdentityTransform()
 
 void ReferenceFrame::checkReferenceFramesMatch(ReferenceFrame* referenceFrame)
 {
+	if (referenceFrame == nullptr)
+	{
+		throw std::runtime_error("referenceFrame is NULL!");
+	}
+
 	if (referenceFrame != this)
 	{
 		throw std::runtime_error("Frame mismatch!");
