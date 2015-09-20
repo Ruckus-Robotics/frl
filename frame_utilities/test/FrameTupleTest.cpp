@@ -250,6 +250,27 @@ TEST_F(FrameTupleTest, testScaleAdd2)
 	}
 }
 
+TEST_F(FrameTupleTest, testScaleAddFramesMismatch1)
+{
+	for (int i = 0; i < 1000; i++)
+	{
+		FrameTuple tuple1 = FrameUtilitiesTestHelper::getRandomFrameTuple("tuple1", frame3.get());
+		FrameTuple tuple2 = FrameUtilitiesTestHelper::getRandomFrameTuple("tuple2", frame2.get());
+		double scale = rand() % 100 - 50;
+
+		FrameTuple tuple3;
+		try
+		{
+			tuple3.scaleAdd(scale, tuple1, tuple2);
+			ASSERT_TRUE(false);
+		}
+		catch ( ... )
+		{
+			ASSERT_TRUE(true);
+		}
+	}
+}
+
 TEST_F(FrameTupleTest, testAbsoluteValue1)
 {
 	for (int i = 0; i < 1000; i++)
