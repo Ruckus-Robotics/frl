@@ -21,6 +21,8 @@ class GeometryUtilitiesTestHelper
 			vector[0] = getRandomDouble();
 			vector[1] = getRandomDouble();
 			vector[2] = getRandomDouble();
+
+			return vector;
 		}
 
 		static Tuple3d getRandomTuple3d()
@@ -29,6 +31,8 @@ class GeometryUtilitiesTestHelper
 			tuple.setX(getRandomDouble());
 			tuple.setY(getRandomDouble());
 			tuple.setZ(getRandomDouble());
+
+			return tuple;
 		}
 };
 

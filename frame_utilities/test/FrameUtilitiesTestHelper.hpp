@@ -21,6 +21,8 @@ class FrameUtilitiesTestHelper
 			vector[0] = getRandomDouble();
 			vector[1] = getRandomDouble();
 			vector[2] = getRandomDouble();
+
+			return vector;
 		}
 
 		static FrameTuple getRandomFrameTuple(const std::string &name, ReferenceFrame* referenceFrame)
@@ -29,6 +31,8 @@ class FrameUtilitiesTestHelper
 			frameTuple.setX(getRandomDouble());
 			frameTuple.setY(getRandomDouble());
 			frameTuple.setZ(getRandomDouble());
+
+			return frameTuple;
 		}
 };
 

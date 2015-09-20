@@ -217,15 +217,15 @@ TEST(Tuple3dTest, testAbsoluteValue1)
 
 TEST(Tuple3dTest, testAbsoluteValue2)
 {
-	for (int i = 0; i < 1000; i++)
+	for (int i = 0; i < 1; i++)
 	{
 		Tuple3d tuple1 = GeometryUtilitiesTestHelper::getRandomTuple3d();
 		Tuple3d tuple2;
 		tuple2.absoluteValue(tuple1);
 
-		EXPECT_TRUE(tuple1.getX() == fabs(tuple2.getX()));
-		EXPECT_TRUE(tuple1.getY() == fabs(tuple2.getY()));
-		EXPECT_TRUE(tuple1.getZ() == fabs(tuple2.getZ()));
+		EXPECT_TRUE(tuple2.getX() == fabs(tuple1.getX()));
+		EXPECT_TRUE(tuple2.getY() == fabs(tuple1.getY()));
+		EXPECT_TRUE(tuple2.getZ() == fabs(tuple1.getZ()));
 	}
 }
 

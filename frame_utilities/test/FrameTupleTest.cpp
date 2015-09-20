@@ -34,96 +34,96 @@ class FrameTupleTest : public ::testing::Test
 
 typedef FrameTupleTest FrameTupleTest_DeathTest;
 
-TEST_F(FrameTupleTest_DeathTest, testFrameMismatch1)
-{
-	for (int i = 0; i < 1000; i++)
-	{
-		double array1[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
-		double array2[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
-
-		FrameTuple tuple1("tuple1", frame1.get(), array1);
-		FrameTuple tuple2("tuple2", frame2.get(), array2);
-
-		// tuple1.add(tuple2);
-		try
-		{
-			//This line should throw an exception.
-			tuple1.add(tuple2);
-			ASSERT_TRUE(false);
-		}
-		catch ( ... )
-		{
-			ASSERT_TRUE(true);
-		}
-	}
-}
-
-TEST_F(FrameTupleTest, testGetName)
-{
-	FrameTuple tuple1;
-	ASSERT_TRUE(tuple1.getName() == "");
-
-	FrameTuple tuple2("Yippy");
-	ASSERT_TRUE(tuple2.getName() == "Yippy");
-}
-
-TEST_F(FrameTupleTest, testAdd1)
-{
-
-	for (int i = 0; i < 1000; i++)
-	{
-		double array1[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
-		double array2[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
-
-		FrameTuple tuple1("tuple1", frame1.get(), array1);
-		FrameTuple tuple2("tuple2", frame1.get(), array2);
-		FrameTuple tuple3("tuple3", frame1.get(), array1[0] + array2[0], array1[1] + array2[1], array1[2] + array2[2]);
-
-		tuple1.add(tuple2);
-
-		EXPECT_TRUE(tuple1.epsilonEquals(tuple3, 1e-12));
-	}
-}
-
-TEST_F(FrameTupleTest, testAdd2)
-{
-	FrameTuple tuple1("tuple1", frame2.get());
-	FrameTuple tuple2("tuple2", frame2.get());
-
-	for (int i = 0 ; i < 1000; i++)
-	{
-		tuple1.set(FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble());
-
-		std::vector<double> vector(3);
-		vector[0] = FrameUtilitiesTestHelper::getRandomDouble();
-		vector[1] = FrameUtilitiesTestHelper::getRandomDouble();
-		vector[2] = FrameUtilitiesTestHelper::getRandomDouble();
-
-		tuple2.set(vector);
-
-		FrameTuple tuple3("tuple3", frame2.get());
-		tuple3.set(vector[0] + tuple1.getX(), vector[1] + tuple1.getY(), vector[2] + tuple1.getZ());
-
-		tuple2.add(tuple1);
-
-		EXPECT_TRUE(tuple2.epsilonEquals(tuple3, 1e-12));
-	}
-}
-
-// TEST_F(FrameTupleTest, testAdd3)
+// TEST_F(FrameTupleTest_DeathTest, testFrameMismatch1)
 // {
 // 	for (int i = 0; i < 1000; i++)
 // 	{
-// 		FrameTuple tuple1 = FrameUtilitiesTestHelper::getRandomFrameTuple();
-// 		FrameTuple tuple2 = FrameUtilitiesTestHelper::getRandomFrameTuple();
-// 		FrameTuple tuple3;
-// 		tuple3.add(tuple1, tuple2);
+// 		double array1[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
+// 		double array2[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
+
+// 		FrameTuple tuple1("tuple1", frame1.get(), array1);
+// 		FrameTuple tuple2("tuple2", frame2.get(), array2);
+
+// 		// tuple1.add(tuple2);
+// 		try
+// 		{
+// 			//This line should throw an exception.
+// 			tuple1.add(tuple2);
+// 			ASSERT_TRUE(false);
+// 		}
+// 		catch ( ... )
+// 		{
+// 			ASSERT_TRUE(true);
+// 		}
+// 	}
+// }
+
+// TEST_F(FrameTupleTest, testGetName)
+// {
+// 	FrameTuple tuple1;
+// 	ASSERT_TRUE(tuple1.getName() == "");
+
+// 	FrameTuple tuple2("Yippy");
+// 	ASSERT_TRUE(tuple2.getName() == "Yippy");
+// }
+
+// TEST_F(FrameTupleTest, testAdd1)
+// {
+
+// 	for (int i = 0; i < 1000; i++)
+// 	{
+// 		double array1[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
+// 		double array2[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
+
+// 		FrameTuple tuple1("tuple1", frame1.get(), array1);
+// 		FrameTuple tuple2("tuple2", frame1.get(), array2);
+// 		FrameTuple tuple3("tuple3", frame1.get(), array1[0] + array2[0], array1[1] + array2[1], array1[2] + array2[2]);
 
 // 		tuple1.add(tuple2);
 
-// 		EXPECT_TRUE(tuple3.epsilonEquals(tuple1, 1e-12));
+// 		EXPECT_TRUE(tuple1.epsilonEquals(tuple3, 1e-12));
 // 	}
 // }
+
+// TEST_F(FrameTupleTest, testAdd2)
+// {
+// 	FrameTuple tuple1("tuple1", frame2.get());
+// 	FrameTuple tuple2("tuple2", frame2.get());
+
+// 	for (int i = 0 ; i < 1000; i++)
+// 	{
+// 		tuple1.set(FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble());
+
+// 		std::vector<double> vector(3);
+// 		vector[0] = FrameUtilitiesTestHelper::getRandomDouble();
+// 		vector[1] = FrameUtilitiesTestHelper::getRandomDouble();
+// 		vector[2] = FrameUtilitiesTestHelper::getRandomDouble();
+
+// 		tuple2.set(vector);
+
+// 		FrameTuple tuple3("tuple3", frame2.get());
+// 		tuple3.set(vector[0] + tuple1.getX(), vector[1] + tuple1.getY(), vector[2] + tuple1.getZ());
+
+// 		tuple2.add(tuple1);
+
+// 		EXPECT_TRUE(tuple2.epsilonEquals(tuple3, 1e-12));
+// 	}
+// }
+
+TEST_F(FrameTupleTest, testAdd3)
+{
+	for (int i = 0; i < 1000; i++)
+	{
+		FrameTuple tuple1 = FrameUtilitiesTestHelper::getRandomFrameTuple("tuple1", frame3.get());
+		// FrameTuple tuple2 = FrameUtilitiesTestHelper::getRandomFrameTuple("tuple2", frame3.get());
+		// FrameTuple tuple3;
+		// tuple3.add(tuple1, tuple2);
+
+		// tuple1.add(tuple2);
+
+		// EXPECT_TRUE(tuple3.epsilonEquals(tuple1, 1e-12));
+	}
+}
 
 // TEST_F(FrameTupleTest, testSubtract1)
 // {
