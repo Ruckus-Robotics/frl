@@ -50,18 +50,18 @@ class FrameTuple : public ReferenceFrameHolder
 		void scale(const double &value, const FrameTuple &frameTuple);
 		void scaleXYZ(const double &scaleX, const double &scaleY, const double &scaleZ);
 
-		// void scaleAdd(const double &value, const FrameTuple &tuple);
-		// void scaleAdd(const double &value, const FrameTuple &tuple1, const FrameTuple &tuple2);
+		void scaleAdd(const double &value, const FrameTuple &frameTuple);
+		void scaleAdd(const double &value, const FrameTuple &frameTuple1, const FrameTuple &frameTuple2);
 
-		// bool equals(const FrameTuple &tuple);
-		// bool epsilonEquals(const FrameTuple &tuple, const double &epsilon);
+		bool equals(const FrameTuple &frameTuple);
+		bool epsilonEquals(const FrameTuple &frameTuple, const double &epsilon);
 
-		// void clampMin(const double &min);
-		// void clampMax(const double &max);
-		// void clampMinMax(const double &min, const double &max);
+		void clampMin(const double &min);
+		void clampMax(const double &max);
+		void clampMinMax(const double &min, const double &max);
 
-		// void absoluteValue(const FrameTuple &tuple);
-		// void absoluteValue();
+		void absoluteValue(const FrameTuple &frameTuple);
+		void absoluteValue();
 
 		inline std::string getName() const
 		{
