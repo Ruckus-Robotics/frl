@@ -9,7 +9,7 @@ namespace frame_utilities
 FrameTuple::FrameTuple()
 {
 	this->name = "";
-	this->referenceFrame = nullptr;
+	this->referenceFrame = ReferenceFrame::getWorldFrame();
 	setToZero();
 }
 

@@ -26,7 +26,7 @@ class ReferenceFrame
 		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform &transfomToParent, bool isBodyCenteredFrame);
-        ReferenceFrame() {}
+		ReferenceFrame() {}
 		~ReferenceFrame();
 
 		void update();
@@ -34,7 +34,7 @@ class ReferenceFrame
 		tf::Transform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
 		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
 		void setTransformToParent(const tf::Transform &transformToParent);
-        void checkReferenceFramesMatch(ReferenceFrame* referenceFrame);
+		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame);
 
 		tf::Transform getTransformToRoot()
 		{
@@ -69,7 +69,7 @@ class ReferenceFrame
 
 		static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
-		static const ReferenceFrame* const getWorldFrame();
+		static ReferenceFrame* getWorldFrame();
 
 		//Super classes are expected to override this method.
 		virtual void updateTransformToParent(tf::Transform &transformToParent) {};

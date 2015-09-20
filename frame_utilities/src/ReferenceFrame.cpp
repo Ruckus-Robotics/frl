@@ -29,7 +29,7 @@ std::unique_ptr<ReferenceFrame> ReferenceFrame::createARootFrame(const std::stri
 	return rootFrame;
 }
 
-const ReferenceFrame* const ReferenceFrame::getWorldFrame()
+ReferenceFrame* ReferenceFrame::getWorldFrame()
 {
 	return worldFrame.get();
 }
