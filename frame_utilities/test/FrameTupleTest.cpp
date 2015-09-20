@@ -32,6 +32,32 @@ class FrameTupleTest : public ::testing::Test
 		int nTests = 1000;
 };
 
+typedef FrameTupleTest FrameTupleTest_DeathTest;
+
+TEST_F(FrameTupleTest_DeathTest, testFrameMismatch1)
+{
+	for (int i = 0; i < 1000; i++)
+	{
+		double array1[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
+		double array2[3] = {FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble(), FrameUtilitiesTestHelper::getRandomDouble()};
+
+		FrameTuple tuple1("tuple1", frame1.get(), array1);
+		FrameTuple tuple2("tuple2", frame2.get(), array2);
+
+		// tuple1.add(tuple2);
+		try
+		{
+			//This line should throw an exception.
+			tuple1.add(tuple2);
+			ASSERT_TRUE(false);
+		}
+		catch ( ... )
+		{
+			ASSERT_TRUE(true);
+		}
+	}
+}
+
 TEST_F(FrameTupleTest, testGetName)
 {
 	FrameTuple tuple1;
