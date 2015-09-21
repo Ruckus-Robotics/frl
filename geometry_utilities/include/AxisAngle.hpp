@@ -3,7 +3,6 @@
 
 
 #include <eigen3/Eigen/Eigen>
-#include <RigidBodyTransform.hpp>
 #include <tf2/LinearMath/Quaternion.h>
 
 namespace geometry_utilities
@@ -21,7 +20,7 @@ namespace geometry_utilities
         void set(const Eigen::Vector4d& axisAngle);
         void set(const std::vector<double>& axisAngle);
         void set(const Eigen::Vector3d& axis, const double& angle);
-        void set(const RigidBodyTransform& transform);
+        void set(const Eigen::Matrix4d& transform);
         void set(const Eigen::Matrix3d& rotationMatrix);
         void set(const tf2::Quaternion& q1);
 

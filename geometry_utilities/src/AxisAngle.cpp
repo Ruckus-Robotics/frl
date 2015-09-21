@@ -76,11 +76,19 @@ namespace geometry_utilities
         this->angle = angle;
     }
 
-    void AxisAngle::set(const RigidBodyTransform& transform)
+    void AxisAngle::set(const Eigen::Matrix4d &transform)
     {
         Eigen::Matrix3d rotationMatrix;
 
-        transform.get(rotationMatrix);
+        rotationMatrix(0,0) = transform(0,0);
+        rotationMatrix(0,1) = transform(0,1);
+        rotationMatrix(0,2) = transform(0,2);
+        rotationMatrix(1,0) = transform(1,0);
+        rotationMatrix(1,1) = transform(1,1);
+        rotationMatrix(1,2) = transform(1,2);
+        rotationMatrix(2,0) = transform(2,0);
+        rotationMatrix(2,1) = transform(2,1);
+        rotationMatrix(2,2) = transform(2,2);
 
         x = (rotationMatrix(2, 1) - rotationMatrix(1, 2));
         y = (rotationMatrix(0, 2) - rotationMatrix(2, 0));
