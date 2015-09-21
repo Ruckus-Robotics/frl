@@ -1,7 +1,0 @@
-set(_CATKIN_CURRENT_PACKAGE "geometry_utilities")
-set(geometry_utilities_MAINTAINER "jordan <jordan@todo.todo>")
-set(geometry_utilities_DEPRECATED "")
-set(geometry_utilities_VERSION "0.0.0")
-set(geometry_utilities_BUILD_DEPENDS "tf2")
-set(geometry_utilities_RUN_DEPENDS "tf2")
-set(geometry_utilities_BUILDTOOL_DEPENDS "catkin")

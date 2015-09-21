@@ -1,8 +1,0 @@
-prefix=/home/jordan/Git/personal_catkin_workspace/src/mobility_utilities/build-geometry_utilities-Desktop-Default/devel
-
-Name: geometry_utilities
-Description: Description of geometry_utilities
-Version: 0.0.0
-Cflags: -I/home/jordan/Git/personal_catkin_workspace/src/mobility_utilities/geometry_utilities/include -I/usr/include/eigen3
-Libs: -L/home/jordan/Git/personal_catkin_workspace/src/mobility_utilities/build-geometry_utilities-Desktop-Default/devel/lib -lgeometry_utilities
-Requires: tf2
