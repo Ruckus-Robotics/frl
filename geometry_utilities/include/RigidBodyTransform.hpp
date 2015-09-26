@@ -99,6 +99,15 @@ class RigidBodyTransform
 		static bool almostZero(const double& a);
 		static Eigen::Vector3d getTranslationDifference( const RigidBodyTransform& transform1, const RigidBodyTransform& transform2 );
 
+		friend std::ostream &operator<<( std::ostream &os, const RigidBodyTransform &transform )
+		{
+			os << "[ " << transform.mat00 << ',' << transform.mat01 << "," << transform.mat02 << "," << transform.mat03 << "]" << "\n" <<
+			   "[ " << transform.mat10 << ',' << transform.mat11 << "," << transform.mat12 << "," << transform.mat13 << "]" << "\n" <<
+			   "[ " << transform.mat20 << ',' << transform.mat21 << "," << transform.mat22 << "," << transform.mat23 << "]" << "\n" <<
+			   "[ " << 0 << ',' << 0 << "," << 0 << "," << 1 << "]";
+			return os;
+		}
+
 	private:
 		double mat00;
 		double mat01;
