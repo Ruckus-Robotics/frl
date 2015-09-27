@@ -125,9 +125,39 @@ class GeometryUtilitiesTestHelper
 			return transform;
 		}
 
+		static AxisAngle createRandomAxisAngle()
+		{
+			double x, y, z;
+			x = getRandomDouble();
+			y = getRandomDouble();
+			z = getRandomDouble();
+
+			double mag = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+
+			x *= 1 / mag;
+			y *= 1 / mag;
+			z *= 1 / mag;
+
+			double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+
+			AxisAngle ret(x, y, z, angle);
+			return ret;
+		}
+
 		static bool areAxisAngleEpsilonEqual(const AxisAngle &a1, const AxisAngle &a2, const double &eps)
 		{
 			return (fabs(a1.x - a2.x) < eps && fabs(a1.y - a2.y) < eps && fabs(a1.z - a2.z) < eps && fabs(a1.angle - a2.angle) < eps);
+		}
+
+		static Eigen::Vector3d createRandomVector3d()
+		{
+			Eigen::Vector3d vector;
+
+			vector(0) = getRandomDouble();
+			vector(1) = getRandomDouble();
+			vector(2) = getRandomDouble();
+
+			return vector;
 		}
 
 		// static RigidBodyTransform generateRandomTransform(Random random)
