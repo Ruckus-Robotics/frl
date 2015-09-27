@@ -19,7 +19,7 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp ${SOURCES_DIR}/RigidBodyTransform.cpp ${SOURCES_DIR}/AxisAngle.cpp ${SOURCES_DIR}/Point3d.cpp)
 set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp ${INCLUDES_DIR}/RigidBodyTransform.hpp ${INCLUDES_DIR}/AxisAngle.hpp ${INCLUDES_DIR}/Point3d.hpp)
-set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/AxisAngleTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
+set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/RigidBodyTransformTest.cpp ${TEST_DIR}/AxisAngleTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
 
 include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 

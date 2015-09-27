@@ -125,6 +125,39 @@ class GeometryUtilitiesTestHelper
 			return transform;
 		}
 
+		static Eigen::Matrix4d createRandomMatrix4d()
+		{
+			Eigen::Matrix4d matrix;
+
+			matrix(0, 0) = rand() / RAND_MAX;
+			matrix(0, 1) = rand() / RAND_MAX;
+			matrix(0, 2) = rand() / RAND_MAX;
+			matrix(0, 3) = rand() / RAND_MAX;
+			matrix(1, 0) = rand() / RAND_MAX;
+			matrix(1, 1) = rand() / RAND_MAX;
+			matrix(1, 2) = rand() / RAND_MAX;
+			matrix(1, 3) = rand() / RAND_MAX;
+			matrix(2, 0) = rand() / RAND_MAX;
+			matrix(2, 1) = rand() / RAND_MAX;
+			matrix(2, 2) = rand() / RAND_MAX;
+			matrix(2, 3) = rand() / RAND_MAX;
+			matrix(3, 0) = 0;
+			matrix(3, 1) = 0;
+			matrix(3, 2) = 0;
+			matrix(3, 3) = 1;
+
+			return matrix;
+		}
+
+		static bool checkOrthogonality(Eigen::Matrix4d matrix)
+		{
+			bool xMag = (1.0 - (sqrt(pow(matrix(0, 0), 2) + pow(matrix(1, 0), 2) + pow(matrix(2, 0), 2))) < 1e-8);
+			bool yMag = (1.0 - (sqrt(pow(matrix(0, 1), 2) + pow(matrix(1, 1), 2) + pow(matrix(2, 1), 2))) < 1e-8);
+			bool zMag = (1.0 - (sqrt(pow(matrix(0, 2), 2) + pow(matrix(1, 2), 2) + pow(matrix(2, 2), 2))) < 1e-8);
+
+			return (xMag && yMag && zMag);
+		}
+
 		static AxisAngle createRandomAxisAngle()
 		{
 			double x, y, z;
@@ -146,7 +179,23 @@ class GeometryUtilitiesTestHelper
 
 		static bool areAxisAngleEpsilonEqual(const AxisAngle &a1, const AxisAngle &a2, const double &eps)
 		{
-			return (fabs(a1.x - a2.x) < eps && fabs(a1.y - a2.y) < eps && fabs(a1.z - a2.z) < eps && fabs(a1.angle - a2.angle) < eps);
+			if ((fabs(a1.x - a2.x) < eps && fabs(a1.y - a2.y) < eps && fabs(a1.z - a2.z) < eps && fabs(a1.angle - a2.angle) < eps) ||
+			        (fabs(-a1.x - a2.x) < eps && fabs(-a1.y - a2.y) < eps && fabs(-a1.z - a2.z) < eps && fabs(-a1.angle - a2.angle) < eps))
+			{
+				return true;
+			}
+
+			if ((fabs(a1.x - a2.x) < eps && fabs(a1.y - a2.y) < eps && fabs(a1.z - a2.z) < eps))
+			{
+				if (M_PI - fabs(a1.angle) < 1e-4 && M_PI - fabs(a2.angle) < 1e-4)
+				{
+					return true;
+				}
+				else
+				{
+					return false;
+				}
+			}
 		}
 
 		static Eigen::Vector3d createRandomVector3d()
@@ -159,15 +208,6 @@ class GeometryUtilitiesTestHelper
 
 			return vector;
 		}
-
-		// static RigidBodyTransform generateRandomTransform(Random random)
-		// {
-		// 	RigidBodyTransform ret = new RigidBodyTransform();
-		// 	ret.setRotationAndZeroTranslation(RandomTools.generateRandomRotation(random));
-		// 	ret.setTranslation(RandomTools.generateRandomVector(random));
-
-		// 	return ret;
-		// }
 };
 
 }

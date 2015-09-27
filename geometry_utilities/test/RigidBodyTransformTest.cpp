@@ -2,6 +2,7 @@
 #include <AxisAngle.hpp>
 #include <eigen3/Eigen/Eigen>
 #include <RigidBodyTransform.hpp>
+#include "GeometryUtilitiesTestHelper.hpp"
 
 namespace geometry_utilities
 {
@@ -25,19 +26,76 @@ class RigidBodyTransformTest : public ::testing::Test
 TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)
 {
 	Eigen::Vector3d vector;
-	vector << 0, 0, 0;
 
 	for (int i = 0; i < nTests; i++)
 	{
-		AxisAngle axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle();
+		vector << 0, 0, 0;
 
-		RigidBodyTransform transform(axisAngle, vector);
+		for (int i = 0; i < nTests; i++)
+		{
+			AxisAngle axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle();
 
-		AxisAngle axisAngleToCheck;
+			RigidBodyTransform transform(axisAngle, vector);
 
-		transform.getRotation(axisAngleToCheck);
+			AxisAngle axisAngleToCheck;
 
-		ASSERT_TRUE(axisAngle.epsilonEquals(axisAngleToCheck));
+			transform.getRotation(axisAngleToCheck);
+
+			if (!(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-5)))
+			{
+				std::cout << axisAngle << std::endl;
+				std::cout << axisAngleToCheck << std::endl;
+			}
+
+			ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-5));
+		}
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngle4dAndRandomVector3d)
+{
+	Eigen::Vector3d vector;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		vector = GeometryUtilitiesTestHelper::createRandomVector3d();
+
+		for (int i = 0; i < nTests; i++)
+		{
+			AxisAngle axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle();
+
+			RigidBodyTransform transform(axisAngle, vector);
+
+			AxisAngle axisAngleToCheck;
+
+			transform.getRotation(axisAngleToCheck);
+
+			if (!(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-5)))
+			{
+				std::cout << axisAngle << std::endl;
+				std::cout << axisAngleToCheck << std::endl;
+			}
+
+			ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-5));
+		}
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testNormalize)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Eigen::Matrix4d matrix = GeometryUtilitiesTestHelper::createRandomMatrix4d();
+
+		RigidBodyTransform transform(matrix);
+
+		transform.normalize();
+
+		transform.get(matrix);
+
+		// std::cout << transform << std::endl;
+
+		GeometryUtilitiesTestHelper::checkOrthogonality(matrix);
 	}
 }
 

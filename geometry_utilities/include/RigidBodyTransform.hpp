@@ -55,6 +55,7 @@ class RigidBodyTransform
 		void getTranslation(Eigen::Vector3d& vector) const;
 		void getTranslation(Point3d& point) const;
 
+		void get(Eigen::Matrix4d &matrix) const;
 		void get(Eigen::Matrix3d& matrix, Eigen::Vector3d& vector) const;
 		void get(Eigen::Matrix3d& matrix) const;
 		void get(Eigen::Vector3d& vector) const;

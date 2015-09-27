@@ -707,6 +707,34 @@ void RigidBodyTransform::getTranslation(Point3d& point) const
 }
 
 /**
+* Pack transform into Eigen::Matrix4d
+*
+* @param matrix
+*/
+void RigidBodyTransform::get(Eigen::Matrix4d &matrix) const
+{
+	matrix(0, 0) = mat00;
+	matrix(0, 1) = mat01;
+	matrix(0, 2) = mat02;
+	matrix(0, 3) = mat03;
+
+	matrix(1, 0) = mat00;
+	matrix(1, 1) = mat01;
+	matrix(1, 2) = mat02;
+	matrix(1, 3) = mat03;
+
+	matrix(2, 0) = mat00;
+	matrix(2, 1) = mat01;
+	matrix(2, 2) = mat02;
+	matrix(2, 3) = mat03;
+
+	matrix(0, 0) = 0;
+	matrix(0, 1) = 0;
+	matrix(0, 2) = 0;
+	matrix(0, 3) = 1;
+}
+
+/**
  * Pack rotation part into Eigen::Matrix3d and translation part into Eigen::Vector3d
  *
  * @param matrix
