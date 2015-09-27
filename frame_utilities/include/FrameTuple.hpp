@@ -25,6 +25,8 @@ class FrameTuple : public ReferenceFrameHolder
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, double array[3]);
 		FrameTuple(const std::string &name, ReferenceFrame* referenceFrame, const std::vector<double> &vector);
 
+		virtual ~FrameTuple() {};
+
 		ReferenceFrame* getReferenceFrame() const
 		{
 			return this->referenceFrame;

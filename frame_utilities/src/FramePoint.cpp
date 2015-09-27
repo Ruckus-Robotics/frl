@@ -1,4 +1,5 @@
 #include "FramePoint.hpp"
+#include "RigidBodyTransform.hpp"
 
 namespace frame_utilities
 {
@@ -57,9 +58,38 @@ double FramePoint::distanceSquared(const FramePoint &point)
 
 void FramePoint::changeFrame(ReferenceFrame* desiredFrame)
 {
-	// if (desiredFrame != this->referenceFrame)
+	if (desiredFrame != this->referenceFrame)
+	{
+		this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
+
+		geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desirdeFramesTransformToRoot;
+
+		// if ((thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot()) != nullptr)
+		// {
+
+		// }
+	}
+
+
+
+
+
+	// if (desiredFrame != referenceFrame)
 	// {
-	// 	this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
+	// 	referenceFrame.verifySameRoots(desiredFrame);
+	// 	RigidBodyTransform referenceTf, desiredTf;
+
+	// 	if ((referenceTf = referenceFrame.getTransformToRoot()) != null)
+	// 	{
+	// 		referenceTf.transform(tuple);
+	// 	}
+
+	// 	if ((desiredTf = desiredFrame.getInverseTransformToRoot()) != null)
+	// 	{
+	// 		desiredTf.transform(tuple);
+	// 	}
+
+	// 	referenceFrame = desiredFrame;
 	// }
 }
 

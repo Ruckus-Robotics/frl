@@ -13,6 +13,7 @@
 #include <string>
 #include <vector>
 #include <climits>
+#include <RigidBodyTransform.hpp>
 
 namespace frame_utilities
 {

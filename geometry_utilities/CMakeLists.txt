@@ -17,16 +17,9 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp ${SOURCES_DIR}/RigidBodyTransform.cpp ${SOURCES_DIR}/AxisAngle.cpp)
-set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp ${INCLUDES_DIR}/RigidBodyTransform.hpp ${INCLUDES_DIR}/AxisAngle.hpp)
-set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
-
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
+set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp ${SOURCES_DIR}/RigidBodyTransform.cpp ${SOURCES_DIR}/AxisAngle.cpp ${SOURCES_DIR}/Point3d.cpp)
+set(INCLUDES ${INCLUDES_DIR}/Tuple3d.hpp ${INCLUDES_DIR}/RigidBodyTransform.hpp ${INCLUDES_DIR}/AxisAngle.hpp ${INCLUDES_DIR}/Point3d.hpp)
+set(TEST_SOURCES ${TEST_DIR}/test_main.cpp ${TEST_DIR}/Tuple3dTest.cpp ${TEST_DIR}/AxisAngleTest.cpp ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp)
 
 include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
@@ -43,57 +36,9 @@ include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
  DEPENDS
 )
 
-## Declare a cpp executable
-# add_executable(math_utilities_node src/math_utilities_node.cpp)
-
-## Add cmake target dependencies of the executable/library
-## as an example, message headers may need to be generated before nodes
-# add_dependencies(math_utilities_node math_utilities_generate_messages_cpp)
-
-## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
 )
-
-#############
-## Install ##
-#############
-
-# all install targets should use catkin DESTINATION variables
-# See http://ros.org/doc/api/catkin/html/adv_user_guide/variables.html
-
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
-# install(PROGRAMS
-#   scripts/my_python_script
-#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark executables and/or libraries for installation
-# install(TARGETS math_utilities math_utilities_node
-#   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-# )
-
-## Mark cpp header files for installation
-# install(DIRECTORY include/${PROJECT_NAME}/
-#   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
-#   FILES_MATCHING PATTERN "*.h"
-#   PATTERN ".svn" EXCLUDE
-# )
-
-## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
-
-#############
-## Testing ##
-#############
-
 
 # Add gtest based cpp test target and link libraries
 catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})

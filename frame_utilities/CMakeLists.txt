@@ -14,7 +14,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall")
 
-find_package(catkin REQUIRED COMPONENTS geometry_msgs tf)
+find_package(catkin REQUIRED COMPONENTS geometry_msgs tf geometry_utilities)
 
 # catkin_python_setup()
 
@@ -37,7 +37,7 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
 				 ${TEST_DIR}/ReferenceFrameTestHelper.hpp 
 				 ${TEST_DIR}/FrameUtilitiesTestHelper.hpp)
 
-include_directories(${INCLUDES_DIR} ${catkin_INCLUDE_DIRS})
+include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIRS} ${catkin_INCLUDE_DIRS})
 
 ## Declare a cpp library
 add_library(${PROJECT_NAME}
@@ -47,13 +47,12 @@ add_library(${PROJECT_NAME}
 
 target_link_libraries(${PROJECT_NAME} 
   ${catkin_LIBRARIES}
-  ${EIGEN3_LIBRARIES}
 )
 
 catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR}
  LIBRARIES ${PROJECT_NAME}
- CATKIN_DEPENDS geometry_msgs tf
+ CATKIN_DEPENDS geometry_msgs tf geometry_utilities
 #  DEPENDS system_lib
 )
 
