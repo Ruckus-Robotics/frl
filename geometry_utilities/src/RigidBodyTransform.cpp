@@ -566,6 +566,7 @@ void RigidBodyTransform::getRotation(tf2::Quaternion& quat) const
 			}
 
 	tf2::Quaternion tmpQuat(x, y, z, w);
+	tmpQuat.normalize();
 	quat = tmpQuat;
 }
 

@@ -4,6 +4,7 @@
 #include <math.h>
 #include <eigen3/Eigen/Eigen>
 #include "AxisAngle.hpp"
+#include <tf2/LinearMath/Quaternion.h>
 
 namespace geometry_utilities
 {
@@ -15,6 +16,11 @@ class GeometryUtilitiesTestHelper
 		{
 			// Generates random double between -1000 & 1000
 			return (2000.0 * rand() / RAND_MAX - 1000);
+		}
+
+		static double getRandomAngle()
+		{
+			return 2 * M_PI * rand() / RAND_MAX - M_PI;
 		}
 
 		static std::vector<double> getRandom3dVector()
@@ -128,7 +134,6 @@ class GeometryUtilitiesTestHelper
 		static Eigen::Matrix4d createRandomMatrix4d()
 		{
 			Eigen::Matrix4d matrix;
-			Eigen::Matrix3d rotationMatrix = createRandomRotationMatrix();
 
 			matrix(0, 0) = (0.5 * rand() / RAND_MAX - 0.25);
 			matrix(0, 1) = (0.5 * rand() / RAND_MAX - 0.25);
@@ -176,6 +181,15 @@ class GeometryUtilitiesTestHelper
 
 			AxisAngle ret(x, y, z, angle);
 			return ret;
+		}
+
+		static tf2::Quaternion createRandomQuaternion()
+		{
+			tf2::Quaternion quaternion;
+			quaternion.setRPY(getRandomAngle(), getRandomAngle(), getRandomAngle());
+			quaternion.normalize();
+
+			return quaternion;
 		}
 
 		static bool areAxisAngleEpsilonEqual(const AxisAngle &a1, const AxisAngle &a2, const double &eps)
