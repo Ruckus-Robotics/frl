@@ -44,6 +44,7 @@ class RigidBodyTransform
 		void setRotationWithAxisAngle(const double& axisAngleX, const double& axisAngleY, const double& axisAngleZ, const double& axisAngleTheta);
 		void setRotationAndZeroTranslation(const Eigen::Matrix3d& matrix);
 		void setRotationAndZeroTranslation(const tf2::Quaternion &quat);
+		void setRotationAndZeroTranslation(const Quaternion &quat);
 		void setRotationAndZeroTranslation(const AxisAngle &axisAngle);
 		void setTranslationAndIdentityRotation(const Eigen::Vector3d& vector);
 		void setRotationToIdentity();
@@ -53,6 +54,7 @@ class RigidBodyTransform
 		void getEulerXYZ(Eigen::Vector3d& vector) const;
 		void getRotation(Eigen::Matrix3d& matrix) const;
 		void getRotation(tf2::Quaternion& quat) const;
+		void getRotation(Quaternion& quat) const;
 		void getRotation(AxisAngle &axisAngle) const;
 		void getRotation(AxisAngle &axisAngle, const double &epsilon) const;
 

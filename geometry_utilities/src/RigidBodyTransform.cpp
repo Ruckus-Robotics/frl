@@ -267,7 +267,8 @@ void RigidBodyTransform::set(const RigidBodyTransform& transform)
  * Set this transform to have translation described in vector
  * and a rotation equal to the Eigen::Matrix3d matrix.
  *
- * @param matrix
+ * @param Eigen::Matrix3d matrix
+ * @param Eigen::Vector3d vector
  */
 void RigidBodyTransform::set(const Eigen::Matrix3d& matrix, const Eigen::Vector3d& vector)
 {
@@ -279,9 +280,21 @@ void RigidBodyTransform::set(const Eigen::Matrix3d& matrix, const Eigen::Vector3
  * Set this transform to have zero translation and a rotation equal to the
  * tf2::Quaternion quat.
  *
- * @param quat
+ * @param tf2::Quaternion quat
  */
 void RigidBodyTransform::setRotationAndZeroTranslation(const tf2::Quaternion &quat)
+{
+	setRotation(quat);
+	setTranslation(0, 0, 0);
+}
+
+/**
+ * Set this transform to have zero translation and a rotation equal to the
+ * Quaternion quat.
+ *
+ * @param Quaternion quat
+ */
+void RigidBodyTransform::setRotationAndZeroTranslation(const Quaternion &quat)
 {
 	setRotation(quat);
 	setTranslation(0, 0, 0);
@@ -543,7 +556,7 @@ void RigidBodyTransform::getRotation(Eigen::Matrix3d& matrix) const
 /**
  * Return rotation in quaternion form.
  *
- * @param quat
+ * @param tf2::Quaternion quat
  */
 void RigidBodyTransform::getRotation(tf2::Quaternion& quat) const
 {
@@ -591,6 +604,58 @@ void RigidBodyTransform::getRotation(tf2::Quaternion& quat) const
 	tf2::Quaternion tmpQuat(x, y, z, w);
 	tmpQuat.normalize();
 	quat = tmpQuat;
+}
+
+/**
+ * Return rotation in quaternion form.
+ *
+ * @param Quaternion quat
+ */
+void RigidBodyTransform::getRotation(Quaternion& quat) const
+{
+	double trace = mat00 + mat11 + mat22;
+	double val;
+
+	double x, y, z, w;
+
+	if (trace > 0.0)
+	{
+		val = sqrt(trace + 1.0) * 2.0;
+		x = (mat21 - mat12) / val;
+		y = (mat02 - mat20) / val;
+		z = (mat10 - mat01) / val;
+		w = 0.25 * val;
+	}
+	else
+		if (mat11 > mat22)
+		{
+			double temp = std::max(0.0, 1.0 + mat11 - mat00 - mat22);
+			val = sqrt(temp) * 2.0;
+			x = (mat01 + mat10) / val;
+			y = 0.25 * val;
+			z = (mat12 + mat21) / val;
+			w = (mat02 - mat20) / val;
+		}
+		else
+			if ((mat00 > mat11) && (mat00 > mat22))
+			{
+				val = sqrt(1.0 + mat00 - mat11 - mat22) * 2.0;
+				x = 0.25 * val;
+				y = (mat01 + mat10) / val;
+				z = (mat02 + mat20) / val;
+				w = (mat21 - mat12) / val;
+			}
+			else
+			{
+				val = sqrt(1.0 + mat22 - mat00 - mat11) * 2.0;
+				x = (mat02 + mat20) / val;
+				y = (mat12 + mat21) / val;
+				z = 0.25 * val;
+				w = (mat10 - mat01) / val;
+			}
+
+	quat.set(x, y, z, w);
+	quat.normalize();
 }
 
 /**

@@ -5,6 +5,7 @@
 #include <eigen3/Eigen/Eigen>
 #include "AxisAngle.hpp"
 #include <tf2/LinearMath/Quaternion.h>
+#include "Quaternion.hpp"
 
 namespace geometry_utilities
 {
@@ -183,10 +184,19 @@ class GeometryUtilitiesTestHelper
 			return ret;
 		}
 
-		static tf2::Quaternion createRandomQuaternion()
+		static tf2::Quaternion createRandomTf2Quaternion()
 		{
 			tf2::Quaternion quaternion;
 			quaternion.setRPY(getRandomAngle(), getRandomAngle(), getRandomAngle());
+			quaternion.normalize();
+
+			return quaternion;
+		}
+
+		static Quaternion createRandomQuaternion()
+		{
+			Quaternion quaternion;
+			quaternion.set(getRandomDouble(), getRandomDouble(), getRandomDouble(), getRandomDouble());
 			quaternion.normalize();
 
 			return quaternion;
