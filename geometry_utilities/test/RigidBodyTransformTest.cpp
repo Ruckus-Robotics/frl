@@ -91,11 +91,15 @@ TEST_F(RigidBodyTransformTest, testNormalize)
 
 		transform.normalize();
 
-		transform.get(matrix);
+		Eigen::Matrix4d matrixToCheck;
+		transform.get(matrixToCheck);
 
-		// std::cout << transform << std::endl;
-
-		GeometryUtilitiesTestHelper::checkOrthogonality(matrix);
+		if (!GeometryUtilitiesTestHelper::checkOrthogonality(matrixToCheck))
+		{
+			std::cout << matrixToCheck << std::endl;
+			std::cout << matrix << std::endl;
+			ASSERT_TRUE(false);
+		}
 	}
 }
 

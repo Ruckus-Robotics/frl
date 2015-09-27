@@ -718,20 +718,20 @@ void RigidBodyTransform::get(Eigen::Matrix4d &matrix) const
 	matrix(0, 2) = mat02;
 	matrix(0, 3) = mat03;
 
-	matrix(1, 0) = mat00;
-	matrix(1, 1) = mat01;
-	matrix(1, 2) = mat02;
-	matrix(1, 3) = mat03;
+	matrix(1, 0) = mat10;
+	matrix(1, 1) = mat11;
+	matrix(1, 2) = mat12;
+	matrix(1, 3) = mat13;
 
-	matrix(2, 0) = mat00;
-	matrix(2, 1) = mat01;
-	matrix(2, 2) = mat02;
-	matrix(2, 3) = mat03;
+	matrix(2, 0) = mat20;
+	matrix(2, 1) = mat21;
+	matrix(2, 2) = mat22;
+	matrix(2, 3) = mat23;
 
-	matrix(0, 0) = 0;
-	matrix(0, 1) = 0;
-	matrix(0, 2) = 0;
-	matrix(0, 3) = 1;
+	matrix(3, 0) = 0;
+	matrix(3, 1) = 0;
+	matrix(3, 2) = 0;
+	matrix(3, 3) = 1;
 }
 
 /**

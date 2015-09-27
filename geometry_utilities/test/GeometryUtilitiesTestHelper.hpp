@@ -128,19 +128,20 @@ class GeometryUtilitiesTestHelper
 		static Eigen::Matrix4d createRandomMatrix4d()
 		{
 			Eigen::Matrix4d matrix;
+			Eigen::Matrix3d rotationMatrix = createRandomRotationMatrix();
 
-			matrix(0, 0) = rand() / RAND_MAX;
-			matrix(0, 1) = rand() / RAND_MAX;
-			matrix(0, 2) = rand() / RAND_MAX;
-			matrix(0, 3) = rand() / RAND_MAX;
-			matrix(1, 0) = rand() / RAND_MAX;
-			matrix(1, 1) = rand() / RAND_MAX;
-			matrix(1, 2) = rand() / RAND_MAX;
-			matrix(1, 3) = rand() / RAND_MAX;
-			matrix(2, 0) = rand() / RAND_MAX;
-			matrix(2, 1) = rand() / RAND_MAX;
-			matrix(2, 2) = rand() / RAND_MAX;
-			matrix(2, 3) = rand() / RAND_MAX;
+			matrix(0, 0) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(0, 1) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(0, 2) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(0, 3) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(1, 0) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(1, 1) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(1, 2) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(1, 3) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(2, 0) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(2, 1) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(2, 2) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(2, 3) = (0.5 * rand() / RAND_MAX - 0.25);
 			matrix(3, 0) = 0;
 			matrix(3, 1) = 0;
 			matrix(3, 2) = 0;
