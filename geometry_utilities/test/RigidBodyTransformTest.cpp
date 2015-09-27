@@ -109,7 +109,7 @@ TEST_F(RigidBodyTransformTest, testUseQuaternions_1)
 {
 	for (int i = 0; i < nTests; i++)
 	{
-		Quaternion quat1(0.4219074509830524, 0.16571163801219513, 0.8514918861954333, 0.26361965703574125);
+		Quaternion quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
 
 		RigidBodyTransform transform;
 		transform.setRotationAndZeroTranslation(quat1);
@@ -117,10 +117,32 @@ TEST_F(RigidBodyTransformTest, testUseQuaternions_1)
 		Quaternion quatToCheck;
 		transform.getRotation(quatToCheck);
 
-		ASSERT_TRUE(fabs(quatToCheck.getX() - quat1.getX()) < 1e-5);
-		ASSERT_TRUE(fabs(quatToCheck.getY() - quat1.getY()) < 1e-5);
-		ASSERT_TRUE(fabs(quatToCheck.getZ() - quat1.getZ()) < 1e-5);
-		ASSERT_TRUE(fabs(quatToCheck.getW() - quat1.getW()) < 1e-5);
+		if (!GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual(quat1, quatToCheck, 1e-5))
+		{
+			std::cout << quat1 << std::endl;
+			std::cout << quatToCheck << std::endl;
+			ASSERT_TRUE(false);
+		}
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testCreateTransformWithQuaternionAndVector3d)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Eigen::Vector3d vector = GeometryUtilitiesTestHelper::createRandomVector3d();
+		Quaternion quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+
+		RigidBodyTransform transform(quat1, vector);
+
+		Quaternion quatCheck;
+		Eigen::Vector3d vecCheck;
+
+		transform.getRotation(quatCheck);
+		transform.get(vecCheck);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual(quat1, quatCheck, 1e-5));
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3dsEpsilonEqual(vector, vecCheck, 1e-5));
 	}
 }
 

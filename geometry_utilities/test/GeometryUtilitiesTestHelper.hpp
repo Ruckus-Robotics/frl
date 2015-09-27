@@ -223,6 +223,22 @@ class GeometryUtilitiesTestHelper
 			}
 		}
 
+		static bool areQuaternionsEpsilonEqual(const Quaternion &q1, const Quaternion &q2, const double &eps)
+		{
+			if ((fabs(q1.getX() - q2.getX()) < eps && fabs(q1.getY() - q2.getY()) < eps && fabs(q1.getZ() - q2.getZ()) < eps && fabs(q1.getW() - q2.getW()) < eps) ||
+			        (fabs(-q1.getX() - q2.getX()) < eps && fabs(-q1.getY() - q2.getY()) < eps && fabs(-q1.getZ() - q2.getZ()) < eps && fabs(-q1.getW() - q2.getW()) < eps))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		static bool areVector3dsEpsilonEqual(const Eigen::Vector3d &v1, const Eigen::Vector3d &v2, const double &eps)
+		{
+			return (fabs(v1(0) - v2(0)) < eps && fabs(v1(1) - v2(1)) < eps && fabs(v1(2) - v2(2)) < eps);
+		}
+
 		static Eigen::Vector3d createRandomVector3d()
 		{
 			Eigen::Vector3d vector;

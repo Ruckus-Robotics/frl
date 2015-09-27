@@ -38,6 +38,12 @@ class Quaternion
 		double getZ() const;
 		double getW() const;
 
+		friend std::ostream &operator<<( std::ostream &os, const Quaternion &q )
+		{
+			os << "(" << q.x << "," << q.y << "," << q.z << "," << q.w << ")";
+			return os;
+		}
+
 	private:
 		double x, y, z, w;
 };
