@@ -100,6 +100,31 @@ class GeometryUtilitiesTestHelper
 			return rotZ;
 		}
 
+		static Eigen::Matrix4d createRandomTransformationMatrix()
+		{
+			Eigen::Matrix3d rotationMatrix = createRandomRotationMatrix();
+
+			Eigen::Matrix4d transform;
+
+			transform(0, 0) = rotationMatrix(0, 0);
+			transform(0, 1) = rotationMatrix(0, 1);
+			transform(0, 2) = rotationMatrix(0, 2);
+			transform(1, 0) = rotationMatrix(1, 0);
+			transform(1, 1) = rotationMatrix(1, 1);
+			transform(1, 2) = rotationMatrix(1, 2);
+			transform(2, 0) = rotationMatrix(2, 0);
+			transform(2, 1) = rotationMatrix(2, 1);
+			transform(2, 2) = rotationMatrix(2, 2);
+
+			transform(0, 3) = getRandomDouble();
+			transform(1, 3) = getRandomDouble();
+			transform(2, 3) = getRandomDouble();
+
+			transform(3, 3) = 1.0;
+
+			return transform;
+		}
+
 		static bool areAxisAngleEpsilonEqual(const AxisAngle &a1, const AxisAngle &a2, const double &eps)
 		{
 			return (fabs(a1.x - a2.x) < eps && fabs(a1.y - a2.y) < eps && fabs(a1.z - a2.z) < eps && fabs(a1.angle - a2.angle) < eps);

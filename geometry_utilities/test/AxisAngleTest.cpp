@@ -26,25 +26,14 @@ class AxisAngleTest : public ::testing::Test
 
 TEST_F(AxisAngleTest, testSetFromMatrix4d_1)
 {
-	Eigen::Matrix3d rotationMatrix;
 	Eigen::Matrix4d transform;
 
-	rotationMatrix = GeometryUtilitiesTestHelper::createRandomRotationMatrix();
-
-	transform(0, 0) = rotationMatrix(0, 0);
-	transform(0, 1) = rotationMatrix(0, 1);
-	transform(0, 2) = rotationMatrix(0, 2);
-	transform(1, 0) = rotationMatrix(1, 0);
-	transform(1, 1) = rotationMatrix(1, 1);
-	transform(1, 2) = rotationMatrix(1, 2);
-	transform(2, 0) = rotationMatrix(2, 0);
-	transform(2, 1) = rotationMatrix(2, 1);
-	transform(2, 2) = rotationMatrix(2, 2);
+	transform = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
 
 	AxisAngle axisAngle;
 	RigidBodyTransform rigidTransform(transform);
 
-	axisAngle.set(rotationMatrix);
+	axisAngle.set(transform);
 
 	AxisAngle axisAngleToCheck;
 	rigidTransform.getRotation(axisAngleToCheck);
@@ -68,6 +57,27 @@ TEST_F(AxisAngleTest, testSetFromMatrix4d_2)
 
 	bool equal = GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-6);
 	EXPECT_TRUE(axisAngle.equals(axisAngleToCheck));
+}
+
+TEST_F(AxisAngleTest, testSetFromMatrix3d_1)
+{
+	Eigen::Matrix3d rot;
+
+	rot = GeometryUtilitiesTestHelper::createRandomRotationMatrix();
+
+	AxisAngle axisAngle;
+	RigidBodyTransform rigidTransform;
+	rigidTransform.setRotation(rot);
+
+	axisAngle.set(rot);
+
+	AxisAngle axisAngleToCheck;
+	rigidTransform.getRotation(axisAngleToCheck);
+
+	bool equal = GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-5);
+
+	EXPECT_TRUE(equal);
+	EXPECT_TRUE(axisAngle.epsilonEquals(axisAngleToCheck, 1e-5));
 }
 
 }

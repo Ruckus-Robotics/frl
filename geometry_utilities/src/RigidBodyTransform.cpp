@@ -4,7 +4,7 @@
 
 /**
  *
- * This class creates a 4x4 affine, rigid body transformation matrix. The top
+ * This class creates a 4x4 rigid body transformation matrix. The top
  * left 3x3 is an orthogonal rotation matrix, while the top right 3x1 is a vector
  * describing a translation.
  *

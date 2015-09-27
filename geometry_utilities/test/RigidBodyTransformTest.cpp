@@ -18,3 +18,8 @@ class RigidBodyTransformTest : public ::testing::Test
 
 		int nTests = 1000;
 };
+
+TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWitHAxisAngle)
+{
+
+}
