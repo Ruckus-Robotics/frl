@@ -5,6 +5,7 @@
 #include <tf2/LinearMath/Quaternion.h>
 #include "Point3d.hpp"
 #include "AxisAngle.hpp"
+#include "Quaternion.hpp"
 
 namespace geometry_utilities
 {
@@ -18,6 +19,7 @@ class RigidBodyTransform
 		RigidBodyTransform(const Eigen::Matrix3d& matrix, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const tf2::Quaternion& quat, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const AxisAngle& axisAngle, const Eigen::Vector3d& vector);
+		RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d &vector);
 
 		void setIdentity();
 
@@ -26,6 +28,7 @@ class RigidBodyTransform
 		void set(const Eigen::Matrix3d& matrix, const Eigen::Vector3d& vector);
 		void set(const tf2::Quaternion& quat, const Eigen::Vector3d& vector);
 		void set(const AxisAngle& axisAngle, const Eigen::Vector3d& vector);
+		void set(const Quaternion& quat, const Eigen::Vector3d& vector);
 
 		void setTranslation(const double& x, const double& y, const double& z);
 		void setTranslation(const Eigen::Vector3d& vector);
@@ -34,6 +37,7 @@ class RigidBodyTransform
 
 		void setRotation(const Eigen::Matrix3d& matrix);
 		void setRotation(const tf2::Quaternion& quat);
+		void setRotation(const Quaternion& quat);
 		void setRotation(const AxisAngle& axisAngle);
 
 		void setRotationWithQuaternion(const double& qx, const double& qy, const double& qz, const double& qw);

@@ -205,6 +205,14 @@ void Quaternion::normalize()
 	}
 }
 
+void Quaternion::set(const double &x, const double &y, const double &z, const double &w)
+{
+	this->x = x;
+	this->y = y;
+	this->z = z;
+	this->w = w;
+}
+
 void Quaternion::set(const Eigen::Matrix4d &m1)
 {
 	double ww = 0.25 * (m1(0, 0) + m1(1, 1) + m1(2, 2) + m1(3, 3));
@@ -345,5 +353,58 @@ void Quaternion::set(const AxisAngle &a)
 		z = a.z * amag * mag;
 	}
 
+}
+
+Eigen::Matrix3d Quaternion::getAsMatrix3d() const
+{
+	Eigen::Matrix3d matrix;
+	get(matrix);
+	return matrix;
+}
+
+void Quaternion::get(Eigen::Matrix3d &matrix) const
+{
+	double qx = this->x;
+	double qy = this->y;
+	double qz = this->z;
+	double qw = this->w;
+
+	double yy2 = 2.0 * qy * qy;
+	double zz2 = 2.0 * qz * qz;
+	double xx2 = 2.0 * qx * qx;
+	double xy2 = 2.0 * qx * qy;
+	double wz2 = 2.0 * qw * qz;
+	double xz2 = 2.0 * qx * qz;
+	double wy2 = 2.0 * qw * qy;
+	double yz2 = 2.0 * qy * qz;
+	double wx2 = 2.0 * qw * qx;
+
+	matrix(0, 0) = (1.0 - yy2 - zz2);
+	matrix(0, 1) = (xy2 - wz2);
+	matrix(0, 2) = (xz2 + wy2);
+	matrix(1, 0) = (xy2 + wz2);
+	matrix(1, 1) = (1.0 - xx2 - zz2);
+	matrix(1, 2) = (yz2 - wx2);
+	matrix(2, 0) = (xz2 - wy2);
+	matrix(2, 1) = (yz2 + wx2);
+	matrix(2, 2) = (1.0 - xx2 - yy2);
+
+}
+
+double Quaternion::getX() const
+{
+	return this->x;
+}
+double Quaternion::getY() const
+{
+	return this->y;
+}
+double Quaternion::getZ() const
+{
+	return this->z;
+}
+double Quaternion::getW() const
+{
+	return this->w;
 }
 }

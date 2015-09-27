@@ -58,10 +58,16 @@ RigidBodyTransform::RigidBodyTransform(const Eigen::Matrix3d& matrix, const Eige
  * Create RigidBodyTransform from quaternion describing a rotation and vector
  * describing a translation.
  *
- * @param quat
- * @param vector
+ * @param tf2::Quaternion
+ * @param Eigen::Vector3d
  */
 RigidBodyTransform::RigidBodyTransform(const tf2::Quaternion& quat, const Eigen::Vector3d& vector)
+{
+	set(quat, vector);
+}
+
+
+RigidBodyTransform::RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d& vector)
 {
 	set(quat, vector);
 }
@@ -116,6 +122,11 @@ void RigidBodyTransform::setRotationWithAxisAngle(const double& axisAngleX, cons
 void RigidBodyTransform::setRotation(const tf2::Quaternion& quat)
 {
 	setRotationWithQuaternion(quat.getAxis().getX(), quat.getAxis().getY(), quat.getAxis().getZ(), quat.getW());
+}
+
+void RigidBodyTransform::setRotation(const Quaternion& quat)
+{
+	setRotationWithQuaternion(quat.getX(), quat.getY(), quat.getZ(), quat.getW());
 }
 
 void RigidBodyTransform::setRotationWithQuaternion(const double& qx, const double& qy, const double& qz, const double& qw)
@@ -280,9 +291,21 @@ void RigidBodyTransform::setRotationAndZeroTranslation(const tf2::Quaternion &qu
 //  * Set this transform to have translation described in vector and a rotation
 //  * equal to the tf2::Quaternion quat.
 //  *
-//  * @param quat
+//  * @param tf2::Quaternion quat
 //  */
 void RigidBodyTransform::set(const tf2::Quaternion& quat, const Eigen::Vector3d& vector)
+{
+	setRotation(quat);
+	setTranslation(vector);
+}
+
+// /**
+//  * Set this transform to have translation described in vector and a rotation
+//  * equal to the tf2::Quaternion quat.
+//  *
+//  * @param Quaternion quat
+//  */
+void RigidBodyTransform::set(const Quaternion& quat, const Eigen::Vector3d& vector)
 {
 	setRotation(quat);
 	setTranslation(vector);

@@ -27,9 +27,16 @@ class Quaternion
 		void inverse();
 		void normalize(const Quaternion &q1);
 		void normalize();
+		void set(const double &x, const double &y, const double &z, const double &w);
 		void set(const Eigen::Matrix4d &m1);
 		void set(const Eigen::Matrix3d &m1);
 		void set(const AxisAngle &a);
+		void get(Eigen::Matrix3d &matrix) const;
+		Eigen::Matrix3d getAsMatrix3d() const;
+		double getX() const;
+		double getY() const;
+		double getZ() const;
+		double getW() const;
 
 	private:
 		double x, y, z, w;
