@@ -10,7 +10,7 @@ else()
     message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++11 support. Please use a different C++ compiler.")
 endif()
 
-find_package(catkin REQUIRED COMPONENTS tf2)
+find_package(catkin REQUIRED COMPONENTS tf2 frame_utilities)
 find_package(Eigen3 REQUIRED)
 
 set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
@@ -32,7 +32,7 @@ include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
  catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR}
  LIBRARIES ${PROJECT_NAME}
- CATKIN_DEPENDS tf2
+ CATKIN_DEPENDS tf2 frame_utilities
  DEPENDS
 )
 

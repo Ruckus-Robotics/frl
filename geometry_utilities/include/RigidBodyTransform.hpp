@@ -6,6 +6,7 @@
 #include "Point3d.hpp"
 #include "AxisAngle.hpp"
 #include "Quaternion.hpp"
+#include "FramePoint.hpp"
 
 namespace geometry_utilities
 {
