@@ -21,6 +21,9 @@ class RigidBodyTransform
 		RigidBodyTransform(const tf2::Quaternion& quat, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const AxisAngle& axisAngle, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d &vector);
+		RigidBodyTransform(const Eigen::Matrix3d &matrix);
+		RigidBodyTransform(const Quaternion &quat);
+		RigidBodyTransform(const AxisAngle& axisAngle);
 
 		void setIdentity();
 

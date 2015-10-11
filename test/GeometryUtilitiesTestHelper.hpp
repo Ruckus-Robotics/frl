@@ -249,6 +249,23 @@ class GeometryUtilitiesTestHelper
 
 			return vector;
 		}
+
+		static bool areMatrix3dEpsilonEqual(const Eigen::Matrix3d &m1, const Eigen::Matrix3d &m2, double epsilon)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				for (int j = 0; j < 3; j++)
+				{
+					bool tmp = fabs(m1(i, j) - m2(i, j)) < epsilon;
+					if (!tmp)
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
 };
 
 }

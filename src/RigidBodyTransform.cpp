@@ -66,6 +66,41 @@ RigidBodyTransform::RigidBodyTransform(const tf2::Quaternion& quat, const Eigen:
 	set(quat, vector);
 }
 
+/**
+* Construct a RigidBodyTransform from a rotation matrix, setting the translational vector to zero.
+*
+* @param Eigen::Matrix3d
+*/
+
+RigidBodyTransform::RigidBodyTransform(const Eigen::Matrix3d &matrix)
+{
+	setRotation(matrix);
+	setTranslation(0.0, 0.0, 0.0);
+}
+
+/**
+* Constructs a RigidBodyTransfor with rotation element described by quaternion and
+* zero translational component.
+*
+* @param Quaternion
+*/
+
+RigidBodyTransform::RigidBodyTransform(const Quaternion &quat)
+{
+	setRotation(quat);
+	setTranslation(0.0, 0.0, 0.0);
+}
+
+/**
+* Construct a RigidBodyTransform with rotation element described by axisAngle and
+* zero translational component.
+*
+*/
+RigidBodyTransform::RigidBodyTransform(const AxisAngle &axisAngle)
+{
+	setRotation(axisAngle);
+	setTranslation(0.0, 0.0, 0.0);
+}
 
 RigidBodyTransform::RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d& vector)
 {

@@ -210,4 +210,83 @@ TEST_F(RigidBodyTransformTest, testSetAsTranspose)
 	}
 }
 
+TEST_F(RigidBodyTransformTest, testZeroTranslation)
+{
+	Eigen::Matrix4d m1;
+	Eigen::Vector3d translation;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		m1 = GeometryUtilitiesTestHelper::createRandomMatrix4d();
+		RigidBodyTransform transform(m1);
+
+		transform.zeroTranslation();
+
+		transform.getTranslation(translation);
+
+		ASSERT_TRUE(translation(0) == 0.0);
+		ASSERT_TRUE(translation(1) == 0.0);
+		ASSERT_TRUE(translation(2) == 0.0);
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testSetRotationWithRotationMatrix)
+{
+	Eigen::Matrix3d rot1;
+	Eigen::Matrix3d rot2;
+
+
+	for (int i = 0; i < nTests; i++)
+	{
+		rot1 = GeometryUtilitiesTestHelper::createRandomRotationMatrix();
+
+		RigidBodyTransform transform(rot1);
+
+		transform.getRotation(rot2);
+
+		bool tmp = GeometryUtilitiesTestHelper::areMatrix3dEpsilonEqual(rot1, rot2, 10);
+
+		EXPECT_TRUE(tmp);
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testSetRotationWithQuaternion)
+{
+	Quaternion q1;
+	Quaternion q2;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		q1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+
+		RigidBodyTransform transform(q1);
+
+		transform.getRotation(q2);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual(q1, q2, 1e-4));
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testSetRotationWithAxisAngle)
+{
+	AxisAngle a1;
+	AxisAngle a2;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		a1 = GeometryUtilitiesTestHelper::createRandomAxisAngle();
+
+		RigidBodyTransform transform(a1);
+
+		transform.getRotation(a2);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(a1, a2, 1e-4));
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testEuler)
+{
+
+}
+
 }
