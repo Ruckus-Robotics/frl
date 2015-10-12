@@ -284,8 +284,123 @@ TEST_F(RigidBodyTransformTest, testSetRotationWithAxisAngle)
 	}
 }
 
-TEST_F(RigidBodyTransformTest, testEuler)
+TEST_F(RigidBodyTransformTest, testApplyTranslation)
 {
+	Eigen::Vector3d vec1;
+	RigidBodyTransform transform;
+	Eigen::Matrix3d mat1;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		transform = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		vec1 = GeometryUtilitiesTestHelper::createRandomVector3d();
+		transform.getRotation(mat1);
+
+		Eigen::Vector3d trans;
+		transform.getTranslation(trans);
+
+		transform.applyTranslation(vec1);
+
+		Eigen::Vector3d check = mat1 * vec1 + trans;
+
+		Eigen::Vector3d newTrans;
+
+		transform.getTranslation(newTrans);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3dsEpsilonEqual(check, newTrans, 1e-5));;
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testApplyRotationX)
+{
+	Eigen::Matrix3d rotX;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		rotX(0, 0) = 1;
+		rotX(0, 1) = 0;
+		rotX(0, 2) = 0;
+		rotX(1, 0) = 0;
+		rotX(2, 0) = 0;
+
+		double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+		rotX(1, 1) = cos(angle);
+		rotX(2, 2) = cos(angle);
+		rotX(1, 2) = -sin(angle);
+		rotX(2, 1) = sin(angle);
+
+		RigidBodyTransform transform;
+
+		transform.applyRotationX(angle);
+
+		Eigen::Matrix3d rot;
+
+		transform.getRotation(rot);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3dEpsilonEqual(rotX, rot, 1e-5));
+	}
+
+}
+
+TEST_F(RigidBodyTransformTest, testApplyRotationY)
+{
+	Eigen::Matrix3d rotY;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		rotY(2, 1) = 0;
+		rotY(0, 1) = 0;
+		rotY(1, 0) = 0;
+		rotY(1, 1) = 1;
+		rotY(1, 2) = 0;
+
+		double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+		rotY(0, 0) = cos(angle);
+		rotY(2, 2) = cos(angle);
+		rotY(2, 0) = -sin(angle);
+		rotY(0, 2) = sin(angle);
+
+		RigidBodyTransform transform;
+
+		transform.applyRotationY(angle);
+
+		Eigen::Matrix3d rot;
+
+		transform.getRotation(rot);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3dEpsilonEqual(rotY, rot, 1e-5));
+	}
+
+}
+
+TEST_F(RigidBodyTransformTest, testApplyRotationZ)
+{
+	Eigen::Matrix3d rotZ;
+
+	for (int i = 0; i < nTests; i++)
+	{
+		rotZ(0, 2) = 0;
+		rotZ(1, 2) = 0;
+		rotZ(2, 0) = 0;
+		rotZ(2, 1) = 0;
+		rotZ(2, 2) = 1;
+
+		double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+		rotZ(0, 0) = cos(angle);
+		rotZ(1, 1) = cos(angle);
+		rotZ(0, 1) = -sin(angle);
+		rotZ(1, 0) = sin(angle);
+
+		RigidBodyTransform transform;
+
+		transform.applyRotationZ(angle);
+
+		Eigen::Matrix3d rot;
+
+		transform.getRotation(rot);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3dEpsilonEqual(rotZ, rot, 1e-5));
+	}
 
 }
 

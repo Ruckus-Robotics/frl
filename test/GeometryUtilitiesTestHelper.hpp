@@ -21,7 +21,7 @@ class GeometryUtilitiesTestHelper
 
 		static double getRandomAngle()
 		{
-			return 2 * M_PI * rand() / RAND_MAX - M_PI;
+			return 2 * (M_PI - 0.01) * rand() / RAND_MAX - (M_PI - 0.01);
 		}
 
 		static std::vector<double> getRandom3dVector()
