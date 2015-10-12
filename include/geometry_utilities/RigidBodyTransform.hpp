@@ -92,7 +92,6 @@ class RigidBodyTransform
 		void multiply(const RigidBodyTransform& transform);
 		void multiply(const RigidBodyTransform& transform1, const RigidBodyTransform& transform);
 
-		bool isRotationMatrixSingular(double epsilon) const;
 		bool isRotationMatrixEpsilonIdentity(const double& epsilon) const;
 
 		void invert(RigidBodyTransform transform);

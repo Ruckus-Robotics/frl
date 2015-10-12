@@ -795,15 +795,11 @@ void RigidBodyTransform::getRotation(AxisAngle &axisAngle, const double &epsilon
 	}
 }
 
-bool RigidBodyTransform::isRotationMatrixSingular(double epsilon) const
-{
-	return (fabs(mat01 - mat10) < epsilon) && (fabs(mat02 - mat20) < epsilon) && (fabs(mat12 - mat21) < epsilon);
-}
-
 bool RigidBodyTransform::isRotationMatrixEpsilonIdentity(const double& epsilon) const
 {
-	return (fabs(mat01 + mat10) < epsilon) && (fabs(mat02 + mat20) < epsilon) && (fabs(mat12 + mat21) < epsilon)
-	       && (fabs(mat00 + mat11 + mat22 - 3) < epsilon);
+
+	return fabs(mat01) < epsilon && fabs(mat02) < epsilon && fabs(mat10) < epsilon && fabs(mat12) < epsilon && fabs(mat20) < epsilon &&
+	       fabs(mat21) < epsilon && fabs(mat00 - 1.0) < epsilon && fabs(mat11 - 1.0) < epsilon && fabs(mat22 - 1.0) - epsilon;
 }
 
 /**

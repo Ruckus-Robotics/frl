@@ -266,6 +266,23 @@ class GeometryUtilitiesTestHelper
 
 			return true;
 		}
+
+		static bool areMatrix4dEpsilonEqual(const Eigen::Matrix4d &m1, const Eigen::Matrix4d &m2, double epsilon)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				for (int j = 0; j < 4; j++)
+				{
+					bool tmp = fabs(m1(i, j) - m2(i, j)) < epsilon;
+					if (!tmp)
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
 };
 
 }
