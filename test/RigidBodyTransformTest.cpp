@@ -509,4 +509,45 @@ TEST_F(RigidBodyTransformTest, testIsRotationMatrixEpsilonIdentity)
 	EXPECT_FALSE(transform1.isRotationMatrixEpsilonIdentity(1e-5));
 }
 
+TEST_F(RigidBodyTransformTest, testOverloadTimesEquals)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		Eigen::Matrix4d m2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		RigidBodyTransform t1(m1);
+		RigidBodyTransform t2(m2);
+		RigidBodyTransform t3;
+		RigidBodyTransform t4 = t1;
+
+		t3.multiply(t1, t2);
+
+		t4 *= t2;
+
+		t4.get(m1);
+		t3.get(m2);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4dEpsilonEqual(m1, m2, 1e-5));
+
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testInvert1)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		Eigen::Matrix4d m2 = m1;
+
+		RigidBodyTransform t1(m1);
+		RigidBodyTransform t2(m1);
+
+		t1.invert();
+
+		t1.get(m1);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4dEpsilonEqual(m1, m2.inverse() , 1e-5));
+	}
+}
+
 }

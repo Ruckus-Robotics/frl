@@ -118,12 +118,18 @@ class RigidBodyTransform
 			return os;
 		}
 
-		friend RigidBodyTransform operator* (RigidBodyTransform transform1, RigidBodyTransform transform2)
+		friend RigidBodyTransform operator* (const RigidBodyTransform &transform1, const RigidBodyTransform &transform2)
 		{
 			RigidBodyTransform tmp;
 			tmp = transform1;
 			tmp.multiply(transform2);
 			return tmp;
+		}
+
+		RigidBodyTransform& operator*= (const RigidBodyTransform &transform)
+		{
+			this->multiply(transform);
+			return *this;
 		}
 
 	private:
