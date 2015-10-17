@@ -1004,7 +1004,7 @@ void RigidBodyTransform::multiply(const RigidBodyTransform& transform1, const Ri
  * and store the result in this.
  * @param transform
  */
-void RigidBodyTransform::invert(RigidBodyTransform transform)
+void RigidBodyTransform::invert(const RigidBodyTransform &transform)
 {
 	set(transform);
 	invert();

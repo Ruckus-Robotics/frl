@@ -550,4 +550,57 @@ TEST_F(RigidBodyTransformTest, testInvert1)
 	}
 }
 
+TEST_F(RigidBodyTransformTest, testInvert2)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		Eigen::Matrix4d m2;
+
+		RigidBodyTransform t1(m1);
+		RigidBodyTransform t2;
+
+		t2.invert(t1);
+
+		t1.invert();
+
+		t1.get(m1);
+		t2.get(m2);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4dEpsilonEqual(m1, m2 , 1e-5));
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testGetTranslationDifference)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		Eigen::Matrix4d m2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		Eigen::Vector3d v1;
+		Eigen::Vector3d v2;
+
+		RigidBodyTransform t1(m1);
+		RigidBodyTransform t2(m2);
+
+		t1.getTranslation(v1);
+		t2.getTranslation(v2);
+
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3dsEpsilonEqual(RigidBodyTransform::getTranslationDifference(t1, t2), v2 - v1, 1e-5));
+	}
+}
+
+TEST_F(RigidBodyTransformTest, testDeterminant)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
+		Eigen::Matrix4d m2;
+
+		RigidBodyTransform t1(m1);
+
+		EXPECT_TRUE(fabs(t1.determinant() - m1.determinant()) < 1e-5);
+	}
+}
+
 }

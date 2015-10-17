@@ -94,7 +94,7 @@ class RigidBodyTransform
 
 		bool isRotationMatrixEpsilonIdentity(const double& epsilon) const;
 
-		void invert(RigidBodyTransform transform);
+		void invert(const RigidBodyTransform &transform);
 		void invert();
 		void invertOrthogonal();
 		void invertRotationButKeepTranslation();
