@@ -45,7 +45,8 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
 				 ${TEST_DIR}/FrameTupleTest.cpp 
 				 ${TEST_DIR}/ReferenceFrameTestHelper.hpp 
 				 ${TEST_DIR}/FrameUtilitiesTestHelper.hpp
-				 ${TEST_DIR}/Point3dTest.cpp)
+				 ${TEST_DIR}/Point3dTest.cpp
+				 ${TEST_DIR}/QuaternionTest.cpp)
 
 
 include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
