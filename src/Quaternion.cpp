@@ -391,6 +391,14 @@ void Quaternion::get(Eigen::Matrix3d &matrix) const
 
 }
 
+void Quaternion::get(Eigen::Vector4d &vector) const
+{
+	vector(0) = this->x;
+	vector(1) = this->y;
+	vector(2) = this->z;
+	vector(3) = this->w;
+}
+
 double Quaternion::getX() const
 {
 	return this->x;

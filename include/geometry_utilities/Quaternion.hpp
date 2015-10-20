@@ -32,6 +32,7 @@ class Quaternion
 		void set(const Eigen::Matrix3d &m1);
 		void set(const AxisAngle &a);
 		void get(Eigen::Matrix3d &matrix) const;
+		void get(Eigen::Vector4d &vector) const;
 		Eigen::Matrix3d getAsMatrix3d() const;
 		double getX() const;
 		double getY() const;

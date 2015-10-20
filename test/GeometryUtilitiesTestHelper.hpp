@@ -248,6 +248,11 @@ class GeometryUtilitiesTestHelper
 			return (fabs(v1(0) - v2(0)) < eps && fabs(v1(1) - v2(1)) < eps && fabs(v1(2) - v2(2)) < eps);
 		}
 
+		static bool areVector4dsEpsilonEqual(const Eigen::Vector4d &v1, const Eigen::Vector4d &v2, const double &eps)
+		{
+			return (fabs(v1(0) - v2(0)) < eps && fabs(v1(1) - v2(1)) < eps && fabs(v1(2) - v2(2)) < eps && fabs(v1(3) - v2(3)) < eps);
+		}
+
 		static Eigen::Vector3d createRandomVector3d()
 		{
 			Eigen::Vector3d vector;
