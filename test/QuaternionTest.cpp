@@ -38,4 +38,35 @@ TEST_F(QuaternionTest, testConstructors1)
 	EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector4dsEpsilonEqual(v1, v2, 1e-5));
 }
 
+TEST_F(QuaternionTest, testConjugate)
+{
+	Quaternion q1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+
+	Quaternion q2(q1);
+
+	q2.conjugate();
+
+	EXPECT_TRUE(q1.getX() + q2.getX() < 1e-8);
+	EXPECT_TRUE(q1.getY() + q2.getY() < 1e-8);
+	EXPECT_TRUE(q1.getZ() + q2.getZ() < 1e-8);
+	EXPECT_TRUE(q1.getW() - q2.getW() < 1e-8);
+}
+
+TEST_F(QuaternionTest, testConjugate2)
+{
+	Quaternion q1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+
+	Quaternion q2;
+
+
+	q1.conjugate(q2);
+
+	q2.conjugate();
+
+	EXPECT_TRUE(q1.getX() + q2.getX() < 1e-8);
+	EXPECT_TRUE(q1.getY() + q2.getY() < 1e-8);
+	EXPECT_TRUE(q1.getZ() + q2.getZ() < 1e-8);
+	EXPECT_TRUE(q1.getW() - q2.getW() < 1e-8);
+}
+
 }
