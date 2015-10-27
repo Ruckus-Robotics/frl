@@ -45,6 +45,20 @@ class Quaternion
 			return os;
 		}
 
+		friend Quaternion operator* (const Quaternion &quaternion1, const Quaternion &quaternion2)
+		{
+			Quaternion tmp;
+			tmp = quaternion1;
+			tmp.multiply(quaternion2);
+			return tmp;
+		}
+
+		Quaternion& operator*= (const Quaternion &quaternion)
+		{
+			this->multiply(quaternion);
+			return *this;
+		}
+
 	private:
 		double x, y, z, w;
 };
