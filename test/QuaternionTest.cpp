@@ -157,4 +157,39 @@ TEST_F(QuaternionTest, testMultiplyEquals)
 	}
 }
 
+TEST_F(QuaternionTest, testInverse1)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Quaternion q1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+		Quaternion q2(q1);
+		double q1Norm = sqrt(q1.getX() * q1.getX() + q1.getY() * q1.getY() + q1.getZ() * q1.getZ() + q1.getW() * q1.getW());
+
+		q1.inverse();
+
+		EXPECT_TRUE((q1.getX() + q2.getX() / q1Norm) - 1e-8);
+		EXPECT_TRUE((q1.getY() + q2.getY() / q1Norm) - 1e-8);
+		EXPECT_TRUE((q1.getZ() + q2.getZ() / q1Norm) - 1e-8);
+		EXPECT_TRUE((q1.getW() - q2.getW() / q1Norm) - 1e-8);
+	}
+}
+
+TEST_F(QuaternionTest, testInverse2)
+{
+	for (int i = 0; i < nTests; i++)
+	{
+		Quaternion q1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+		Quaternion q2;
+		Quaternion q3(q1);
+		double q1Norm = sqrt(q1.getX() * q1.getX() + q1.getY() * q1.getY() + q1.getZ() * q1.getZ() + q1.getW() * q1.getW());
+
+		q2.inverse(q1);
+
+		EXPECT_TRUE((q2.getX() + q3.getX() / q1Norm) - 1e-8);
+		EXPECT_TRUE((q2.getY() + q3.getY() / q1Norm) - 1e-8);
+		EXPECT_TRUE((q2.getZ() + q3.getZ() / q1Norm) - 1e-8);
+		EXPECT_TRUE((q2.getW() - q3.getW() / q1Norm) - 1e-8);
+	}
+}
+
 }
