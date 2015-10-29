@@ -1,6 +1,7 @@
 #include "geometry_utilities/Quaternion.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 #include <gtest/gtest.h>
+#include <math.h>
 
 namespace geometry_utilities
 {
@@ -189,6 +190,25 @@ TEST_F(QuaternionTest, testInverse2)
 		EXPECT_TRUE((q2.getY() + q3.getY() / q1Norm) - 1e-8);
 		EXPECT_TRUE((q2.getZ() + q3.getZ() / q1Norm) - 1e-8);
 		EXPECT_TRUE((q2.getW() - q3.getW() / q1Norm) - 1e-8);
+	}
+}
+
+TEST_F(QuaternionTest, testNormalize)
+{
+	for(int i = 0; i<nTests; i++)
+	{
+		double x = GeometryUtilitiesTestHelper::getRandomDouble();
+		double y = GeometryUtilitiesTestHelper::getRandomDouble();
+		double z = GeometryUtilitiesTestHelper::getRandomDouble();
+		double w = GeometryUtilitiesTestHelper::getRandomDouble();
+
+		Quaternion q1(x,y,z,w);
+
+		q1.normalize();
+
+		double norm = sqrt(pow(q1.getX(),2) + pow(q1.getY(),2) + pow(q1.getZ(),2) + pow(q1.getW(),2));
+
+		EXPECT_TRUE((norm-1)<1e-8);
 	}
 }
 
