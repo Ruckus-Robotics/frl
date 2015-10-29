@@ -1,4 +1,5 @@
 #include "geometry_utilities/Quaternion.hpp"
+#include "geometry_utilities/RigidBodyTransform.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 #include <gtest/gtest.h>
 #include <math.h>
@@ -209,6 +210,29 @@ TEST_F(QuaternionTest, testNormalize)
 		double norm = sqrt(pow(q1.getX(),2) + pow(q1.getY(),2) + pow(q1.getZ(),2) + pow(q1.getW(),2));
 
 		EXPECT_TRUE((norm-1)<1e-8);
+	}
+}
+
+TEST_F(QuaternionTest, testGetAndSetWithRotationMatrix)
+{
+
+	for(int i = 0; i<nTests; i++)
+	{
+		Quaternion q1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+	
+		RigidBodyTransform t1;
+		t1.setRotation(q1);
+
+		Eigen::Matrix3d m1;
+		t1.getRotation(m1);
+
+		Quaternion q2(m1);
+	
+		EXPECT_TRUE(GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual(q1,q2,1e-4));
+
+		Eigen::Matrix3d m2 = q2.getAsMatrix3d();
+
+		GeometryUtilitiesTestHelper::areMatrix3dEpsilonEqual(m1,m2,1e-4);
 	}
 }
 
