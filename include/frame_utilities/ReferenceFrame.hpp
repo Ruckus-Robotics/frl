@@ -10,6 +10,7 @@
 #include <tf/LinearMath/Transform.h>
 #include <tf/LinearMath/Quaternion.h>
 #include <tf/LinearMath/Vector3.h>
+#include "geometry_utilities/RigidBodyTransform.hpp"
 #include <string>
 #include <vector>
 #include <climits>
