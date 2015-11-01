@@ -7,9 +7,6 @@
 **/
 
 #include <memory>
-#include <tf/LinearMath/Transform.h>
-#include <tf/LinearMath/Quaternion.h>
-#include <tf/LinearMath/Vector3.h>
 #include "geometry_utilities/RigidBodyTransform.hpp"
 #include <string>
 #include <vector>
@@ -21,29 +18,29 @@ namespace frame_utilities
 class ReferenceFrame
 {
 	public:
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const ReferenceFrame &referenceFrameToCopy);
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const tf::Transform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const geometry_utilities::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const tf::Transform &transfomToParent, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform &transfomToParent, bool isBodyCenteredFrame);
 		ReferenceFrame() {}
 		~ReferenceFrame();
 
 		void update();
-		void getTransformToDesiredFrame(tf::Transform &transformToPack, ReferenceFrame* desiredFrame);
-		tf::Transform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
+		void getTransformToDesiredFrame(geometry_utilities::RigidBodyTransform &transformToPack, ReferenceFrame* desiredFrame);
+		geometry_utilities::RigidBodyTransform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
 		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
-		void setTransformToParent(const tf::Transform &transformToParent);
+		void setTransformToParent(const geometry_utilities::RigidBodyTransform &transformToParent);
 		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame);
 
-		tf::Transform getTransformToRoot()
+		geometry_utilities::RigidBodyTransform getTransformToRoot()
 		{
 			computeTransform();
 			return this->transformToRoot;
 		}
 
-		tf::Transform getInverseTransformToRoot()
+		geometry_utilities::RigidBodyTransform getInverseTransformToRoot()
 		{
 			return this->inverseTransformToRoot;
 		}
@@ -73,9 +70,9 @@ class ReferenceFrame
 		static ReferenceFrame* getWorldFrame();
 
 		//Super classes are expected to override this method.
-		virtual void updateTransformToParent(tf::Transform &transformToParent) {};
+		virtual void updateTransformToParent(geometry_utilities::RigidBodyTransform &transformToParent) {};
 
-		inline tf::Transform getTransformToParent()
+		inline geometry_utilities::RigidBodyTransform getTransformToParent()
 		{
 			return this->transformToParent;
 		}
@@ -86,7 +83,7 @@ class ReferenceFrame
 		static std::vector<ReferenceFrame*> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame);
 
 		void computeTransform();
-		tf::Transform createIdentityTransform();
+		geometry_utilities::RigidBodyTransform createIdentityTransform();
 
 		static long nextTransformToRootID;
 		long transformToRootID = LLONG_MIN;
@@ -94,9 +91,9 @@ class ReferenceFrame
 		std::vector<ReferenceFrame*> framesStartingWithRootEndingWithThis;
 		std::string frameName;
 		ReferenceFrame *parentFrame;
-		tf::Transform transformToParent;
-		tf::Transform transformToRoot;
-		tf::Transform inverseTransformToRoot;
+		geometry_utilities::RigidBodyTransform transformToParent;
+		geometry_utilities::RigidBodyTransform transformToRoot;
+		geometry_utilities::RigidBodyTransform inverseTransformToRoot;
 		bool isWorldFrame;
 		bool isBodyCenteredFrame;
 };

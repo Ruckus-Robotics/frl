@@ -115,12 +115,17 @@ TEST_F(ReferenceFrameTest, testGetTransformBetweenFrames)
 			continue;
 		}
 
-		tf::Transform transform1 = tmpFrame1->getTransformToDesiredFrame(tmpFrame2);
-		tf::Transform transform2 = tmpFrame2->getTransformToDesiredFrame(tmpFrame1);
+		geometry_utilities::RigidBodyTransform transform1 = tmpFrame1->getTransformToDesiredFrame(tmpFrame2);
+		geometry_utilities::RigidBodyTransform transform2 = tmpFrame2->getTransformToDesiredFrame(tmpFrame1);
 
-		tf::Transform shouldBeIdentity = transform1 * transform2;
+		geometry_utilities::RigidBodyTransform shouldBeIdentity = transform1 * transform2;
+		geometry_utilities::RigidBodyTransform identityTransform;
 
-		if (!(ReferenceFrameTestHelper::isTransformIdentityWithinEpsilon(shouldBeIdentity, 1e-5)))
+		Eigen::Matrix4d m1,m2;
+		shouldBeIdentity.get(m1);
+		identityTransform.get(m2);
+
+		if (!(geometry_utilities::GeometryUtilitiesTestHelper::areMatrix4dEpsilonEqual(m1, m2,1e-5)))
 		{
 			std::cout << "Failure frame 1: " << tmpFrame1->getName() << std::endl;
 			std::cout << "Failure frame 2: " << tmpFrame2->getName() << std::endl;
@@ -140,7 +145,10 @@ TEST_F(ReferenceFrameTest, testGetTransformToParent)
 
 		if (parentFrame != nullptr)
 		{
-			EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(tmpFrame2->getTransformToParent(), tmpFrame2->getTransformToDesiredFrame(parentFrame), 1e-5));
+			Eigen::Matrix4d m1,m2;
+			tmpFrame2->getTransformToParent().get(m1);
+			tmpFrame2->getTransformToDesiredFrame(parentFrame).get(m2);
+			EXPECT_TRUE(geometry_utilities::GeometryUtilitiesTestHelper::areMatrix4dEpsilonEqual(m1, m2,1e-5));
 		}
 	}
 }
@@ -154,9 +162,13 @@ TEST_F(ReferenceFrameTest, testGetTransformToRoot)
 		for (int i = 0; i < allFrames.size(); i++)
 		{
 			ReferenceFrame* frame = allFrames[i];
-			tf::Transform transformToRoot = ReferenceFrameTestHelper::getTransformToRootByClimbingTree(frame);
+			geometry_utilities::RigidBodyTransform transformToRoot = ReferenceFrameTestHelper::getTransformToRootByClimbingTree(frame);
 
-			EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(transformToRoot, frame->getTransformToRoot(), 1e-5));
+			Eigen::Matrix4d m1,m2;
+			transformToRoot.get(m1);
+			frame->getTransformToRoot().get(m2);
+
+			EXPECT_TRUE(geometry_utilities::GeometryUtilitiesTestHelper::areMatrix4dEpsilonEqual(m1, m2,1e-5));
 		}
 	}
 }
@@ -170,8 +182,13 @@ TEST_F(ReferenceFrameTest, testGetTransformToSelf)
 		for (int j = 0; j < allFrames.size(); j++)
 		{
 			ReferenceFrame* tmpFrame = allFrames[j];
-			tf::Transform shouldBeIdentity = tmpFrame->getTransformToDesiredFrame(tmpFrame);
-			EXPECT_TRUE(ReferenceFrameTestHelper::areTransformsEpsilonEqual(shouldBeIdentity, tf::Transform::getIdentity(), 1e-5));
+			geometry_utilities::RigidBodyTransform shouldBeIdentity = tmpFrame->getTransformToDesiredFrame(tmpFrame);
+
+			Eigen::Matrix4d m1, m2;
+			shouldBeIdentity.get(m1);
+			geometry_utilities::RigidBodyTransform t1;
+			t1.get(m2);
+			EXPECT_TRUE((geometry_utilities::GeometryUtilitiesTestHelper::areMatrix4dEpsilonEqual(m1, m2,1e-5)));
 		}
 	}
 }

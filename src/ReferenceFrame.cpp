@@ -1,7 +1,6 @@
 #include "frame_utilities/ReferenceFrame.hpp"
 #include "frame_utilities/ReferenceFrameHolder.hpp"
 #include <random>
-#include "tf/LinearMath/Quaternion.h"
 #include <iostream>
 #include <math.h>
 #include <stdexcept>
@@ -58,48 +57,48 @@ ReferenceFrame::ReferenceFrame(const std::string& frameName, bool isWorldFrame, 
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->parentFrame = nullptr;
-	this->transformToRoot = createIdentityTransform();
-	this->inverseTransformToRoot = createIdentityTransform();
+	this->transformToRoot.setIdentity();
+	this->inverseTransformToRoot.setIdentity();
 	this->transformToRootID = 0;
 
-	this->transformToParent = createIdentityTransform();
+	this->transformToParent.setIdentity();
 	std::vector<ReferenceFrame*> vector;
 	vector.push_back(this);
 	this->framesStartingWithRootEndingWithThis = vector;
 }
 
-ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const tf::Transform& transfomToParent, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform& transfomToParent, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
 	this->transformToParent = transformToParent;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
-	this->transformToRoot = createIdentityTransform();
-	this->inverseTransformToRoot = createIdentityTransform();
+	this->transformToRoot.setIdentity();
+	this->inverseTransformToRoot.setIdentity();
 	this->isWorldFrame = false;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
 }
 
 
-ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const tf::Transform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
 	this->transformToParent = transformToParent;
-	this->transformToRoot = createIdentityTransform();
-	this->inverseTransformToRoot = createIdentityTransform();
+	this->transformToRoot.setIdentity();
+	this->inverseTransformToRoot.setIdentity();
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
 }
 
-ReferenceFrame::ReferenceFrame(const std::string& frameName, std::unique_ptr<ReferenceFrame> parentFrame, const tf::Transform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string& frameName, std::unique_ptr<ReferenceFrame> parentFrame, const geometry_utilities::RigidBodyTransform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame.get();
 	this->transformToParent = transformToParent;
-	this->transformToRoot = createIdentityTransform();
-	this->inverseTransformToRoot = createIdentityTransform();
+	this->transformToRoot.setIdentity();
+	this->inverseTransformToRoot.setIdentity();
 	this->isWorldFrame = isWorldFrame;
 	this->isBodyCenteredFrame = isBodyCenteredFrame;
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
@@ -107,9 +106,9 @@ ReferenceFrame::ReferenceFrame(const std::string& frameName, std::unique_ptr<Ref
 
 ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, bool isWorldFrame, bool isBodyCenteredFrame)
 {
-	this->transformToParent = createIdentityTransform();
-	this->transformToRoot = createIdentityTransform();
-	this->inverseTransformToRoot = createIdentityTransform();
+	this->transformToParent.setIdentity();
+	this->transformToRoot.setIdentity();
+	this->inverseTransformToRoot.setIdentity();
 
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
@@ -145,22 +144,22 @@ std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWith
 	return vector;
 }
 
-tf::Transform ReferenceFrame::getTransformToDesiredFrame(ReferenceFrame* desiredFrame)
+geometry_utilities::RigidBodyTransform ReferenceFrame::getTransformToDesiredFrame(ReferenceFrame* desiredFrame)
 {
-	tf::Transform transform;
+	geometry_utilities::RigidBodyTransform transform;
 	getTransformToDesiredFrame(transform, desiredFrame);
 	return transform;
 }
 
-void ReferenceFrame::getTransformToDesiredFrame(tf::Transform& transformToPack, ReferenceFrame* desiredFrame)
+void ReferenceFrame::getTransformToDesiredFrame(geometry_utilities::RigidBodyTransform& transformToPack, ReferenceFrame* desiredFrame)
 {
 	verifyFramesHaveSameRoot(desiredFrame);
 
 	this->computeTransform();
 	desiredFrame->computeTransform();
 
-	tf::Transform tmpTransform = desiredFrame->inverseTransformToRoot;
-	tf::Transform tmpTransform2 = this->transformToRoot;
+	geometry_utilities::RigidBodyTransform tmpTransform = desiredFrame->inverseTransformToRoot;
+	geometry_utilities::RigidBodyTransform tmpTransform2 = this->transformToRoot;
 
 	tmpTransform *= tmpTransform2;
 
@@ -176,7 +175,7 @@ void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
 	}
 }
 
-void ReferenceFrame::setTransformToParent(const tf::Transform& transformToParent)
+void ReferenceFrame::setTransformToParent(const geometry_utilities::RigidBodyTransform& transformToParent)
 {
 	this->transformToParent = transformToParent;
 }
@@ -215,16 +214,15 @@ void ReferenceFrame::computeTransform()
 		{
 			if (frame->getParentFrame() != nullptr)
 			{
-				tf::Transform parentsTransformToRoot = frame->getParentFrame()->transformToRoot;
+				geometry_utilities::RigidBodyTransform parentsTransformToRoot = frame->getParentFrame()->transformToRoot;
 
 				frame->transformToRoot = parentsTransformToRoot;
 
 				frame->transformToRoot *= frame->transformToParent;
 
-				frame->transformToRoot.getRotation().normalize();
-
-				tf::Transform transformToRoot = frame->transformToRoot;
-				frame->inverseTransformToRoot = transformToRoot.inverse();
+				geometry_utilities::RigidBodyTransform transformToRoot = frame->transformToRoot;
+				frame->inverseTransformToRoot = transformToRoot;
+				frame->inverseTransformToRoot.invert();
 
 				frame->transformToRootID = nextTransformToRootID;
 			}
@@ -232,16 +230,6 @@ void ReferenceFrame::computeTransform()
 
 		previousUpdateID = frame->transformToRootID;
 	}
-}
-
-tf::Transform ReferenceFrame::createIdentityTransform()
-{
-	tf::Quaternion quaternion;
-	quaternion = tf::Quaternion::getIdentity();
-	tf::Vector3 translation(0.0, 0.0, 0.0);
-	tf::Transform transform(quaternion, translation);
-
-	return transform;
 }
 
 void ReferenceFrame::checkReferenceFramesMatch(ReferenceFrame* referenceFrame)
