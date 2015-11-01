@@ -14,6 +14,8 @@
 namespace frame_utilities
 {
 
+//	template<class T : public geometry_utilities::Tuple3d>
+	
 class FrameTuple : public ReferenceFrameHolder
 {
 	public:

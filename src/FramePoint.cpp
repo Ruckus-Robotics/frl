@@ -62,12 +62,11 @@ void FramePoint::changeFrame(ReferenceFrame* desiredFrame)
 	{
 		this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
 
-		geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desirdeFramesTransformToRoot;
+		geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desiredFramesTransformToRoot;
+		thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot();
+		desiredFramesTransformToRoot = desiredFrame->getTransformToRoot();
 
-		// if ((thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot()) != nullptr)
-		// {
-
-		// }
+//		thisFramesTransformToRoot.transform()
 	}
 
 
