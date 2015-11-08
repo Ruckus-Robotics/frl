@@ -36,14 +36,14 @@ class GeometryUtilitiesTestHelper
 			return vector;
 		}
 
-		static Tuple3d getRandomTuple3d()
+		static Point3d getRandomPoint3d()
 		{
-			Tuple3d tuple;
-			tuple.setX(getRandomDouble());
-			tuple.setY(getRandomDouble());
-			tuple.setZ(getRandomDouble());
+			Point3d point;
+			point.setX(getRandomDouble());
+			point.setY(getRandomDouble());
+			point.setZ(getRandomDouble());
 
-			return tuple;
+			return point;
 		}
 
 		static Eigen::Matrix3d createRandomRotationMatrix()
