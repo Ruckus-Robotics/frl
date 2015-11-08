@@ -17,32 +17,26 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/Tuple3d.cpp 
-			${SOURCES_DIR}/RigidBodyTransform.cpp 
+set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
 			${SOURCES_DIR}/AxisAngle.cpp 
 			${SOURCES_DIR}/Point3d.cpp 
 			${SOURCES_DIR}/Quaternion.cpp
 			${SOURCES_DIR}/ReferenceFrame.cpp 
-			${SOURCES_DIR}/FramePoint.cpp 
-			${SOURCES_DIR}/FrameTuple.cpp)
+			${SOURCES_DIR}/FramePoint.cpp)
 
-set(INCLUDES ${INCLUDES_DIR}/geometry_utilities/Tuple3d.hpp 
-			 ${INCLUDES_DIR}/geometry_utilities/RigidBodyTransform.hpp 
+set(INCLUDES ${INCLUDES_DIR}/geometry_utilities/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/geometry_utilities/AxisAngle.hpp 
 			 ${INCLUDES_DIR}/geometry_utilities/Point3d.hpp 
 			 ${INCLUDES_DIR}/geometry_utilities/Quaternion.hpp
 			 ${INCLUDES_DIR}/frame_utilities/ReferenceFrame.hpp 
-			 ${INCLUDES_DIR}/frame_utilities/FramePoint.hpp 
-			 ${INCLUDES_DIR}/frame_utilities/FrameTuple.hpp 
+			 ${INCLUDES_DIR}/frame_utilities/FramePoint.hpp
 			 ${INCLUDES_DIR}/frame_utilities/ReferenceFrameHolder.hpp)
 
-set(TEST_SOURCES ${TEST_DIR}/test_main.cpp 
-				 ${TEST_DIR}/Tuple3dTest.cpp 
+set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
 				 ${TEST_DIR}/RigidBodyTransformTest.cpp 
 				 ${TEST_DIR}/AxisAngleTest.cpp 
 				 ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp
-				 ${TEST_DIR}/ReferenceFrameTest.cpp 
-				 ${TEST_DIR}/FrameTupleTest.cpp 
+				 ${TEST_DIR}/ReferenceFrameTest.cpp
 				 ${TEST_DIR}/ReferenceFrameTestHelper.hpp 
 				 ${TEST_DIR}/FrameUtilitiesTestHelper.hpp
 				 ${TEST_DIR}/Point3dTest.cpp

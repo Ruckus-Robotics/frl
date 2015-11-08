@@ -1,4 +1,3 @@
-#include "geometry_utilities/Tuple3d.hpp"
 #include <random>
 #include <memory>
 #include <math.h>
