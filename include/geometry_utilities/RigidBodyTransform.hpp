@@ -2,7 +2,6 @@
 #define RIGID_BODY_TRANSFORM_HPP
 
 #include <eigen3/Eigen/Eigen>
-#include <tf2/LinearMath/Quaternion.h>
 #include "geometry_utilities/Point3d.hpp"
 #include "geometry_utilities/AxisAngle.hpp"
 #include "geometry_utilities/Quaternion.hpp"
@@ -17,7 +16,7 @@ class RigidBodyTransform
 		RigidBodyTransform(const RigidBodyTransform& transform);
 		RigidBodyTransform(const Eigen::Matrix4d& matrix);
 		RigidBodyTransform(const Eigen::Matrix3d& matrix, const Eigen::Vector3d& vector);
-		RigidBodyTransform(const tf2::Quaternion& quat, const Eigen::Vector3d& vector);
+		RigidBodyTransform(const Eigen::Quaterniond quaternion, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const AxisAngle& axisAngle, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d &vector);
 		RigidBodyTransform(const Eigen::Matrix3d &matrix);
@@ -29,7 +28,7 @@ class RigidBodyTransform
 		void set(const RigidBodyTransform& transform);
 		void set(const Eigen::Matrix4d& matrix);
 		void set(const Eigen::Matrix3d& matrix, const Eigen::Vector3d& vector);
-		void set(const tf2::Quaternion& quat, const Eigen::Vector3d& vector);
+		void set(const Eigen::Quaterniond& quat, const Eigen::Vector3d& vector);
 		void set(const AxisAngle& axisAngle, const Eigen::Vector3d& vector);
 		void set(const Quaternion& quat, const Eigen::Vector3d& vector);
 
@@ -39,14 +38,14 @@ class RigidBodyTransform
 		void zeroTranslation();
 
 		void setRotation(const Eigen::Matrix3d& matrix);
-		void setRotation(const tf2::Quaternion& quat);
+		void setRotation(const Eigen::Quaterniond& quat);
 		void setRotation(const Quaternion& quat);
 		void setRotation(const AxisAngle& axisAngle);
 
 		void setRotationWithQuaternion(const double& qx, const double& qy, const double& qz, const double& qw);
 		void setRotationWithAxisAngle(const double& axisAngleX, const double& axisAngleY, const double& axisAngleZ, const double& axisAngleTheta);
 		void setRotationAndZeroTranslation(const Eigen::Matrix3d& matrix);
-		void setRotationAndZeroTranslation(const tf2::Quaternion &quat);
+		void setRotationAndZeroTranslation(const Eigen::Quaterniond &quat);
 		void setRotationAndZeroTranslation(const Quaternion &quat);
 		void setRotationAndZeroTranslation(const AxisAngle &axisAngle);
 		void setTranslationAndIdentityRotation(const Eigen::Vector3d& vector);
@@ -56,7 +55,7 @@ class RigidBodyTransform
 
 		void getEulerXYZ(Eigen::Vector3d& vector) const;
 		void getRotation(Eigen::Matrix3d& matrix) const;
-		void getRotation(tf2::Quaternion& quat) const;
+		void getRotation(Eigen::Quaterniond& quat) const;
 		void getRotation(Quaternion& quat) const;
 		void getRotation(AxisAngle &axisAngle) const;
 		void getRotation(AxisAngle &axisAngle, const double &epsilon) const;
@@ -68,9 +67,9 @@ class RigidBodyTransform
 		void get(Eigen::Matrix3d& matrix, Eigen::Vector3d& vector) const;
 		void get(Eigen::Matrix3d& matrix) const;
 		void get(Eigen::Vector3d& vector) const;
-		void get(tf2::Quaternion& quat, Eigen::Vector3d& vector) const;
-		void get(tf2::Quaternion& quat, Point3d& point) const;
-		void get(tf2::Quaternion& quat) const;
+		void get(Eigen::Quaterniond& quat, Eigen::Vector3d& vector) const;
+		void get(Eigen::Quaterniond& quat, Point3d& point) const;
+		void get(Eigen::Quaterniond& quat) const;
 
 		void applyTranslation(const Eigen::Vector3d& translation);
 

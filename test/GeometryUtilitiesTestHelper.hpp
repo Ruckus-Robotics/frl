@@ -3,7 +3,6 @@
 #include <math.h>
 #include <eigen3/Eigen/Eigen>
 #include "geometry_utilities/AxisAngle.hpp"
-#include <tf2/LinearMath/Quaternion.h>
 #include "geometry_utilities/Quaternion.hpp"
 
 namespace geometry_utilities
@@ -190,15 +189,6 @@ class GeometryUtilitiesTestHelper
 
 			AxisAngle ret(x, y, z, angle);
 			return ret;
-		}
-
-		static tf2::Quaternion createRandomTf2Quaternion()
-		{
-			tf2::Quaternion quaternion;
-			quaternion.setRPY(getRandomAngle(), getRandomAngle(), getRandomAngle());
-			quaternion.normalize();
-
-			return quaternion;
 		}
 
 		static Quaternion createRandomQuaternion()

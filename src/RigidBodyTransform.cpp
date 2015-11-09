@@ -58,12 +58,12 @@ RigidBodyTransform::RigidBodyTransform(const Eigen::Matrix3d& matrix, const Eige
  * Create RigidBodyTransform from quaternion describing a rotation and vector
  * describing a translation.
  *
- * @param tf2::Quaternion
+ * @param Eigen::Quaterniond
  * @param Eigen::Vector3d
  */
-RigidBodyTransform::RigidBodyTransform(const tf2::Quaternion& quat, const Eigen::Vector3d& vector)
+RigidBodyTransform::RigidBodyTransform(const Eigen::Quaterniond quaternion, const Eigen::Vector3d& vector)
 {
-	set(quat, vector);
+	set(quaternion, vector);
 }
 
 /**
@@ -154,9 +154,9 @@ void RigidBodyTransform::setRotationWithAxisAngle(const double& axisAngleX, cons
 	}
 }
 
-void RigidBodyTransform::setRotation(const tf2::Quaternion& quat)
+void RigidBodyTransform::setRotation(const Eigen::Quaterniond& quat)
 {
-	setRotationWithQuaternion(quat.getAxis().getX(), quat.getAxis().getY(), quat.getAxis().getZ(), quat.getW());
+	setRotationWithQuaternion(quat.x(), quat.y(), quat.z(), quat.w());
 }
 
 void RigidBodyTransform::setRotation(const Quaternion& quat)
@@ -313,11 +313,11 @@ void RigidBodyTransform::set(const Eigen::Matrix3d& matrix, const Eigen::Vector3
 
 /**
  * Set this transform to have zero translation and a rotation equal to the
- * tf2::Quaternion quat.
+ * Eigen::Quaterniond quat.
  *
- * @param tf2::Quaternion quat
+ * @param Eigen::Quaterniond quat
  */
-void RigidBodyTransform::setRotationAndZeroTranslation(const tf2::Quaternion &quat)
+void RigidBodyTransform::setRotationAndZeroTranslation(const Eigen::Quaterniond &quat)
 {
 	setRotation(quat);
 	setTranslation(0, 0, 0);
@@ -337,11 +337,11 @@ void RigidBodyTransform::setRotationAndZeroTranslation(const Quaternion &quat)
 
 // /**
 //  * Set this transform to have translation described in vector and a rotation
-//  * equal to the tf2::Quaternion quat.
+//  * equal to the Eigen::Quaterniond quat.
 //  *
-//  * @param tf2::Quaternion quat
+//  * @param Eigen::Quaterniond quat
 //  */
-void RigidBodyTransform::set(const tf2::Quaternion& quat, const Eigen::Vector3d& vector)
+void RigidBodyTransform::set(const Eigen::Quaterniond& quat, const Eigen::Vector3d& vector)
 {
 	setRotation(quat);
 	setTranslation(vector);
@@ -349,7 +349,7 @@ void RigidBodyTransform::set(const tf2::Quaternion& quat, const Eigen::Vector3d&
 
 // /**
 //  * Set this transform to have translation described in vector and a rotation
-//  * equal to the tf2::Quaternion quat.
+//  * equal to the Eigen::Quaterniond quat.
 //  *
 //  * @param Quaternion quat
 //  */
@@ -591,9 +591,9 @@ void RigidBodyTransform::getRotation(Eigen::Matrix3d& matrix) const
 /**
  * Return rotation in quaternion form.
  *
- * @param tf2::Quaternion quat
+ * @param Eigen::Quaterniond quat
  */
-void RigidBodyTransform::getRotation(tf2::Quaternion& quat) const
+void RigidBodyTransform::getRotation(Eigen::Quaterniond& quat) const
 {
 	double trace = mat00 + mat11 + mat22;
 	double val;
@@ -636,7 +636,7 @@ void RigidBodyTransform::getRotation(tf2::Quaternion& quat) const
 				w = (mat10 - mat01) / val;
 			}
 
-	tf2::Quaternion tmpQuat(x, y, z, w);
+	Eigen::Quaterniond tmpQuat(x, y, z, w);
 	tmpQuat.normalize();
 	quat = tmpQuat;
 }
@@ -887,38 +887,38 @@ void RigidBodyTransform::get(Eigen::Vector3d& vector) const
 }
 
 /**
- * Convert and pack rotation part of transform into tf2::Quaternion and pack
+ * Convert and pack rotation part of transform into Eigen::Quaterniond and pack
  * translation into Eigen::Vector3d.
  *
  * @param quat
  * @param vector
  */
-void RigidBodyTransform::get(tf2::Quaternion& quat, Eigen::Vector3d& vector) const
+void RigidBodyTransform::get(Eigen::Quaterniond& quat, Eigen::Vector3d& vector) const
 {
 	getRotation(quat);
 	getTranslation(vector);
 }
 
 /**
- * Convert and pack rotation part of transform into tf2::Quaternion and pack
+ * Convert and pack rotation part of transform into Eigen::Quaterniond and pack
  * translation into Point3d.
  *
  * @param quat
  * @param point
  */
-void RigidBodyTransform::get(tf2::Quaternion& quat, Point3d& point) const
+void RigidBodyTransform::get(Eigen::Quaterniond& quat, Point3d& point) const
 {
 	getRotation(quat);
 	getTranslation(point);
 }
 
 /**
- * Convert and pack rotation part of transform into tf2::Quaternion.
+ * Convert and pack rotation part of transform into Eigen::Quaterniond.
  *
  * @param quat
  * @param vector
  */
-void RigidBodyTransform::get(tf2::Quaternion& quat) const
+void RigidBodyTransform::get(Eigen::Quaterniond& quat) const
 {
 	getRotation(quat);
 }

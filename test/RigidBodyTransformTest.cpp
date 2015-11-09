@@ -3,7 +3,6 @@
 #include <eigen3/Eigen/Eigen>
 #include <geometry_utilities/RigidBodyTransform.hpp>
 #include "GeometryUtilitiesTestHelper.hpp"
-#include <tf2/LinearMath/Quaternion.h>
 #include "geometry_utilities/Quaternion.hpp"
 
 namespace geometry_utilities
