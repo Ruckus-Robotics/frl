@@ -286,4 +286,32 @@ namespace geometry_utilities
         }
     }
 
+    TEST_F(Point3dTest, testClamMin)
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            Point3d point1(100, 200, 300);
+            Point3d point2 = point1;
+            point2.clampMin(201);
+
+            EXPECT_TRUE(point2.getX() == 201);
+            EXPECT_TRUE(point2.getY() == 201);
+            EXPECT_TRUE(point2.getZ() == 300);
+        }
+    }
+
+    TEST_F(Point3dTest, testClamMax)
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            Point3d point1(100, 200, 300);
+            Point3d point2 = point1;
+            point2.clampMax(201);
+
+            EXPECT_TRUE(point2.getX() == 100);
+            EXPECT_TRUE(point2.getY() == 200);
+            EXPECT_TRUE(point2.getZ() == 201);
+        }
+    }
+
 }
