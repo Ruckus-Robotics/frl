@@ -1,6 +1,11 @@
 #ifndef FRAME_POINT_HPP
 #define FRAME_POINT_HPP
 
+/**
+ * This class and its implementation is an adaptation of FramePoint.java by Jerry Pratt and the IHMC Robotics Group.
+ * All credit goes to them.
+ */
+
 #include "ReferenceFrame.hpp"
 #include "ReferenceFrameHolder.hpp"
 #include "geometry_utilities/Point3d.hpp"

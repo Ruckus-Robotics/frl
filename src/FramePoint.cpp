@@ -38,22 +38,18 @@ namespace frame_utilities
     {
         checkReferenceFramesMatch(framePoint.getReferenceFrame());
 
-        double dx = this->point.x - framePoint.point.x;
-        double dy = this->point.y - framePoint.point.y;
-        double dz = this->point.z - framePoint.point.z;
+        double distance = this->point.distance(framePoint.point);
 
-        return sqrt(pow(dx, 2) + pow(dy, 2) + pow(dz, 2));
+        return distance;
     }
 
     double FramePoint::distanceSquared(const FramePoint &framePoint)
     {
         checkReferenceFramesMatch(framePoint.getReferenceFrame());
 
-        double dx = this->point.x - framePoint.point.x;
-        double dy = this->point.y - framePoint.point.y;
-        double dz = this->point.z - framePoint.point.z;
+        double distanceSquared = this->point.distanceSquared(framePoint.point);
 
-        return pow(dx, 2) + pow(dy, 2) + pow(dz, 2);
+        return distanceSquared;
     }
 
     void FramePoint::changeFrame(ReferenceFrame *desiredFrame)
@@ -62,34 +58,20 @@ namespace frame_utilities
         {
             this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
 
-            geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desiredFramesTransformToRoot;
+            geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
             thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot();
-            desiredFramesTransformToRoot = desiredFrame->getTransformToRoot();
+            desiredFramesInverseTransformToRoot = desiredFrame->getInverseTransformToRoot();
 
-//		thisFramesTransformToRoot.transform()
+            if(this->referenceFrame && desiredFrame)
+            {
+                thisFramesTransformToRoot.transform(point);
+                desiredFramesInverseTransformToRoot.transform(point);
+                this->referenceFrame = desiredFrame;
+            }
+            else
+            {
+                throw std::runtime_error("Cannot change the frame of a FramePoint if either this's reference frame or the desired frame is nullptr!");
+            }
         }
-
-
-
-
-
-        // if (desiredFrame != referenceFrame)
-        // {
-        // 	referenceFrame.verifySameRoots(desiredFrame);
-        // 	RigidBodyTransform referenceTf, desiredTf;
-
-        // 	if ((referenceTf = referenceFrame.getTransformToRoot()) != null)
-        // 	{
-        // 		referenceTf.transform(tuple);
-        // 	}
-
-        // 	if ((desiredTf = desiredFrame.getInverseTransformToRoot()) != null)
-        // 	{
-        // 		desiredTf.transform(tuple);
-        // 	}
-
-        // 	referenceFrame = desiredFrame;
-        // }
     }
-
 }
