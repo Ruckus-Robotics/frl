@@ -150,9 +150,22 @@ namespace geometry_utilities
             Point3d point3;
             point3.set(vector[0] + point1.getX(), vector[1] + point1.getY(), vector[2] + point1.getZ());
 
-            point2 += point1;
+            point2 = point2 + point1;
 
             EXPECT_TRUE(point2.epsilonEquals(point3, 1e-12));
+        }
+    }
+
+    TEST_F(Point3dTest, testAdd3)
+    {
+        for (int i = 0; i < 1000; i++)
+        {
+            Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3d();
+            Point3d point2 = GeometryUtilitiesTestHelper::getRandomPoint3d();
+            Point3d point3(point1.getX() + point2.getX(), point1.getY() + point2.getY(), point1.getZ() + point2.getZ());
+            point1.add(point2.getX(), point2.getY(), point2.getZ());
+
+            EXPECT_TRUE(point3.epsilonEquals(point1, 1e-12));
         }
     }
 
