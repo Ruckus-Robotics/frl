@@ -2,7 +2,6 @@
 #define __QUATERNION__HPP
 
 #include <eigen3/Eigen/Eigen>
-#include <tf2/LinearMath/Quaternion.h>
 #include "geometry_utilities/AxisAngle.hpp"
 
 namespace geometry_utilities
@@ -10,7 +9,7 @@ namespace geometry_utilities
 class Quaternion
 {
 	public:
-		Quaternion(const tf2::Quaternion &q);
+		Quaternion(const Eigen::Quaterniond &q);
 		Quaternion(const Eigen::Matrix3d matrix);
 		Quaternion(const Eigen::Matrix4d matrix);
 		Quaternion(const double &x, const double &y, const double &z, const double &w);

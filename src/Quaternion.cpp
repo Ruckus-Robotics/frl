@@ -9,12 +9,12 @@ static double PIO2 = 1.57079632679;
 namespace geometry_utilities
 {
 
-Quaternion::Quaternion(const tf2::Quaternion &q)
+Quaternion::Quaternion(const Eigen::Quaterniond &q)
 {
-	this->x = q.getAxis().getX();
-	this->y = q.getAxis().getY();
-	this->z = q.getAxis().getZ();
-	this->w = q.getW();
+	this->x = q.x();
+	this->y = q.y();
+	this->z = q.z();
+	this->w = q.w();
 
 	normalize();
 }
