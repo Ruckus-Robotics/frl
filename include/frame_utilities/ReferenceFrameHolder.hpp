@@ -16,7 +16,7 @@ class ReferenceFrameHolder
 	public:
 		virtual ReferenceFrame* getReferenceFrame() const = 0;
 
-		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame)
+		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const
 		{
 			getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
 		}

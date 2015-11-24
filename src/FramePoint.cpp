@@ -34,7 +34,7 @@ namespace frame_utilities
         this->referenceFrame = referenceFrame;
     }
 
-    double FramePoint::distance(const FramePoint &framePoint)
+    double FramePoint::distance(const FramePoint &framePoint) const
     {
         checkReferenceFramesMatch(framePoint.getReferenceFrame());
 
@@ -43,7 +43,7 @@ namespace frame_utilities
         return distance;
     }
 
-    double FramePoint::distanceSquared(const FramePoint &framePoint)
+    double FramePoint::distanceSquared(const FramePoint &framePoint) const
     {
         checkReferenceFramesMatch(framePoint.getReferenceFrame());
 

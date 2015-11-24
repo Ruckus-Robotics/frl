@@ -1,3 +1,6 @@
+#ifndef __GEOMETRY_UTILITIES_TEST_HELPER_HPP__
+#define __GEOMETRY_UTILITIES_TEST_HELPER_HPP__
+
 #include <random>
 #include <memory>
 #include <math.h>
@@ -289,3 +292,5 @@ class GeometryUtilitiesTestHelper
 };
 
 }
+
+#endif

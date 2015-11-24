@@ -232,7 +232,7 @@ void ReferenceFrame::computeTransform()
 	}
 }
 
-void ReferenceFrame::checkReferenceFramesMatch(ReferenceFrame* referenceFrame)
+void ReferenceFrame::checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const
 {
 	if (referenceFrame == nullptr)
 	{

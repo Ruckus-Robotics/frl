@@ -47,13 +47,13 @@ namespace geometry_utilities
 
         void absoluteValue();
 
-        double distanceSquared(const Point3d &point);
+        double distanceSquared(const Point3d &point) const;
 
-        double distance(const Point3d point);
+        double distance(const Point3d point) const;
 
-        double distanceL1(const Point3d &point);
+        double distanceL1(const Point3d &point) const;
 
-        double distanceLinf(const Point3d &point);
+        double distanceLinf(const Point3d &point) const;
 
         inline double getX() const
         {

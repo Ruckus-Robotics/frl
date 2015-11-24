@@ -13,25 +13,51 @@
 namespace frame_utilities
 {
 
-class FramePoint : public ReferenceFrameHolder
-{
-	public:
-		FramePoint(const std::string &name);
-		FramePoint(const std::string &name, ReferenceFrame* referenceFrame, const double &x, const double &y, const double &z);
-		FramePoint(const std::string &name, ReferenceFrame* referenceFrame, double array[3]);
-		FramePoint(const std::string &name, ReferenceFrame* referenceFrame, std::vector<double> vector);
-		FramePoint(const FramePoint &framePoint);
-		FramePoint(const std::string &name, ReferenceFrame* referenceFrame);
+    class FramePoint : public ReferenceFrameHolder
+    {
+    public:
+        FramePoint(const std::string &name);
 
-		double distance(const FramePoint &framePoint);
-		double distanceSquared(const FramePoint &framePoint);
+        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z);
 
-		void changeFrame(ReferenceFrame* desiredFrame);
+        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, double array[3]);
 
-		ReferenceFrame* referenceFrame;
-		geometry_utilities::Point3d point;
-		std::string name;
-};
+        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, std::vector<double> vector);
+
+        FramePoint(const FramePoint &framePoint);
+
+        FramePoint(const std::string &name, ReferenceFrame *referenceFrame);
+
+        double distance(const FramePoint &framePoint) const;
+
+        double distanceSquared(const FramePoint &framePoint) const;
+
+        void changeFrame(ReferenceFrame *desiredFrame);
+
+        ReferenceFrame* getReferenceFrame() const
+        {
+            return this->referenceFrame;
+        }
+
+        inline double getX() const
+        {
+            return point.getX();
+        }
+
+        inline double getY() const
+        {
+            return point.getY();
+        }
+
+        inline double getZ() const
+        {
+            return point.getZ();
+        }
+
+        ReferenceFrame *referenceFrame;
+        geometry_utilities::Point3d point;
+        std::string name;
+    };
 
 }
 

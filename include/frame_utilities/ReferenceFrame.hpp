@@ -32,7 +32,7 @@ class ReferenceFrame
 		geometry_utilities::RigidBodyTransform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
 		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
 		void setTransformToParent(const geometry_utilities::RigidBodyTransform &transformToParent);
-		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame);
+		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const;
 
 		geometry_utilities::RigidBodyTransform getTransformToRoot()
 		{

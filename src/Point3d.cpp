@@ -182,7 +182,7 @@ namespace geometry_utilities
         this->z = fabs(this->z);
     }
 
-    double Point3d::distanceSquared(const Point3d &point)
+    double Point3d::distanceSquared(const Point3d &point) const
     {
         double dx, dy, dz;
 
@@ -192,7 +192,7 @@ namespace geometry_utilities
         return (dx * dx + dy * dy + dz * dz);
     }
 
-    double Point3d::distance(const Point3d point)
+    double Point3d::distance(const Point3d point) const
     {
         double dx, dy, dz;
 
@@ -202,13 +202,13 @@ namespace geometry_utilities
         return sqrt(dx * dx + dy * dy + dz * dz);
     }
 
-    double Point3d::distanceL1(const Point3d &point)
+    double Point3d::distanceL1(const Point3d &point) const
     {
         return (fabs(this->x - point.x) + fabs(this->y - point.y) +
                 fabs(this->z - point.z));
     }
 
-    double Point3d::distanceLinf(const Point3d &point)
+    double Point3d::distanceLinf(const Point3d &point) const
     {
         double tmp;
         tmp = std::max(fabs(this->x - point.x), fabs(this->y - point.y));
