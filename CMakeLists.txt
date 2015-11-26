@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(mobility_utilities)
+project(rfl)
 
 # check c++11 / c++0x
 include(CheckCXXCompilerFlag)
