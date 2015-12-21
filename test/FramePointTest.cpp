@@ -25,7 +25,7 @@ private:
 
 };
 
-TEST_F(FramePointTest, testChangeFrameToThisFrameDoesNothing)
+TEST_F(FramePointTest, testChangeFrame)
 {
     geometry_utilities::RigidBodyTransform transform1;
 
