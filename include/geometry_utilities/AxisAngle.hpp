@@ -16,6 +16,8 @@ class AxisAngle
 		AxisAngle(const Eigen::Vector3d& axis, const double& angle);
 		AxisAngle(const AxisAngle& axisAngle);
 
+		~AxisAngle(){};
+
 		void set(const double& x, const double& y, const double& z, const double& angle);
 		void set(const Eigen::Vector4d& axisAngle);
 		void set(const std::vector<double>& axisAngle);

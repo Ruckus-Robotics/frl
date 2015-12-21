@@ -24,11 +24,16 @@ namespace frame_utilities
 
         FramePoint(const std::string &name, ReferenceFrame *referenceFrame, std::vector<double> vector);
 
+        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry_utilities::Point3d &point);
+
         FramePoint(const FramePoint &framePoint);
 
         FramePoint(const std::string &name, ReferenceFrame *referenceFrame);
 
+        ~FramePoint(){};
+
         void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
+        void setIncludingFrame(const geometry_utilities::Point3d &point, ReferenceFrame *referenceFrame);
 
         void setAndKeepFrame(const double &x, const double &y, const double &z);
 
@@ -43,17 +48,22 @@ namespace frame_utilities
             return this->referenceFrame;
         }
 
-        inline double getX() const
+        geometry_utilities::Point3d getPoint() const
+        {
+            return point;
+        }
+
+        double getX() const
         {
             return point.getX();
         }
 
-        inline double getY() const
+        double getY() const
         {
             return point.getY();
         }
 
-        inline double getZ() const
+        double getZ() const
         {
             return point.getZ();
         }

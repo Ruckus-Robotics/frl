@@ -16,6 +16,7 @@ class Quaternion
 		Quaternion(const std::vector<double> &q);
 		Quaternion(const Quaternion &q1);
 		Quaternion();
+		~Quaternion(){};
 		void conjugate(const Quaternion &q1);
 		void conjugate();
 		void multiply(const Quaternion &q1, const Quaternion &q2);

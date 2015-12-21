@@ -23,6 +23,8 @@ class RigidBodyTransform
 		RigidBodyTransform(const Quaternion &quat);
 		RigidBodyTransform(const AxisAngle& axisAngle);
 
+		~RigidBodyTransform(){};
+
 		void setIdentity();
 
 		void set(const RigidBodyTransform& transform);

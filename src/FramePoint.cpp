@@ -34,6 +34,12 @@ namespace frame_utilities
         this->referenceFrame = referenceFrame;
     }
 
+    FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry_utilities::Point3d &point) : point(point)
+    {
+        this->name = name;
+        this->referenceFrame = referenceFrame;
+    }
+
     void FramePoint::setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame)
     {
         if(!referenceFrame)
@@ -44,6 +50,11 @@ namespace frame_utilities
         this->point.setY(y);
         this->point.setZ(z);
         this->referenceFrame = referenceFrame;
+    }
+
+    void FramePoint::setIncludingFrame(const geometry_utilities::Point3d &point, ReferenceFrame *referenceFrame)
+    {
+        setIncludingFrame(point.getX(),point.getY(),point.getZ(),referenceFrame);
     }
 
     void FramePoint::setAndKeepFrame(const double &x, const double &y, const double &z)

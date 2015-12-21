@@ -21,6 +21,8 @@ namespace geometry_utilities
 
         Point3d();
 
+        ~Point3d(){};
+
         void set(const double &x, const double &y, const double &z);
 
         void set(const std::vector<double> &vector);
