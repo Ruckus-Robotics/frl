@@ -33,7 +33,7 @@ set(INCLUDES ${INCLUDES_DIR}/geometry_utilities/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/frame_utilities/ReferenceFrameHolder.hpp)
 
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
-				 ${TEST_DIR}/RigidBodyTransformTest.cpp 
+				 ${TEST_DIR}/RigidBodyTransformTest.cpp
 				 ${TEST_DIR}/AxisAngleTest.cpp 
 				 ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp
 				 ${TEST_DIR}/ReferenceFrameTest.cpp

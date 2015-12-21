@@ -34,6 +34,25 @@ namespace frame_utilities
         this->referenceFrame = referenceFrame;
     }
 
+    void FramePoint::setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame)
+    {
+        if(!referenceFrame)
+        {
+            throw std::runtime_error("Reference frame cannot be nullptr!");
+        }
+        this->point.setX(x);
+        this->point.setY(y);
+        this->point.setZ(z);
+        this->referenceFrame = referenceFrame;
+    }
+
+    void FramePoint::setAndKeepFrame(const double &x, const double &y, const double &z)
+    {
+        this->point.setX(x);
+        this->point.setY(y);
+        this->point.setZ(z);
+    }
+
     double FramePoint::distance(const FramePoint &framePoint) const
     {
         checkReferenceFramesMatch(framePoint.getReferenceFrame());

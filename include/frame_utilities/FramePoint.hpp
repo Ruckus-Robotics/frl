@@ -28,6 +28,10 @@ namespace frame_utilities
 
         FramePoint(const std::string &name, ReferenceFrame *referenceFrame);
 
+        void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
+
+        void setAndKeepFrame(const double &x, const double &y, const double &z);
+
         double distance(const FramePoint &framePoint) const;
 
         double distanceSquared(const FramePoint &framePoint) const;

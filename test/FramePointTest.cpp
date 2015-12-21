@@ -18,7 +18,6 @@ protected:
     }
 
     std::unique_ptr<ReferenceFrame> root1 = ReferenceFrame::createARootFrame("root1");
-    std::unique_ptr<ReferenceFrame> root2 = ReferenceFrame::createARootFrame("root2");
 
     int nTests = 1000;
 
@@ -31,8 +30,8 @@ TEST_F(FramePointTest, testChangeFrameToThisFrameDoesNothing)
     geometry_utilities::RigidBodyTransform transform1;
 
     transform1.setIdentity();
-    Eigen::Vector3d rpy(0, 0, 0);
-    Eigen::Vector3d translation(1, 2, 3);
+    Eigen::Vector3d rpy(M_PI/2, 0, 0);
+    Eigen::Vector3d translation(5.0, 0.0, 0.0);
     transform1.setEuler(rpy);
     transform1.setTranslation(translation);
 
@@ -40,8 +39,8 @@ TEST_F(FramePointTest, testChangeFrameToThisFrameDoesNothing)
 
     transform1.setIdentity();
     rpy.setZero();
-    rpy << 0, 0, M_PI;
-    translation << 0, 0, 0;
+    rpy << 0, M_PI/2, 0.0;
+    translation << 5.0, 0, 0;
     transform1.setEuler(rpy);
     transform1.setTranslation(translation);
 
@@ -49,37 +48,41 @@ TEST_F(FramePointTest, testChangeFrameToThisFrameDoesNothing)
 
     transform1.setIdentity();
     rpy.setZero();
-    rpy << M_PI, 0, 0;
-    translation << 0, 0, 0;
+    rpy << 0, 0, M_PI/2;
+    translation << 5.0, 0, 0;
     transform1.setEuler(rpy);
     transform1.setTranslation(translation);
 
     std::shared_ptr<ReferenceFrame> frameC(new RandomUnchangingFrame("C", frameB.get(), transform1));
 
-    transform1.setIdentity();
-    rpy.setZero();
-    rpy << 0, M_PI, 0;
-    translation << 0, 0, 0;
-    transform1.setEuler(rpy);
-    transform1.setTranslation(translation);
+    double x = 4.0;
+    double y = 7.0;
+    double z = 2.0;
 
-    std::shared_ptr<ReferenceFrame> frameD(new RandomUnchangingFrame("D", frameC.get(), transform1));
+    FramePoint framePoint("FramePoint", frameC.get(), x, y, z);
 
-    double x = 3;
-    double y = 1;
-    double z = 4;
+    EXPECT_TRUE(fabs(framePoint.getX() - x) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getY() - y) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getZ() - z) < 1e-8);
 
-    FramePoint framePoint("FramePointA", frameA.get(), x, y, z);
+    framePoint.changeFrame(frameB.get());
 
-    EXPECT_TRUE(framePoint.getX() - x < 1e-8);
-    EXPECT_TRUE(framePoint.getY() - y < 1e-8);
-    EXPECT_TRUE(framePoint.getZ() - z < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getX() + 2) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getY() - 4) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getZ() - 2) < 1e-8);
 
     framePoint.changeFrame(frameA.get());
 
-    EXPECT_TRUE(framePoint.getX() - x < 1e-8);
-    EXPECT_TRUE(framePoint.getY() - y < 1e-8);
-    EXPECT_TRUE(framePoint.getZ() - z < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getX() - 7) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getY() - 4) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getZ() - 2) < 1e-8);
+
+    framePoint.changeFrame(root1.get());
+
+    EXPECT_TRUE(fabs(framePoint.getX() - 12) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getY() + 2) < 1e-8);
+    EXPECT_TRUE(fabs(framePoint.getZ() - 4) < 1e-8);
+
 
 }
 
