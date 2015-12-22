@@ -27,8 +27,8 @@ namespace frame_utilities
         void setAndKeepFrame(const Eigen::Vector3d vector);
 
         double dot(const FrameVector &frameVector) const;
-        // NEED TO FINISH FRAMEVECTOR!!
         void cross(const FrameVector &frameVector,FrameVector &frameVectorToPack) const;
+        Eigen::Vector3d cross(const FrameVector &frameVector) const;
         double length() const;
         double getAngleBetweenVectors(const FrameVector &frameVector) const;
 

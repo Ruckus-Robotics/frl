@@ -70,9 +70,15 @@ namespace frame_utilities
     void FrameVector::cross(const FrameVector &frameVector,FrameVector &frameVectorToPack) const
     {
         checkReferenceFramesMatch(&frameVector);
-        checkReferenceFramesMatch(frameVectorToPack);
+        checkReferenceFramesMatch(&frameVectorToPack);
         Eigen::Vector3d tmpVector3d = this->vector.cross(frameVector.getVector());
         frameVectorToPack.setAndKeepFrame(tmpVector3d(0),tmpVector3d(1),tmpVector3d(2));
+    }
+
+    Eigen::Vector3d FrameVector::cross(const FrameVector &frameVector) const
+    {
+        checkReferenceFramesMatch(&frameVector);
+        return this->vector.cross(frameVector.getVector());
     }
 
 }
