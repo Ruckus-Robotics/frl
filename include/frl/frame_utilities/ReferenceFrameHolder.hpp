@@ -20,6 +20,21 @@ class ReferenceFrameHolder
 		{
 			getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
 		}
+
+		void checkReferenceFramesMatch(const ReferenceFrame* referenceFrame) const
+		{
+			getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
+		}
+
+		void checkReferenceFramesMatch(const ReferenceFrameHolder* referenceFrameHolder) const
+		{
+			getReferenceFrame()->checkReferenceFramesMatch(referenceFrameHolder->getReferenceFrame());
+		}
+
+		void checkReferenceFramesMatch(ReferenceFrameHolder* referenceFrameHolder) const
+		{
+			getReferenceFrame()->checkReferenceFramesMatch(referenceFrameHolder->getReferenceFrame());
+		}
 };
 
 }

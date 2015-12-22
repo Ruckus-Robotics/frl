@@ -232,17 +232,29 @@ void ReferenceFrame::computeTransform()
 	}
 }
 
-void ReferenceFrame::checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const
-{
-	if (referenceFrame == nullptr)
+	void ReferenceFrame::checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const
 	{
-		throw std::runtime_error("referenceFrame is NULL!");
+		if (referenceFrame == nullptr)
+		{
+			throw std::runtime_error("referenceFrame is NULL!");
+		}
+
+		if (referenceFrame != this)
+		{
+			throw std::runtime_error("Frame mismatch!");
+		}
 	}
 
-	if (referenceFrame != this)
+	void ReferenceFrame::checkReferenceFramesMatch(const ReferenceFrame* referenceFrame) const
 	{
-		throw std::runtime_error("Frame mismatch!");
-	}
-}
+		if (referenceFrame == nullptr)
+		{
+			throw std::runtime_error("referenceFrame is NULL!");
+		}
 
+		if (referenceFrame != this)
+		{
+			throw std::runtime_error("Frame mismatch!");
+		}
+	}
 }

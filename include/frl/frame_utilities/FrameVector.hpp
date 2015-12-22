@@ -23,6 +23,25 @@ namespace frame_utilities
         void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
         void setIncludingFrame(const Eigen::Vector3d &vector, ReferenceFrame *referenceFrame);
 
+        void setAndKeepFrame(const double &x, const double &y, const double &z);
+        void setAndKeepFrame(const Eigen::Vector3d vector);
+
+        double dot(const FrameVector &frameVector) const;
+        // NEED TO FINISH FRAMEVECTOR!!
+        void cross(const FrameVector &frameVector,FrameVector &frameVectorToPack) const;
+        double length() const;
+        double getAngleBetweenVectors(const FrameVector &frameVector) const;
+
+        ReferenceFrame* getReferenceFrame() const
+        {
+            return this->referenceFrame;
+        }
+
+        Eigen::Vector3d getVector() const
+        {
+            return this->vector;
+        }
+
     private:
         Eigen::Vector3d vector;
         ReferenceFrame *referenceFrame;
