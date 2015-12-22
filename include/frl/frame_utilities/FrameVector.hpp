@@ -30,6 +30,8 @@ namespace frame_utilities
         void cross(const FrameVector &frameVector,FrameVector &frameVectorToPack) const;
         Eigen::Vector3d cross(const FrameVector &frameVector) const;
 
+        void changeFrame(ReferenceFrame *desiredFrame);
+
         double length() const
         {
             return this->vector.norm();

@@ -95,7 +95,12 @@ namespace frame_utilities
         {
             vDot =  1.0;
         }
-        
+
         return acos( vDot );
+    }
+
+    void FrameVector::changeFrame(ReferenceFrame *desiredFrame)
+    {
+
     }
 }
