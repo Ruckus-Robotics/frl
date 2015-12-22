@@ -81,4 +81,21 @@ namespace frame_utilities
         return this->vector.cross(frameVector.getVector());
     }
 
+    double FrameVector::getAngleBetweenVectors(const FrameVector &frameVector) const
+    {
+        checkReferenceFramesMatch(&frameVector);
+
+        double vDot = this->vector.dot(frameVector.getVector()) / ( this->vector.norm()*frameVector.getVector().norm());
+
+        if( vDot < -1.0)
+        {
+            vDot = -1.0;
+        }
+        else if( vDot >  1.0)
+        {
+            vDot =  1.0;
+        }
+        
+        return acos( vDot );
+    }
 }

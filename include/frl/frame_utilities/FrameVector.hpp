@@ -29,7 +29,12 @@ namespace frame_utilities
         double dot(const FrameVector &frameVector) const;
         void cross(const FrameVector &frameVector,FrameVector &frameVectorToPack) const;
         Eigen::Vector3d cross(const FrameVector &frameVector) const;
-        double length() const;
+
+        double length() const
+        {
+            return this->vector.norm();
+        }
+
         double getAngleBetweenVectors(const FrameVector &frameVector) const;
 
         ReferenceFrame* getReferenceFrame() const
