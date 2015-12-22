@@ -2,9 +2,9 @@
 #define RIGID_BODY_TRANSFORM_HPP
 
 #include <eigen3/Eigen/Eigen>
-#include "geometry_utilities/Point3d.hpp"
-#include "geometry_utilities/AxisAngle.hpp"
-#include "geometry_utilities/Quaternion.hpp"
+#include "frl/geometry_utilities/Point3d.hpp"
+#include "frl/geometry_utilities/AxisAngle.hpp"
+#include "frl/geometry_utilities/Quaternion.hpp"
 
 namespace geometry_utilities
 {

@@ -6,9 +6,9 @@
  * All credit goes to them.
  */
 
-#include "ReferenceFrame.hpp"
-#include "ReferenceFrameHolder.hpp"
-#include "geometry_utilities/Point3d.hpp"
+#include "frl/frame_utilities/ReferenceFrame.hpp"
+#include "frl/frame_utilities/ReferenceFrameHolder.hpp"
+#include "frl/geometry_utilities/Point3d.hpp"
 
 namespace frame_utilities
 {

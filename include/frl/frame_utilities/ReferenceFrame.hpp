@@ -7,7 +7,7 @@
 **/
 
 #include <memory>
-#include "geometry_utilities/RigidBodyTransform.hpp"
+#include "frl/geometry_utilities/RigidBodyTransform.hpp"
 #include <string>
 #include <vector>
 #include <climits>

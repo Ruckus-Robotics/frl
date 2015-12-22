@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(rfl)
+project(frl)
 
 # check c++11 / c++0x
 include(CheckCXXCompilerFlag)
@@ -25,14 +25,14 @@ set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
 			${SOURCES_DIR}/FramePoint.cpp
 			${SOURCES_DIR}/FrameVector.cpp)
 
-set(INCLUDES ${INCLUDES_DIR}/geometry_utilities/RigidBodyTransform.hpp
-			 ${INCLUDES_DIR}/geometry_utilities/AxisAngle.hpp 
-			 ${INCLUDES_DIR}/geometry_utilities/Point3d.hpp 
-			 ${INCLUDES_DIR}/geometry_utilities/Quaternion.hpp
-			 ${INCLUDES_DIR}/frame_utilities/ReferenceFrame.hpp 
-			 ${INCLUDES_DIR}/frame_utilities/FramePoint.hpp
-			 ${INCLUDES_DIR}/frame_utilities/ReferenceFrameHolder.hpp
-			 ${INCLUDES_DIR}/frame_utilities/FrameVector.hpp)
+set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/RigidBodyTransform.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/AxisAngle.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/Point3d.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/Quaternion.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/ReferenceFrame.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/FramePoint.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/ReferenceFrameHolder.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/FrameVector.hpp)
 
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
 				 ${TEST_DIR}/RigidBodyTransformTest.cpp

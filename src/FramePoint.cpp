@@ -1,5 +1,5 @@
-#include "frame_utilities/FramePoint.hpp"
-#include "geometry_utilities/RigidBodyTransform.hpp"
+#include "frl/frame_utilities/FramePoint.hpp"
+#include "frl/geometry_utilities/RigidBodyTransform.hpp"
 
 namespace frame_utilities
 {

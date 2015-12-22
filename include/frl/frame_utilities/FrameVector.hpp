@@ -7,8 +7,8 @@
  */
 
 #include <eigen3/Eigen/Eigen>
-#include "ReferenceFrame.hpp"
-#include "ReferenceFrameHolder.hpp"
+#include "frl/frame_utilities/ReferenceFrame.hpp"
+#include "frl/frame_utilities/ReferenceFrameHolder.hpp"
 
 namespace frame_utilities
 {

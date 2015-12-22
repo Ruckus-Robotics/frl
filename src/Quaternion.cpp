@@ -1,6 +1,6 @@
 #include <math.h>
 #include <vector>
-#include "geometry_utilities/Quaternion.hpp"
+#include "frl/geometry_utilities/Quaternion.hpp"
 
 static double EPS = 1.0e-12;
 static double EPS2 = 1.0e-30;

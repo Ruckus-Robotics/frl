@@ -1,4 +1,4 @@
-#include "geometry_utilities/AxisAngle.hpp"
+#include "frl/geometry_utilities/AxisAngle.hpp"
 #include <stdexcept>
 
 namespace geometry_utilities

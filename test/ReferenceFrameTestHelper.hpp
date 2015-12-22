@@ -1,7 +1,7 @@
 #ifndef REFERENCE_FRAME_TEST_HELPER_HPP
 #define REFERENCE_FRAME_TEST_HELPER_HPP
 
-#include "frame_utilities/ReferenceFrame.hpp"
+#include "frl/frame_utilities/ReferenceFrame.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 #include <iostream>
 #include <random>

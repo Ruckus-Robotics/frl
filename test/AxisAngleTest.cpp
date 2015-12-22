@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include <geometry_utilities/AxisAngle.hpp>
-#include <geometry_utilities/RigidBodyTransform.hpp>
+#include <frl/geometry_utilities/AxisAngle.hpp>
+#include <frl/geometry_utilities/RigidBodyTransform.hpp>
 #include <eigen3/Eigen/Eigen>
 #include "GeometryUtilitiesTestHelper.hpp"
 #include <ctime>

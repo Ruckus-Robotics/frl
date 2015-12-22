@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
-#include <geometry_utilities/AxisAngle.hpp>
+#include "frl/geometry_utilities/AxisAngle.hpp"
 #include <eigen3/Eigen/Eigen>
-#include <geometry_utilities/RigidBodyTransform.hpp>
+#include "frl/geometry_utilities/RigidBodyTransform.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
-#include "geometry_utilities/Quaternion.hpp"
+#include "frl/geometry_utilities/Quaternion.hpp"
 
 namespace geometry_utilities
 {

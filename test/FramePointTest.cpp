@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
-#include "frame_utilities/ReferenceFrame.hpp"
-#include "frame_utilities/FramePoint.hpp"
+#include "frl/frame_utilities/ReferenceFrame.hpp"
+#include "frl/frame_utilities/FramePoint.hpp"
 #include "ReferenceFrameTestHelper.hpp"
 
 using namespace frame_utilities;

@@ -2,7 +2,7 @@
 #define __QUATERNION__HPP
 
 #include <eigen3/Eigen/Eigen>
-#include "geometry_utilities/AxisAngle.hpp"
+#include "frl/geometry_utilities/AxisAngle.hpp"
 
 namespace geometry_utilities
 {

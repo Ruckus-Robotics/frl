@@ -1,5 +1,5 @@
-#include "geometry_utilities/Quaternion.hpp"
-#include "geometry_utilities/RigidBodyTransform.hpp"
+#include "frl/geometry_utilities/Quaternion.hpp"
+#include "frl/geometry_utilities/RigidBodyTransform.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 #include <gtest/gtest.h>
 #include <math.h>

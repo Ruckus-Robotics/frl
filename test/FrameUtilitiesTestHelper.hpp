@@ -1,4 +1,3 @@
-#include "frame_utilities/FrameTuple.hpp"
 #include <random>
 #include <memory>
 #include <math.h>
@@ -23,16 +22,6 @@ class FrameUtilitiesTestHelper
 			vector[2] = getRandomDouble();
 
 			return vector;
-		}
-
-		static FrameTuple getRandomFrameTuple(const std::string &name, ReferenceFrame* referenceFrame)
-		{
-			FrameTuple frameTuple(name, referenceFrame);
-			frameTuple.setX(getRandomDouble());
-			frameTuple.setY(getRandomDouble());
-			frameTuple.setZ(getRandomDouble());
-
-			return frameTuple;
 		}
 };
 
