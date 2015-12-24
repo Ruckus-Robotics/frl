@@ -101,6 +101,24 @@ namespace frame_utilities
 
     void FrameVector::changeFrame(ReferenceFrame *desiredFrame)
     {
+        if (desiredFrame != this->referenceFrame)
+        {
+            this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
 
+            geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
+            thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot();
+            desiredFramesInverseTransformToRoot = desiredFrame->getInverseTransformToRoot();
+
+            if(this->referenceFrame && desiredFrame)
+            {
+                thisFramesTransformToRoot.transform(vector);
+                desiredFramesInverseTransformToRoot.transform(vector);
+                this->referenceFrame = desiredFrame;
+            }
+            else
+            {
+                throw std::runtime_error("Cannot change the frame of a FrameVector if either this's reference frame or the desired frame is nullptr!");
+            }
+        }
     }
 }

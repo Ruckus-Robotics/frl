@@ -14,14 +14,14 @@ class RigidBodyTransformTest : public ::testing::Test
 
 		virtual void SetUp()
 		{
-
+			std::srand( time(NULL) );
 		}
 		virtual void TearDown()
 		{
 
 		}
 
-		int nTests = 1000;
+		int nTests = 1;
 };
 
 TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)

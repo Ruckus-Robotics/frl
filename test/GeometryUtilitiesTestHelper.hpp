@@ -7,6 +7,7 @@
 #include <eigen3/Eigen/Eigen>
 #include "frl/geometry_utilities/AxisAngle.hpp"
 #include "frl/geometry_utilities/Quaternion.hpp"
+#include <unistd.h>
 
 namespace geometry_utilities
 {
@@ -16,14 +17,17 @@ class GeometryUtilitiesTestHelper
 	public:
 		static double getRandomDouble()
 		{
-			std::srand( time(NULL) );
 			// Generates random double between -1000 & 1000
 			return (2000.0 * rand() / RAND_MAX - 1000.0);
 		}
 
+		static double getRandomDoubleBetween1AndMinus1()
+		{
+			return 2.0*rand() / RAND_MAX-1.0;
+		}
+
 		static double getRandomAngle()
 		{
-			std::srand( time(NULL) );
 			return 2 * (M_PI - 0.01) * rand() / RAND_MAX - (M_PI - 0.01);
 		}
 
@@ -65,8 +69,7 @@ class GeometryUtilitiesTestHelper
 			rotX(1, 0) = 0;
 			rotX(2, 0) = 0;
 
-			std::srand( time(NULL) );
-			double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+			double angle = getRandomAngle();
 			rotX(1, 1) = cos(angle);
 			rotX(2, 2) = cos(angle);
 			rotX(1, 2) = -sin(angle);
@@ -84,8 +87,7 @@ class GeometryUtilitiesTestHelper
 			rotY(1, 1) = 1;
 			rotY(1, 2) = 0;
 
-			std::srand( time(NULL) );
-			double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+			double angle = getRandomAngle();
 			rotY(0, 0) = cos(angle);
 			rotY(2, 2) = cos(angle);
 			rotY(2, 0) = -sin(angle);
@@ -103,8 +105,7 @@ class GeometryUtilitiesTestHelper
 			rotZ(2, 1) = 0;
 			rotZ(2, 2) = 1;
 
-			std::srand( time(NULL) );
-			double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+			double angle = getRandomAngle();
 			rotZ(0, 0) = cos(angle);
 			rotZ(1, 1) = cos(angle);
 			rotZ(0, 1) = -sin(angle);
@@ -142,20 +143,18 @@ class GeometryUtilitiesTestHelper
 		{
 			Eigen::Matrix4d matrix;
 
-			std::srand( time(NULL) );
-
-			matrix(0, 0) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(0, 1) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(0, 2) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(0, 3) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(1, 0) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(1, 1) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(1, 2) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(1, 3) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(2, 0) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(2, 1) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(2, 2) = (0.5 * rand() / RAND_MAX - 0.25);
-			matrix(2, 3) = (0.5 * rand() / RAND_MAX - 0.25);
+			matrix(0, 0) = getRandomDoubleBetween1AndMinus1();
+			matrix(0, 1) = getRandomDoubleBetween1AndMinus1();
+			matrix(0, 2) = getRandomDoubleBetween1AndMinus1();
+			matrix(0, 3) = getRandomDoubleBetween1AndMinus1();
+			matrix(1, 0) = getRandomDoubleBetween1AndMinus1();
+			matrix(1, 1) = getRandomDoubleBetween1AndMinus1();
+			matrix(1, 2) = getRandomDoubleBetween1AndMinus1();
+			matrix(1, 3) = getRandomDoubleBetween1AndMinus1();
+			matrix(2, 0) = getRandomDoubleBetween1AndMinus1();
+			matrix(2, 1) = getRandomDoubleBetween1AndMinus1();
+			matrix(2, 2) = getRandomDoubleBetween1AndMinus1();
+			matrix(2, 3) = getRandomDoubleBetween1AndMinus1();
 			matrix(3, 0) = 0;
 			matrix(3, 1) = 0;
 			matrix(3, 2) = 0;
@@ -186,9 +185,7 @@ class GeometryUtilitiesTestHelper
 			y *= 1 / mag;
 			z *= 1 / mag;
 
-			std::srand( time(NULL) );
-
-			double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+			double angle = getRandomAngle();
 
 			AxisAngle ret(x, y, z, angle);
 			return ret;
