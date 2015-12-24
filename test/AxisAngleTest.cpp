@@ -14,7 +14,7 @@ class AxisAngleTest : public ::testing::Test
 
 		virtual void SetUp()
 		{
-
+			std::srand( time(NULL) );
 		}
 		virtual void TearDown()
 		{

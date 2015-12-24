@@ -13,7 +13,7 @@ namespace geometry_utilities
 
         virtual void SetUp()
         {
-
+            std::srand( time(NULL) );
         }
 
         virtual void TearDown()

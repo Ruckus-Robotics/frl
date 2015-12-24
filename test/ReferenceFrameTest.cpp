@@ -10,6 +10,8 @@ class ReferenceFrameTest : public ::testing::Test
 
 		virtual void SetUp()
 		{
+			std::srand( time(NULL) );
+
 			allFrames.push_back(root1.get());
 			allFrames.push_back(frame1.get());
 			allFrames.push_back(frame2.get());
