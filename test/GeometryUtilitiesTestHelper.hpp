@@ -134,6 +134,9 @@ class GeometryUtilitiesTestHelper
 			transform(1, 3) = getRandomDouble();
 			transform(2, 3) = getRandomDouble();
 
+			transform(3, 0) = 0.0;
+			transform(3, 1) = 0.0;
+			transform(3, 2) = 0.0;
 			transform(3, 3) = 1.0;
 
 			return transform;

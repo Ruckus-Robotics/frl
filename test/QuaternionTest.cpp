@@ -20,7 +20,7 @@ class QuaternionTest : public ::testing::Test
 
 		}
 
-		int nTests = 1;
+		int nTests = 100;
 };
 
 TEST_F(QuaternionTest, testConstructors1)
