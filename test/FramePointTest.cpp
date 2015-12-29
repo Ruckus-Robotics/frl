@@ -83,8 +83,36 @@ TEST_F(FramePointTest, testChangeFrame)
     EXPECT_TRUE(fabs(framePoint.getX() - 12) < 1e-8);
     EXPECT_TRUE(fabs(framePoint.getY() + 2) < 1e-8);
     EXPECT_TRUE(fabs(framePoint.getZ() - 4) < 1e-8);
+}
 
+TEST_F(FramePointTest, testDistance)
+{
+    FramePoint framePoint1("FramePoint1", root1.get(), 1, 2, 3);
+    FramePoint framePoint2("FramePoint2", root1.get(), -1, -2, -3);
 
+    geometry_utilities::RigidBodyTransform transform1;
+
+    transform1.setIdentity();
+    Eigen::Vector3d rpy(M_PI/2, 0, 0);
+    Eigen::Vector3d translation(5.0, 0.0, 0.0);
+    transform1.setEuler(rpy);
+    transform1.setTranslation(translation);
+
+    std::shared_ptr<ReferenceFrame> frameA(new RandomUnchangingFrame("A", root1.get(), transform1));
+
+    FramePoint framePoint3("FramePoint3",frameA.get(),1,2,3);
+
+    EXPECT_TRUE(framePoint1.distance(framePoint2)==sqrt(36+16+4));
+
+    try
+    {
+        framePoint3.distance(framePoint2);
+        EXPECT_TRUE(false);
+    }
+    catch( ... )
+    {
+        EXPECT_TRUE(true);
+    }
 }
 
 
