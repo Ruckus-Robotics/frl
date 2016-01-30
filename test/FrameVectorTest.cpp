@@ -117,3 +117,46 @@ TEST_F(FrameVectorTest, testAngleBetweenVectors)
     double expectedResult = acos(13/(sqrt(14)*sqrt(21)));
     EXPECT_TRUE(angle==expectedResult);
 }
+
+TEST_F(FrameVectorTest, testChangeFrame)
+{
+    geometry_utilities::RigidBodyTransform transform1;
+
+    transform1.setIdentity();
+    Eigen::Vector3d rpy(M_PI/2, 0, 0);
+    Eigen::Vector3d translation(5.0, 0.0, 0.0);
+    transform1.setEuler(rpy);
+    transform1.setTranslation(translation);
+
+    std::shared_ptr<ReferenceFrame> frameA(new RandomUnchangingFrame("A", root.get(), transform1));
+
+    transform1.setIdentity();
+    rpy.setZero();
+    rpy << 0, M_PI/2, 0.0;
+    translation << 5.0, 0, 0;
+    transform1.setEuler(rpy);
+    transform1.setTranslation(translation);
+
+    std::shared_ptr<ReferenceFrame> frameB(new RandomUnchangingFrame("B", frameA.get(), transform1));
+
+    transform1.setIdentity();
+    rpy.setZero();
+    rpy << 0, 0, M_PI/2;
+    translation << 5.0, 0, 0;
+    transform1.setEuler(rpy);
+    transform1.setTranslation(translation);
+
+    std::shared_ptr<ReferenceFrame> frameC(new RandomUnchangingFrame("C", frameB.get(), transform1));
+
+    double x = 3.0;
+    double y = 1.0;
+    double z = -9.0;
+
+    FrameVector frameVector("FrameVector", frameC.get(), x, y, z);
+    frameVector.changeFrame(frameA.get());
+
+//    std::cout << frameVector.getX() << std::endl;
+//    std::cout << frameVector.getY() << std::endl;
+//    std::cout << frameVector.getZ() << std::endl;
+//    EXPECT_TRUE(frameVector.getX()==1);
+}

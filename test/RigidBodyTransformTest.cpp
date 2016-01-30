@@ -602,4 +602,32 @@ TEST_F(RigidBodyTransformTest, testDeterminant)
 	}
 }
 
+TEST_F(RigidBodyTransformTest, testTransformVector3)
+{
+	Eigen::Vector3d v1(1,2,3);
+
+	RigidBodyTransform transform;
+	transform.setEuler(0.0,0.0,-M_PI/2);
+
+	transform.transform(v1);
+	EXPECT_TRUE(v1(0)==2);
+	EXPECT_TRUE(v1(1)-(-1)<1e-15);
+	EXPECT_TRUE(v1(2)==3);
+}
+
+TEST_F(RigidBodyTransformTest, testTransformPoints1)
+{
+	Point3d p1(3,2,4);
+	Point3d p2;
+
+	RigidBodyTransform t1;
+	t1.setEuler(-M_PI/2,0,0);
+
+	t1.transform(p1,p2);
+
+	EXPECT_TRUE(p2.getX()-3<1e-15);
+	EXPECT_TRUE(p2.getY()-4<1e-15);
+	EXPECT_TRUE(p2.getZ()-(-2)<1e-15);
+}
+
 }

@@ -42,6 +42,21 @@ namespace frame_utilities
             return name;
         }
 
+        double getX() const
+        {
+            return vector(0);
+        }
+
+        double getY() const
+        {
+            return vector(1);
+        }
+
+        double getZ() const
+        {
+            return vector(2);
+        }
+
         double getAngleBetweenVectors(const FrameVector &frameVector) const;
 
         ReferenceFrame* getReferenceFrame() const

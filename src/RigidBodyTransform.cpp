@@ -1246,7 +1246,7 @@ void RigidBodyTransform::transform(Eigen::Vector4d& vector)
  *
  * @param vector
  */
-void RigidBodyTransform::transform(Eigen::Vector3d vector)
+void RigidBodyTransform::transform(Eigen::Vector3d &vector)
 {
 	double x = mat00 * vector(0) + mat01 * vector(1) + mat02 * vector(2);
 	double y = mat10 * vector(0) + mat11 * vector(1) + mat12 * vector(2);
@@ -1305,7 +1305,7 @@ void RigidBodyTransform::transform(Point3d& point)
  *
  * @param point
  */
-void RigidBodyTransform::transform(Point3d pointIn, Point3d pointOut)
+void RigidBodyTransform::transform(const Point3d &pointIn, Point3d &pointOut)
 {
 	pointOut.x = mat00 * pointIn.x + mat01 * pointIn.y + mat02 * pointIn.z + mat03;
 	pointOut.y = mat10 * pointIn.x + mat11 * pointIn.y + mat12 * pointIn.z + mat13;

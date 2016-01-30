@@ -77,10 +77,10 @@ class RigidBodyTransform
 
 		void transform(Point3d& point);
 		void transform(Eigen::Vector4d& vector);
-		void transform(Eigen::Vector3d vector);
+		void transform(Eigen::Vector3d &vector);
 		void transform(const Eigen::Vector3d& vectorIn, Eigen::Vector3d& vectorOut);
 		void transform(const Eigen::Vector4d& vectorIn, Eigen::Vector4d& vectorOut);
-		void transform(Point3d pointIn, Point3d pointOut);
+		void transform(const Point3d &pointIn, Point3d &pointOut);
 
 		void applyRotationX(const double& angle);
 		void applyRotationY(const double &angle);
