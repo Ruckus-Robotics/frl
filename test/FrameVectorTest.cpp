@@ -107,3 +107,13 @@ TEST_F(FrameVectorTest, testCross)
         EXPECT_TRUE(result(2)==expectedResult(2));
     }
 }
+
+TEST_F(FrameVectorTest, testAngleBetweenVectors)
+{
+    FrameVector frameVector1("One",frame1.get(),2,3,1);
+    FrameVector frameVector2("Two",frame1.get(),4,1,2);
+
+    double angle = frameVector1.getAngleBetweenVectors(frameVector2);
+    double expectedResult = acos(13/(sqrt(14)*sqrt(21)));
+    EXPECT_TRUE(angle==expectedResult);
+}
