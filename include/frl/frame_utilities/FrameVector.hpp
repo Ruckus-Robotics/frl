@@ -37,6 +37,11 @@ namespace frame_utilities
             return this->vector.norm();
         }
 
+        std::string getName() const
+        {
+            return name;
+        }
+
         double getAngleBetweenVectors(const FrameVector &frameVector) const;
 
         ReferenceFrame* getReferenceFrame() const
