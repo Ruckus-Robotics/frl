@@ -153,10 +153,15 @@ TEST_F(FrameVectorTest, testChangeFrame)
     double z = -9.0;
 
     FrameVector frameVector("FrameVector", frameC.get(), x, y, z);
+    frameVector.changeFrame(frameB.get());
+
+    EXPECT_TRUE(frameVector.getX()-(-1)<1e-15 );
+    EXPECT_TRUE(frameVector.getY()-3<1e-15);
+    EXPECT_TRUE(frameVector.getZ()-(-9)<1e-15);
+
     frameVector.changeFrame(frameA.get());
 
-//    std::cout << frameVector.getX() << std::endl;
-//    std::cout << frameVector.getY() << std::endl;
-//    std::cout << frameVector.getZ() << std::endl;
-//    EXPECT_TRUE(frameVector.getX()==1);
+    EXPECT_TRUE(frameVector.getX()-(-9)<1e-15 );
+    EXPECT_TRUE(frameVector.getY()-3<1e-15);
+    EXPECT_TRUE(frameVector.getZ()-1<1e-15);
 }
