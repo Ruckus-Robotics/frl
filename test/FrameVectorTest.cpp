@@ -165,3 +165,20 @@ TEST_F(FrameVectorTest, testChangeFrame)
     EXPECT_TRUE(frameVector.getY()-3<1e-15);
     EXPECT_TRUE(frameVector.getZ()-1<1e-15);
 }
+
+TEST_F(FrameVectorTest, testVectorLength)
+{
+    Eigen::Vector3d result;
+    Eigen::Vector3d expectedResult;
+
+    for(int i = 0; i<nTests; i++)
+    {
+        Eigen::Vector3d v1(geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble());
+
+        FrameVector frameVector1("One",frame1.get(),v1);
+
+        double result = frameVector1.length();
+        double expectedResult = v1.norm();
+        EXPECT_TRUE(result==expectedResult);
+    }
+}
