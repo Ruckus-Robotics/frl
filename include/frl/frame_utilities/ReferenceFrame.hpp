@@ -70,7 +70,6 @@ class ReferenceFrame
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
 		static ReferenceFrame* getWorldFrame();
 
-		//Super classes are expected to override this method.
 		virtual void updateTransformToParent(geometry_utilities::RigidBodyTransform &transformToParent) {};
 
 		inline geometry_utilities::RigidBodyTransform getTransformToParent()

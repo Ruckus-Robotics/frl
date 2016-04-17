@@ -164,7 +164,6 @@ void ReferenceFrame::getTransformToDesiredFrame(geometry_utilities::RigidBodyTra
 	tmpTransform *= tmpTransform2;
 
 	transformToPack = tmpTransform;
-
 }
 
 void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
@@ -187,7 +186,6 @@ void ReferenceFrame::update()
 	updateTransformToParent(this->transformToParent);
 
 	this->transformToRootID = LLONG_MIN;
-
 }
 
 void ReferenceFrame::computeTransform()

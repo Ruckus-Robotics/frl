@@ -1,7 +1,5 @@
 #include <frl/geometry_utilities/RigidBodyTransform.hpp>
-#include <math.h>
-#include <algorithm>
-#include "iostream"
+#include <iostream>
 
 /**
  *
