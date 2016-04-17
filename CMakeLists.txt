@@ -18,7 +18,6 @@ set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
-			${SOURCES_DIR}/AxisAngle.cpp 
 			${SOURCES_DIR}/Point3d.cpp 
 			${SOURCES_DIR}/Quaternion.cpp
 			${SOURCES_DIR}/ReferenceFrame.cpp 
@@ -26,7 +25,6 @@ set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
 			${SOURCES_DIR}/FrameVector.cpp)
 
 set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/RigidBodyTransform.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/AxisAngle.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/Point3d.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/Quaternion.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/ReferenceFrame.hpp
@@ -36,7 +34,6 @@ set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/RigidBodyTransfo
 
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
 				 ${TEST_DIR}/RigidBodyTransformTest.cpp
-				 ${TEST_DIR}/AxisAngleTest.cpp 
 				 ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp
 				 ${TEST_DIR}/ReferenceFrameTest.cpp
 				 ${TEST_DIR}/ReferenceFrameTestHelper.hpp 

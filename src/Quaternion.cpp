@@ -325,11 +325,11 @@ void Quaternion::set(const Eigen::Matrix3d &m1)
 	this->z = 1;
 }
 
-void Quaternion::set(const AxisAngle &a)
+void Quaternion::set(const Eigen::AngleAxis<double> &a)
 {
 	double mag, amag;
 
-	amag = sqrt( a.x * a.x + a.y * a.y + a.z * a.z);
+	amag = sqrt( a.axis()[0] * a.axis()[0] + a.axis()[1] * a.axis()[1] + a.axis()[2] * a.axis()[2]);
 	if ( amag < EPS )
 	{
 		w = 0.0;
@@ -340,11 +340,11 @@ void Quaternion::set(const AxisAngle &a)
 	else
 	{
 		amag = 1.0 / amag;
-		mag = sin(a.angle / 2.0);
-		w = cos(a.angle / 2.0);
-		x = a.x * amag * mag;
-		y = a.y * amag * mag;
-		z = a.z * amag * mag;
+		mag = sin(a.angle() / 2.0);
+		w = cos(a.angle() / 2.0);
+		x = a.axis()[0] * amag * mag;
+		y = a.axis()[1] * amag * mag;
+		z = a.axis()[2] * amag * mag;
 	}
 
 }

@@ -2,7 +2,6 @@
 #define __QUATERNION__HPP
 
 #include <eigen3/Eigen/Eigen>
-#include "frl/geometry_utilities/AxisAngle.hpp"
 
 namespace geometry_utilities
 {
@@ -30,7 +29,7 @@ class Quaternion
 		void set(const double &x, const double &y, const double &z, const double &w);
 		void set(const Eigen::Matrix4d &m1);
 		void set(const Eigen::Matrix3d &m1);
-		void set(const AxisAngle &a);
+		void set(const Eigen::AngleAxis<double> &a);
 		void get(Eigen::Matrix3d &matrix) const;
 		void get(Eigen::Vector4d &vector) const;
 		Eigen::Matrix3d getAsMatrix3d() const;

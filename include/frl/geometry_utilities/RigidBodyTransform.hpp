@@ -3,7 +3,6 @@
 
 #include <eigen3/Eigen/Eigen>
 #include "frl/geometry_utilities/Point3d.hpp"
-#include "frl/geometry_utilities/AxisAngle.hpp"
 #include "frl/geometry_utilities/Quaternion.hpp"
 
 namespace geometry_utilities
@@ -17,11 +16,11 @@ class RigidBodyTransform
 		RigidBodyTransform(const Eigen::Matrix4d& matrix);
 		RigidBodyTransform(const Eigen::Matrix3d& matrix, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const Eigen::Quaterniond quaternion, const Eigen::Vector3d& vector);
-		RigidBodyTransform(const AxisAngle& axisAngle, const Eigen::Vector3d& vector);
+        RigidBodyTransform(const Eigen::AngleAxis<double>& axisAngle, const Eigen::Vector3d& vector);
 		RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d &vector);
 		RigidBodyTransform(const Eigen::Matrix3d &matrix);
 		RigidBodyTransform(const Quaternion &quat);
-		RigidBodyTransform(const AxisAngle& axisAngle);
+		RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle);
 
 		~RigidBodyTransform(){};
 
@@ -31,7 +30,7 @@ class RigidBodyTransform
 		void set(const Eigen::Matrix4d& matrix);
 		void set(const Eigen::Matrix3d& matrix, const Eigen::Vector3d& vector);
 		void set(const Eigen::Quaterniond& quat, const Eigen::Vector3d& vector);
-		void set(const AxisAngle& axisAngle, const Eigen::Vector3d& vector);
+		void set(const Eigen::AngleAxis<double>& axisAngle, const Eigen::Vector3d& vector);
 		void set(const Quaternion& quat, const Eigen::Vector3d& vector);
 
 		void setTranslation(const double& x, const double& y, const double& z);
@@ -42,14 +41,14 @@ class RigidBodyTransform
 		void setRotation(const Eigen::Matrix3d& matrix);
 		void setRotation(const Eigen::Quaterniond& quat);
 		void setRotation(const Quaternion& quat);
-		void setRotation(const AxisAngle& axisAngle);
+        void setRotation(const Eigen::AngleAxis<double> &axisAngle);
 
 		void setRotationWithQuaternion(const double& qx, const double& qy, const double& qz, const double& qw);
 		void setRotationWithAxisAngle(const double& axisAngleX, const double& axisAngleY, const double& axisAngleZ, const double& axisAngleTheta);
 		void setRotationAndZeroTranslation(const Eigen::Matrix3d& matrix);
 		void setRotationAndZeroTranslation(const Eigen::Quaterniond &quat);
 		void setRotationAndZeroTranslation(const Quaternion &quat);
-		void setRotationAndZeroTranslation(const AxisAngle &axisAngle);
+		void setRotationAndZeroTranslation(const Eigen::AngleAxis<double> &axisAngle);
 		void setTranslationAndIdentityRotation(const Eigen::Vector3d& vector);
 		void setRotationToIdentity();
 		void setEuler(const Eigen::Vector3d& vector);
@@ -59,8 +58,7 @@ class RigidBodyTransform
 		void getRotation(Eigen::Matrix3d& matrix) const;
 		void getRotation(Eigen::Quaterniond& quat) const;
 		void getRotation(Quaternion& quat) const;
-		void getRotation(AxisAngle &axisAngle) const;
-		void getRotation(AxisAngle &axisAngle, const double &epsilon) const;
+		void getRotation(Eigen::AngleAxis<double> &axisAngle) const;
 
 		void getTranslation(Eigen::Vector3d& vector) const;
 		void getTranslation(Point3d& point) const;
@@ -133,6 +131,8 @@ class RigidBodyTransform
 		}
 
 	private:
+        void getRotation(Eigen::AngleAxis<double> &axisAngle, const double &epsilon) const;
+
 		double mat00;
 		double mat01;
 		double mat02;

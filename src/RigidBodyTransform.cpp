@@ -97,25 +97,25 @@ RigidBodyTransform::RigidBodyTransform(const Quaternion &quat)
 * zero translational component.
 *
 */
-RigidBodyTransform::RigidBodyTransform(const AxisAngle &axisAngle)
-{
-	setRotation(axisAngle);
-	setTranslation(0.0, 0.0, 0.0);
-}
+	RigidBodyTransform::RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle)
+	{
+		setRotation(axisAngle);
+		setTranslation(0.0, 0.0, 0.0);
+	}
 
 RigidBodyTransform::RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d& vector)
 {
 	set(quat, vector);
 }
 
-RigidBodyTransform::RigidBodyTransform(const AxisAngle& axisAngle, const Eigen::Vector3d& vector)
+RigidBodyTransform::RigidBodyTransform(const Eigen::AngleAxis<double>& axisAngle, const Eigen::Vector3d& vector)
 {
-	set(axisAngle, vector);
+    set(axisAngle, vector);
 }
 
-void RigidBodyTransform::setRotation(const AxisAngle& axisAngle)
+void RigidBodyTransform::setRotation(const Eigen::AngleAxis<double> &axisAngle)
 {
-	setRotationWithAxisAngle(axisAngle.x, axisAngle.y, axisAngle.z, axisAngle.angle);
+    setRotationWithAxisAngle(axisAngle.axis()[0],axisAngle.axis()[0],axisAngle.axis()[0],axisAngle.angle());
 }
 
 void RigidBodyTransform::setRotationWithAxisAngle(const double& axisAngleX, const double& axisAngleY, const double& axisAngleZ, const double& axisAngleTheta)
@@ -366,13 +366,13 @@ void RigidBodyTransform::set(const Quaternion& quat, const Eigen::Vector3d& vect
  *
  * @param axisAngle
  */
-void RigidBodyTransform::setRotationAndZeroTranslation(const AxisAngle &axisAngle)
+void RigidBodyTransform::setRotationAndZeroTranslation(const Eigen::AngleAxis<double> &axisAngle)
 {
-	setRotation(axisAngle);
-	setTranslation(0, 0, 0);
+    setRotation(axisAngle);
+    setTranslation(0, 0, 0);
 }
 
-void RigidBodyTransform::set(const AxisAngle& axisAngle, const Eigen::Vector3d& vector)
+void RigidBodyTransform::set(const Eigen::AngleAxis<double>& axisAngle, const Eigen::Vector3d& vector)
 {
 	setRotation(axisAngle);
 	setTranslation(vector(0), vector(1), vector(2));
@@ -699,17 +699,18 @@ void RigidBodyTransform::getRotation(Quaternion& quat) const
  *
  * @param axisAngle
  */
-void RigidBodyTransform::getRotation(AxisAngle &axisAngle) const
+void RigidBodyTransform::getRotation(Eigen::AngleAxis<double> &axisAngle) const
 {
-	getRotation(axisAngle, 1.0e-12);
+    getRotation(axisAngle, 1.0e-12);
 }
 
-void RigidBodyTransform::getRotation(AxisAngle &axisAngle, const double &epsilon) const
+void RigidBodyTransform::getRotation(Eigen::AngleAxis<double> &axisAngle, const double &epsilon) const
 {
-	axisAngle.x = mat21 - mat12;
-	axisAngle.y = mat02 - mat20;
-	axisAngle.z = mat10 - mat01;
-	double mag = axisAngle.x * axisAngle.x + axisAngle.y * axisAngle.y + axisAngle.z * axisAngle.z;
+	axisAngle.axis()[0] = mat21 - mat12;
+	axisAngle.axis()[1] = mat02 - mat20;
+	axisAngle.axis()[2] = mat10 - mat01;
+
+	double mag = axisAngle.axis()[0] * axisAngle.axis()[0] + axisAngle.axis()[1] * axisAngle.axis()[1] + axisAngle.axis()[2] * axisAngle.axis()[2];
 
 	if (mag > epsilon)
 	{
@@ -717,23 +718,26 @@ void RigidBodyTransform::getRotation(AxisAngle &axisAngle, const double &epsilon
 		double sin = 0.5 * mag;
 		double cos = 0.5 * (mat00 + mat11 + mat22 - 1.0);
 
-		axisAngle.angle = atan2(sin, cos);
+		axisAngle.angle() = atan2(sin, cos);
 
 		double invMag = 1.0 / mag;
-		axisAngle.x = axisAngle.x * invMag;
-		axisAngle.y = axisAngle.y * invMag;
-		axisAngle.z = axisAngle.z * invMag;
+		axisAngle.axis()[0] = axisAngle.axis()[0] * invMag;
+		axisAngle.axis()[1] = axisAngle.axis()[1] * invMag;
+		axisAngle.axis()[2] = axisAngle.axis()[2] * invMag;
 	}
 	else
 	{
 		if (isRotationMatrixEpsilonIdentity(10.0 * epsilon))
 		{
-			axisAngle.set(0.0, 1.0, 0.0, 0.0);
+            axisAngle.angle() = 0.0;
+            axisAngle.axis()[0] = 1.0;
+            axisAngle.axis()[1] = 0.0;
+            axisAngle.axis()[2] = 0.0;
 			return;
 		}
 		else
 		{
-			axisAngle.angle = M_PI;
+			axisAngle.angle() = M_PI;
 
 			double xx = (mat00 + 1.0) / 2.0;
 			double yy = (mat11 + 1.0) / 2.0;
@@ -748,15 +752,15 @@ void RigidBodyTransform::getRotation(AxisAngle &axisAngle, const double &epsilon
 				// mat00 is the largest diagonal term
 				if (xx < epsilon)
 				{
-					axisAngle.x = 0.0;
-					axisAngle.y = cos45;
-					axisAngle.z = cos45;
+					axisAngle.axis()[0] = 0.0;
+					axisAngle.axis()[1] = cos45;
+					axisAngle.axis()[2] = cos45;
 				}
 				else
 				{
-					axisAngle.x = sqrt(xx);
-					axisAngle.y = xy / axisAngle.x;
-					axisAngle.z = xz / axisAngle.x;
+					axisAngle.axis()[0] = sqrt(xx);
+					axisAngle.axis()[1] = xy / axisAngle.axis()[0];
+					axisAngle.axis()[2] = xz / axisAngle.axis()[0];
 				}
 			}
 			else
@@ -765,15 +769,15 @@ void RigidBodyTransform::getRotation(AxisAngle &axisAngle, const double &epsilon
 					// mat11 is the largest diagonal term
 					if (yy < epsilon)
 					{
-						axisAngle.x = cos45;
-						axisAngle.y = 0.0;
-						axisAngle.z = cos45;
+						axisAngle.axis()[0] = cos45;
+						axisAngle.axis()[1] = 0.0;
+						axisAngle.axis()[2] = cos45;
 					}
 					else
 					{
-						axisAngle.y = sqrt(yy);
-						axisAngle.x = xy / axisAngle.y;
-						axisAngle.z = yz / axisAngle.y;
+						axisAngle.axis()[1] = sqrt(yy);
+						axisAngle.axis()[0] = xy / axisAngle.axis()[1];
+						axisAngle.axis()[2] = yz / axisAngle.axis()[1];
 					}
 				}
 				else
@@ -781,15 +785,15 @@ void RigidBodyTransform::getRotation(AxisAngle &axisAngle, const double &epsilon
 					// mat22 is the largest diagonal term
 					if (zz < epsilon)
 					{
-						axisAngle.x = cos45;
-						axisAngle.y = cos45;
-						axisAngle.z = 0.0;
+						axisAngle.axis()[0] = cos45;
+						axisAngle.axis()[1] = cos45;
+						axisAngle.axis()[2] = 0.0;
 					}
 					else
 					{
-						axisAngle.z = sqrt(zz);
-						axisAngle.x = xz / axisAngle.z;
-						axisAngle.y = yz / axisAngle.z;
+						axisAngle.axis()[2] = sqrt(zz);
+						axisAngle.axis()[0] = xz / axisAngle.axis()[2];
+						axisAngle.axis()[1] = yz / axisAngle.axis()[2];
 					}
 				}
 		}

@@ -5,7 +5,6 @@
 #include <memory>
 #include <math.h>
 #include <eigen3/Eigen/Eigen>
-#include "frl/geometry_utilities/AxisAngle.hpp"
 #include "frl/geometry_utilities/Quaternion.hpp"
 #include <unistd.h>
 
@@ -175,7 +174,7 @@ class GeometryUtilitiesTestHelper
 			return (xMag && yMag && zMag);
 		}
 
-		static AxisAngle createRandomAxisAngle()
+		static Eigen::AngleAxis<double> createRandomAxisAngle()
 		{
 			double x, y, z;
 			x = getRandomDouble();
@@ -190,7 +189,11 @@ class GeometryUtilitiesTestHelper
 
 			double angle = getRandomAngle();
 
-			AxisAngle ret(x, y, z, angle);
+			Eigen::AngleAxis<double> ret;
+			ret.axis()[0] = x;
+			ret.axis()[1] = y;
+			ret.axis()[2] = z;
+			ret.angle() = angle;
 			return ret;
 		}
 
@@ -203,17 +206,17 @@ class GeometryUtilitiesTestHelper
 			return quaternion;
 		}
 
-		static bool areAxisAngleEpsilonEqual(const AxisAngle &a1, const AxisAngle &a2, const double &eps)
+		static bool areAxisAngleEpsilonEqual(const Eigen::AngleAxis<double> &a1, const Eigen::AngleAxis<double> &a2, const double &eps)
 		{
-			if ((fabs(a1.x - a2.x) < eps && fabs(a1.y - a2.y) < eps && fabs(a1.z - a2.z) < eps && fabs(a1.angle - a2.angle) < eps) ||
-			        (fabs(-a1.x - a2.x) < eps && fabs(-a1.y - a2.y) < eps && fabs(-a1.z - a2.z) < eps && fabs(-a1.angle - a2.angle) < eps))
+			if ((fabs(a1.axis()[0] - a2.axis()[0]) < eps && fabs(a1.axis()[1] - a2.axis()[1]) < eps && fabs(a1.axis()[2] - a2.axis()[2]) < eps && fabs(a1.angle() - a2.angle()) < eps) ||
+			        (fabs(-a1.axis()[0] - a2.axis()[0]) < eps && fabs(-a1.axis()[1] - a2.axis()[1]) < eps && fabs(-a1.axis()[2] - a2.axis()[2]) < eps && fabs(-a1.angle() - a2.angle()) < eps))
 			{
 				return true;
 			}
 
-			if ((fabs(a1.x - a2.x) < eps && fabs(a1.y - a2.y) < eps && fabs(a1.z - a2.z) < eps))
+			if ((fabs(a1.axis()[0] - a2.axis()[0]) < eps && fabs(a1.axis()[1] - a2.axis()[1]) < eps && fabs(a1.axis()[2] - a2.axis()[2]) < eps))
 			{
-				if (M_PI - fabs(a1.angle) < 1e-4 && M_PI - fabs(a2.angle) < 1e-4)
+				if (M_PI - fabs(a1.angle()) < 1e-4 && M_PI - fabs(a2.angle()) < 1e-4)
 				{
 					return true;
 				}
