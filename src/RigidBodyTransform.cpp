@@ -115,7 +115,7 @@ RigidBodyTransform::RigidBodyTransform(const Eigen::AngleAxis<double>& axisAngle
 
 void RigidBodyTransform::setRotation(const Eigen::AngleAxis<double> &axisAngle)
 {
-    setRotationWithAxisAngle(axisAngle.axis()[0],axisAngle.axis()[0],axisAngle.axis()[0],axisAngle.angle());
+    setRotationWithAxisAngle(axisAngle.axis()[0],axisAngle.axis()[1],axisAngle.axis()[2],axisAngle.angle());
 }
 
 void RigidBodyTransform::setRotationWithAxisAngle(const double& axisAngleX, const double& axisAngleY, const double& axisAngleZ, const double& axisAngleTheta)
