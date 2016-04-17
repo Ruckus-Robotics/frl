@@ -5,7 +5,6 @@
 #include <memory>
 #include <math.h>
 #include <eigen3/Eigen/Eigen>
-#include "frl/geometry_utilities/Quaternion.hpp"
 #include <unistd.h>
 
 namespace geometry_utilities
@@ -197,10 +196,10 @@ class GeometryUtilitiesTestHelper
 			return ret;
 		}
 
-		static Quaternion createRandomQuaternion()
+		static Eigen::Quaternion<double> createRandomQuaternion()
 		{
-			Quaternion quaternion;
-			quaternion.set(getRandomDouble(), getRandomDouble(), getRandomDouble(), getRandomDouble());
+			Eigen::Quaternion<double> quaternion(getRandomDouble(), getRandomDouble(), getRandomDouble(), getRandomDouble());
+
 			quaternion.normalize();
 
 			return quaternion;
@@ -227,10 +226,10 @@ class GeometryUtilitiesTestHelper
 			}
 		}
 
-		static bool areQuaternionsEpsilonEqual(const Quaternion &q1, const Quaternion &q2, const double &eps)
+		static bool areQuaternionsEpsilonEqual(const Eigen::Quaternion<double> &q1, const Eigen::Quaternion<double> &q2, const double &eps)
 		{
-			if ((fabs(q1.getX() - q2.getX()) < eps && fabs(q1.getY() - q2.getY()) < eps && fabs(q1.getZ() - q2.getZ()) < eps && fabs(q1.getW() - q2.getW()) < eps) ||
-			        (fabs(-q1.getX() - q2.getX()) < eps && fabs(-q1.getY() - q2.getY()) < eps && fabs(-q1.getZ() - q2.getZ()) < eps && fabs(-q1.getW() - q2.getW()) < eps))
+			if ((fabs(q1.x() - q2.x()) < eps && fabs(q1.y() - q2.y()) < eps && fabs(q1.z() - q2.z()) < eps && fabs(q1.w() - q2.w()) < eps) ||
+			        (fabs(-q1.x() - q2.x()) < eps && fabs(-q1.y() - q2.y()) < eps && fabs(-q1.z() - q2.z()) < eps && fabs(-q1.w() - q2.w()) < eps))
 			{
 				return true;
 			}

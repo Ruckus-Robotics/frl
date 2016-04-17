@@ -59,10 +59,10 @@ RigidBodyTransform::RigidBodyTransform(const Eigen::Matrix3d& matrix, const Eige
  * Create RigidBodyTransform from quaternion describing a rotation and vector
  * describing a translation.
  *
- * @param Eigen::Quaterniond
+ * @param Eigen::Quaternion<double>
  * @param Eigen::Vector3d
  */
-RigidBodyTransform::RigidBodyTransform(const Eigen::Quaterniond quaternion, const Eigen::Vector3d& vector)
+RigidBodyTransform::RigidBodyTransform(const Eigen::Quaternion<double> &quaternion, const Eigen::Vector3d& vector)
 {
 	set(quaternion, vector);
 }
@@ -86,7 +86,7 @@ RigidBodyTransform::RigidBodyTransform(const Eigen::Matrix3d &matrix)
 * @param Quaternion
 */
 
-RigidBodyTransform::RigidBodyTransform(const Quaternion &quat)
+RigidBodyTransform::RigidBodyTransform(const Eigen::Quaternion<double> &quat)
 {
 	setRotation(quat);
 	setTranslation(0.0, 0.0, 0.0);
@@ -97,15 +97,10 @@ RigidBodyTransform::RigidBodyTransform(const Quaternion &quat)
 * zero translational component.
 *
 */
-	RigidBodyTransform::RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle)
-	{
-		setRotation(axisAngle);
-		setTranslation(0.0, 0.0, 0.0);
-	}
-
-RigidBodyTransform::RigidBodyTransform(const Quaternion &quat, const Eigen::Vector3d& vector)
+RigidBodyTransform::RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle)
 {
-	set(quat, vector);
+    setRotation(axisAngle);
+    setTranslation(0.0, 0.0, 0.0);
 }
 
 RigidBodyTransform::RigidBodyTransform(const Eigen::AngleAxis<double>& axisAngle, const Eigen::Vector3d& vector)
@@ -155,14 +150,9 @@ void RigidBodyTransform::setRotationWithAxisAngle(const double& axisAngleX, cons
 	}
 }
 
-void RigidBodyTransform::setRotation(const Eigen::Quaterniond& quat)
+void RigidBodyTransform::setRotation(const Eigen::Quaternion<double>& quat)
 {
 	setRotationWithQuaternion(quat.x(), quat.y(), quat.z(), quat.w());
-}
-
-void RigidBodyTransform::setRotation(const Quaternion& quat)
-{
-	setRotationWithQuaternion(quat.getX(), quat.getY(), quat.getZ(), quat.getW());
 }
 
 void RigidBodyTransform::setRotationWithQuaternion(const double& qx, const double& qy, const double& qz, const double& qw)
@@ -316,21 +306,9 @@ void RigidBodyTransform::set(const Eigen::Matrix3d& matrix, const Eigen::Vector3
  * Set this transform to have zero translation and a rotation equal to the
  * Eigen::Quaterniond quat.
  *
- * @param Eigen::Quaterniond quat
+ * @param Eigen::Quaternion<double> quat
  */
-void RigidBodyTransform::setRotationAndZeroTranslation(const Eigen::Quaterniond &quat)
-{
-	setRotation(quat);
-	setTranslation(0, 0, 0);
-}
-
-/**
- * Set this transform to have zero translation and a rotation equal to the
- * Quaternion quat.
- *
- * @param Quaternion quat
- */
-void RigidBodyTransform::setRotationAndZeroTranslation(const Quaternion &quat)
+void RigidBodyTransform::setRotationAndZeroTranslation(const Eigen::Quaternion<double> &quat)
 {
 	setRotation(quat);
 	setTranslation(0, 0, 0);
@@ -342,19 +320,7 @@ void RigidBodyTransform::setRotationAndZeroTranslation(const Quaternion &quat)
 //  *
 //  * @param Eigen::Quaterniond quat
 //  */
-void RigidBodyTransform::set(const Eigen::Quaterniond& quat, const Eigen::Vector3d& vector)
-{
-	setRotation(quat);
-	setTranslation(vector);
-}
-
-// /**
-//  * Set this transform to have translation described in vector and a rotation
-//  * equal to the Eigen::Quaterniond quat.
-//  *
-//  * @param Quaternion quat
-//  */
-void RigidBodyTransform::set(const Quaternion& quat, const Eigen::Vector3d& vector)
+void RigidBodyTransform::set(const Eigen::Quaternion<double> &quat, const Eigen::Vector3d& vector)
 {
 	setRotation(quat);
 	setTranslation(vector);
@@ -594,104 +560,46 @@ void RigidBodyTransform::getRotation(Eigen::Matrix3d& matrix) const
  *
  * @param Eigen::Quaterniond quat
  */
-void RigidBodyTransform::getRotation(Eigen::Quaterniond& quat) const
+void RigidBodyTransform::getRotation(Eigen::Quaternion<double>& quat) const
 {
 	double trace = mat00 + mat11 + mat22;
 	double val;
 
-	double x, y, z, w;
-
 	if (trace > 0.0)
 	{
 		val = sqrt(trace + 1.0) * 2.0;
-		x = (mat21 - mat12) / val;
-		y = (mat02 - mat20) / val;
-		z = (mat10 - mat01) / val;
-		w = 0.25 * val;
+		quat.x() = (mat21 - mat12) / val;
+		quat.y() = (mat02 - mat20) / val;
+		quat.z() = (mat10 - mat01) / val;
+		quat.w() = 0.25 * val;
 	}
 	else
 		if (mat11 > mat22)
 		{
 			double temp = std::max(0.0, 1.0 + mat11 - mat00 - mat22);
 			val = sqrt(temp) * 2.0;
-			x = (mat01 + mat10) / val;
-			y = 0.25 * val;
-			z = (mat12 + mat21) / val;
-			w = (mat02 - mat20) / val;
+			quat.x() = (mat01 + mat10) / val;
+			quat.y() = 0.25 * val;
+			quat.z() = (mat12 + mat21) / val;
+			quat.w() = (mat02 - mat20) / val;
 		}
 		else
 			if ((mat00 > mat11) && (mat00 > mat22))
 			{
 				val = sqrt(1.0 + mat00 - mat11 - mat22) * 2.0;
-				x = 0.25 * val;
-				y = (mat01 + mat10) / val;
-				z = (mat02 + mat20) / val;
-				w = (mat21 - mat12) / val;
+				quat.x() = 0.25 * val;
+				quat.y() = (mat01 + mat10) / val;
+				quat.z() = (mat02 + mat20) / val;
+				quat.w() = (mat21 - mat12) / val;
 			}
 			else
 			{
 				val = sqrt(1.0 + mat22 - mat00 - mat11) * 2.0;
-				x = (mat02 + mat20) / val;
-				y = (mat12 + mat21) / val;
-				z = 0.25 * val;
-				w = (mat10 - mat01) / val;
+				quat.x() = (mat02 + mat20) / val;
+				quat.y() = (mat12 + mat21) / val;
+				quat.z() = 0.25 * val;
+				quat.w() = (mat10 - mat01) / val;
 			}
-
-	Eigen::Quaterniond tmpQuat(x, y, z, w);
-	tmpQuat.normalize();
-	quat = tmpQuat;
-}
-
-/**
- * Return rotation in quaternion form.
- *
- * @param Quaternion quat
- */
-void RigidBodyTransform::getRotation(Quaternion& quat) const
-{
-	double trace = mat00 + mat11 + mat22;
-	double val;
-
-	double x, y, z, w;
-
-	if (trace > 0.0)
-	{
-		val = sqrt(trace + 1.0) * 2.0;
-		x = (mat21 - mat12) / val;
-		y = (mat02 - mat20) / val;
-		z = (mat10 - mat01) / val;
-		w = 0.25 * val;
-	}
-	else
-		if (mat11 > mat22)
-		{
-			double temp = std::max(0.0, 1.0 + mat11 - mat00 - mat22);
-			val = sqrt(temp) * 2.0;
-			x = (mat01 + mat10) / val;
-			y = 0.25 * val;
-			z = (mat12 + mat21) / val;
-			w = (mat02 - mat20) / val;
-		}
-		else
-			if ((mat00 > mat11) && (mat00 > mat22))
-			{
-				val = sqrt(1.0 + mat00 - mat11 - mat22) * 2.0;
-				x = 0.25 * val;
-				y = (mat01 + mat10) / val;
-				z = (mat02 + mat20) / val;
-				w = (mat21 - mat12) / val;
-			}
-			else
-			{
-				val = sqrt(1.0 + mat22 - mat00 - mat11) * 2.0;
-				x = (mat02 + mat20) / val;
-				y = (mat12 + mat21) / val;
-				z = 0.25 * val;
-				w = (mat10 - mat01) / val;
-			}
-
-	quat.set(x, y, z, w);
-	quat.normalize();
 }
 
 /**
@@ -898,7 +806,7 @@ void RigidBodyTransform::get(Eigen::Vector3d& vector) const
  * @param quat
  * @param vector
  */
-void RigidBodyTransform::get(Eigen::Quaterniond& quat, Eigen::Vector3d& vector) const
+void RigidBodyTransform::get(Eigen::Quaternion<double>& quat, Eigen::Vector3d& vector) const
 {
 	getRotation(quat);
 	getTranslation(vector);
@@ -911,7 +819,7 @@ void RigidBodyTransform::get(Eigen::Quaterniond& quat, Eigen::Vector3d& vector) 
  * @param quat
  * @param point
  */
-void RigidBodyTransform::get(Eigen::Quaterniond& quat, Point3d& point) const
+void RigidBodyTransform::get(Eigen::Quaternion<double>& quat, Point3d& point) const
 {
 	getRotation(quat);
 	getTranslation(point);
@@ -923,7 +831,7 @@ void RigidBodyTransform::get(Eigen::Quaterniond& quat, Point3d& point) const
  * @param quat
  * @param vector
  */
-void RigidBodyTransform::get(Eigen::Quaterniond& quat) const
+void RigidBodyTransform::get(Eigen::Quaternion<double>& quat) const
 {
 	getRotation(quat);
 }

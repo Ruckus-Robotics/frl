@@ -2,7 +2,6 @@
 #include <eigen3/Eigen/Eigen>
 #include "frl/geometry_utilities/RigidBodyTransform.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
-#include "frl/geometry_utilities/Quaternion.hpp"
 
 namespace geometry_utilities
 {
@@ -91,18 +90,16 @@ TEST_F(RigidBodyTransformTest, testUseQuaternions_1)
 {
 	for (int i = 0; i < nTests; i++)
 	{
-		Quaternion quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+		Eigen::Quaternion<double> quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
 
 		RigidBodyTransform transform;
 		transform.setRotationAndZeroTranslation(quat1);
 
-		Quaternion quatToCheck;
+		Eigen::Quaternion<double> quatToCheck;
 		transform.getRotation(quatToCheck);
 
 		if (!GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual(quat1, quatToCheck, 1e-5))
 		{
-			std::cout << quat1 << std::endl;
-			std::cout << quatToCheck << std::endl;
 			ASSERT_TRUE(false);
 		}
 	}
@@ -113,11 +110,11 @@ TEST_F(RigidBodyTransformTest, testCreateTransformWithQuaternionAndVector3d)
 	for (int i = 0; i < nTests; i++)
 	{
 		Eigen::Vector3d vector = GeometryUtilitiesTestHelper::createRandomVector3d();
-		Quaternion quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
+		Eigen::Quaternion<double> quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion();
 
 		RigidBodyTransform transform(quat1, vector);
 
-		Quaternion quatCheck;
+		Eigen::Quaternion<double> quatCheck;
 		Eigen::Vector3d vecCheck;
 
 		transform.getRotation(quatCheck);
@@ -238,8 +235,8 @@ TEST_F(RigidBodyTransformTest, testSetRotationWithRotationMatrix)
 
 TEST_F(RigidBodyTransformTest, testSetRotationWithQuaternion)
 {
-	Quaternion q1;
-	Quaternion q2;
+	Eigen::Quaternion<double> q1;
+	Eigen::Quaternion<double> q2;
 
 	for (int i = 0; i < nTests; i++)
 	{

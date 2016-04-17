@@ -15,7 +15,7 @@ class ReferenceFrameTestHelper
 	public:
 		static geometry_utilities::RigidBodyTransform createRandomTransformationMatrix()
 		{
-			geometry_utilities::Quaternion quaternion = geometry_utilities::GeometryUtilitiesTestHelper::createRandomQuaternion();
+			Eigen::Quaternion<double> quaternion = geometry_utilities::GeometryUtilitiesTestHelper::createRandomQuaternion();
 			Eigen::Vector3d translation = generateRandomTranslation();
 			geometry_utilities::RigidBodyTransform transform(quaternion, translation);
 
@@ -60,9 +60,9 @@ class ReferenceFrameTestHelper
 			return (fabs(vector(0)) < epsilon && fabs(vector(1)) < epsilon && fabs(vector(2)) < epsilon) ? true : false;
 		}
 
-		static bool isIdentityQuaternionWithinEpsilon(geometry_utilities::Quaternion q, double epsilon)
+		static bool isIdentityQuaternionWithinEpsilon(Eigen::Quaternion<double> q, double epsilon)
 		{
-			return (fabs(q.getX()) < epsilon && fabs(q.getY()) < epsilon && fabs(q.getZ()) < epsilon && (fabs(q.getW()) - 1) < epsilon) ? true : false;
+			return (fabs(q.x()) < epsilon && fabs(q.y()) < epsilon && fabs(q.z()) < epsilon && (fabs(q.w()) - 1) < epsilon) ? true : false;
 		}
 
 		static ReferenceFrame* getRandomFrameFromVectorOfFrames(std::vector<ReferenceFrame*> vectorOfFrames)

@@ -18,15 +18,13 @@ set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
 set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
-			${SOURCES_DIR}/Point3d.cpp 
-			${SOURCES_DIR}/Quaternion.cpp
+			${SOURCES_DIR}/Point3d.cpp
 			${SOURCES_DIR}/ReferenceFrame.cpp 
 			${SOURCES_DIR}/FramePoint.cpp
 			${SOURCES_DIR}/FrameVector.cpp)
 
 set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/Point3d.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/Quaternion.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/ReferenceFrame.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/FramePoint.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/ReferenceFrameHolder.hpp
@@ -39,7 +37,6 @@ set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
 				 ${TEST_DIR}/ReferenceFrameTestHelper.hpp 
 				 ${TEST_DIR}/FrameUtilitiesTestHelper.hpp
 				 ${TEST_DIR}/Point3dTest.cpp
-				 ${TEST_DIR}/QuaternionTest.cpp
 				 ${TEST_DIR}/FramePointTest.cpp
 				 ${TEST_DIR}/FrameVectorTest.cpp)
 
