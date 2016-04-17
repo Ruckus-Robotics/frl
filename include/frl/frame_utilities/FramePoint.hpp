@@ -12,7 +12,6 @@
 
 namespace frame_utilities
 {
-
     class FramePoint : public ReferenceFrameHolder
     {
     public:

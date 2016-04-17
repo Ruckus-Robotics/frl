@@ -302,7 +302,7 @@ void RigidBodyTransform::set(const Eigen::Matrix3d& matrix, const Eigen::Vector3
 
 /**
  * Set this transform to have zero translation and a rotation equal to the
- * Eigen::Quaterniond quat.
+ * Eigen::Quaternion<double> quat.
  *
  * @param Eigen::Quaternion<double> quat
  */
@@ -314,9 +314,9 @@ void RigidBodyTransform::setRotationAndZeroTranslation(const Eigen::Quaternion<d
 
 // /**
 //  * Set this transform to have translation described in vector and a rotation
-//  * equal to the Eigen::Quaterniond quat.
+//  * equal to the Eigen::Quaternion<double> quat.
 //  *
-//  * @param Eigen::Quaterniond quat
+//  * @param Eigen::Quaternion<double> quat
 //  */
 void RigidBodyTransform::set(const Eigen::Quaternion<double> &quat, const Eigen::Vector3d& vector)
 {
@@ -556,7 +556,7 @@ void RigidBodyTransform::getRotation(Eigen::Matrix3d& matrix) const
 /**
  * Return rotation in quaternion form.
  *
- * @param Eigen::Quaterniond quat
+ * @param Eigen::Quaternion<double> quat
  */
 void RigidBodyTransform::getRotation(Eigen::Quaternion<double>& quat) const
 {
@@ -798,7 +798,7 @@ void RigidBodyTransform::get(Eigen::Vector3d& vector) const
 }
 
 /**
- * Convert and pack rotation part of transform into Eigen::Quaterniond and pack
+ * Convert and pack rotation part of transform into Eigen::Quaternion<double> and pack
  * translation into Eigen::Vector3d.
  *
  * @param quat
@@ -811,7 +811,7 @@ void RigidBodyTransform::get(Eigen::Quaternion<double>& quat, Eigen::Vector3d& v
 }
 
 /**
- * Convert and pack rotation part of transform into Eigen::Quaterniond and pack
+ * Convert and pack rotation part of transform into Eigen::Quaternion<double> and pack
  * translation into Point3d.
  *
  * @param quat
@@ -824,7 +824,7 @@ void RigidBodyTransform::get(Eigen::Quaternion<double>& quat, Point3d& point) co
 }
 
 /**
- * Convert and pack rotation part of transform into Eigen::Quaterniond.
+ * Convert and pack rotation part of transform into Eigen::Quaternion<double>.
  *
  * @param quat
  * @param vector
