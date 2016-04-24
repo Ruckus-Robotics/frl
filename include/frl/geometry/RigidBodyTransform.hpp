@@ -4,7 +4,7 @@
 #include <eigen3/Eigen/Eigen>
 #include "frl/geometry/Point3d.hpp"
 
-namespace geometry_utilities
+namespace geometry
 {
 
 class RigidBodyTransform

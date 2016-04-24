@@ -28,7 +28,7 @@ private:
 
 TEST_F(FramePointTest, testChangeFrame)
 {
-    geometry_utilities::RigidBodyTransform transform1;
+    geometry::RigidBodyTransform transform1;
 
     transform1.setIdentity();
     Eigen::Vector3d rpy(M_PI/2, 0, 0);
@@ -90,7 +90,7 @@ TEST_F(FramePointTest, testDistance)
     FramePoint framePoint1("FramePoint1", root1.get(), 1, 2, 3);
     FramePoint framePoint2("FramePoint2", root1.get(), -1, -2, -3);
 
-    geometry_utilities::RigidBodyTransform transform1;
+    geometry::RigidBodyTransform transform1;
 
     transform1.setIdentity();
     Eigen::Vector3d rpy(M_PI/2, 0, 0);

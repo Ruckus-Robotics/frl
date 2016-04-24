@@ -82,9 +82,9 @@ TEST_F(FrameVectorTest, testCross)
 
     for(int i = 0; i<nTests; i++)
     {
-        Eigen::Vector3d v1(geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble());
-        Eigen::Vector3d v2(geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble());
-        Eigen::Vector3d v3(geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble());
+        Eigen::Vector3d v1(geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble());
+        Eigen::Vector3d v2(geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble());
+        Eigen::Vector3d v3(geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble());
 
         FrameVector frameVector1("One",frame1.get(),v1);
         FrameVector frameVector2("Two",frame2.get(),v2);
@@ -120,7 +120,7 @@ TEST_F(FrameVectorTest, testAngleBetweenVectors)
 
 TEST_F(FrameVectorTest, testChangeFrame)
 {
-    geometry_utilities::RigidBodyTransform transform1;
+    geometry::RigidBodyTransform transform1;
 
     transform1.setIdentity();
     Eigen::Vector3d rpy(M_PI/2, 0, 0);
@@ -173,7 +173,7 @@ TEST_F(FrameVectorTest, testVectorLength)
 
     for(int i = 0; i<nTests; i++)
     {
-        Eigen::Vector3d v1(geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble(),geometry_utilities::GeometryUtilitiesTestHelper::getRandomDouble());
+        Eigen::Vector3d v1(geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble(),geometry::GeometryUtilitiesTestHelper::getRandomDouble());
 
         FrameVector frameVector1("One",frame1.get(),v1);
 

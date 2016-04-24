@@ -34,7 +34,7 @@ namespace frames
         this->referenceFrame = referenceFrame;
     }
 
-    FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry_utilities::Point3d &point) : point(point)
+    FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry::Point3d &point) : point(point)
     {
         this->name = name;
         this->referenceFrame = referenceFrame;
@@ -52,7 +52,7 @@ namespace frames
         this->referenceFrame = referenceFrame;
     }
 
-    void FramePoint::setIncludingFrame(const geometry_utilities::Point3d &point, ReferenceFrame *referenceFrame)
+    void FramePoint::setIncludingFrame(const geometry::Point3d &point, ReferenceFrame *referenceFrame)
     {
         setIncludingFrame(point.getX(),point.getY(),point.getZ(),referenceFrame);
     }
@@ -88,7 +88,7 @@ namespace frames
         {
             this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
 
-            geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
+            geometry::RigidBodyTransform thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
             thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot();
             desiredFramesInverseTransformToRoot = desiredFrame->getInverseTransformToRoot();
 

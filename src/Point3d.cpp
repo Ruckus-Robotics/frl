@@ -1,6 +1,6 @@
 #include "frl/geometry/Point3d.hpp"
 
-namespace geometry_utilities
+namespace geometry
 {
 
     Point3d::Point3d(const double &x, const double &y, const double &z)

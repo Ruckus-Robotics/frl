@@ -4,7 +4,7 @@
 #include <eigen3/Eigen/Eigen>
 #include <vector>
 
-namespace geometry_utilities
+namespace geometry
 {
     class Point3d
     {

@@ -3,7 +3,7 @@
 #include "frl/geometry/RigidBodyTransform.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 
-namespace geometry_utilities
+namespace geometry
 {
 
 class RigidBodyTransformTest : public ::testing::Test

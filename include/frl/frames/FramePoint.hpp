@@ -23,7 +23,7 @@ namespace frames
 
         FramePoint(const std::string &name, ReferenceFrame *referenceFrame, std::vector<double> vector);
 
-        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry_utilities::Point3d &point);
+        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry::Point3d &point);
 
         FramePoint(const FramePoint &framePoint);
 
@@ -32,7 +32,7 @@ namespace frames
         ~FramePoint(){};
 
         void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
-        void setIncludingFrame(const geometry_utilities::Point3d &point, ReferenceFrame *referenceFrame);
+        void setIncludingFrame(const geometry::Point3d &point, ReferenceFrame *referenceFrame);
 
         void setAndKeepFrame(const double &x, const double &y, const double &z);
 
@@ -47,7 +47,7 @@ namespace frames
             return this->referenceFrame;
         }
 
-        geometry_utilities::Point3d getPoint() const
+        geometry::Point3d getPoint() const
         {
             return point;
         }
@@ -68,7 +68,7 @@ namespace frames
         }
 
         ReferenceFrame *referenceFrame;
-        geometry_utilities::Point3d point;
+        geometry::Point3d point;
         std::string name;
     };
 

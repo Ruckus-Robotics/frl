@@ -17,7 +17,7 @@
  * Set to identity
  */
 
-namespace geometry_utilities
+namespace geometry
 {
 RigidBodyTransform::RigidBodyTransform()
 {

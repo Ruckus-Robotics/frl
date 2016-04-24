@@ -67,7 +67,7 @@ ReferenceFrame::ReferenceFrame(const std::string& frameName, bool isWorldFrame, 
 	this->framesStartingWithRootEndingWithThis = vector;
 }
 
-ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform& transfomToParent, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const geometry::RigidBodyTransform& transfomToParent, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
@@ -80,7 +80,7 @@ ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* par
 }
 
 
-ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* parentFrame, const geometry::RigidBodyTransform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame;
@@ -92,7 +92,7 @@ ReferenceFrame::ReferenceFrame(const std::string& frameName, ReferenceFrame* par
 	this->framesStartingWithRootEndingWithThis = constructVectorOfFramesStartingWithRootEndingWithThis(this);
 }
 
-ReferenceFrame::ReferenceFrame(const std::string& frameName, std::unique_ptr<ReferenceFrame> parentFrame, const geometry_utilities::RigidBodyTransform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
+ReferenceFrame::ReferenceFrame(const std::string& frameName, std::unique_ptr<ReferenceFrame> parentFrame, const geometry::RigidBodyTransform& transformToParent, bool isWorldFrame, bool isBodyCenteredFrame)
 {
 	this->frameName = frameName;
 	this->parentFrame = parentFrame.get();
@@ -144,22 +144,22 @@ std::vector<ReferenceFrame*> ReferenceFrame::constructVectorOfFramesStartingWith
 	return vector;
 }
 
-geometry_utilities::RigidBodyTransform ReferenceFrame::getTransformToDesiredFrame(ReferenceFrame* desiredFrame)
+geometry::RigidBodyTransform ReferenceFrame::getTransformToDesiredFrame(ReferenceFrame* desiredFrame)
 {
-	geometry_utilities::RigidBodyTransform transform;
+	geometry::RigidBodyTransform transform;
 	getTransformToDesiredFrame(transform, desiredFrame);
 	return transform;
 }
 
-void ReferenceFrame::getTransformToDesiredFrame(geometry_utilities::RigidBodyTransform& transformToPack, ReferenceFrame* desiredFrame)
+void ReferenceFrame::getTransformToDesiredFrame(geometry::RigidBodyTransform& transformToPack, ReferenceFrame* desiredFrame)
 {
 	verifyFramesHaveSameRoot(desiredFrame);
 
 	this->computeTransform();
 	desiredFrame->computeTransform();
 
-	geometry_utilities::RigidBodyTransform tmpTransform = desiredFrame->inverseTransformToRoot;
-	geometry_utilities::RigidBodyTransform tmpTransform2 = this->transformToRoot;
+	geometry::RigidBodyTransform tmpTransform = desiredFrame->inverseTransformToRoot;
+	geometry::RigidBodyTransform tmpTransform2 = this->transformToRoot;
 
 	tmpTransform *= tmpTransform2;
 
@@ -174,7 +174,7 @@ void ReferenceFrame::verifyFramesHaveSameRoot( ReferenceFrame* frame)
 	}
 }
 
-void ReferenceFrame::setTransformToParent(const geometry_utilities::RigidBodyTransform& transformToParent)
+void ReferenceFrame::setTransformToParent(const geometry::RigidBodyTransform& transformToParent)
 {
 	this->transformToParent = transformToParent;
 }
@@ -212,13 +212,13 @@ void ReferenceFrame::computeTransform()
 		{
 			if (frame->getParentFrame() != nullptr)
 			{
-				geometry_utilities::RigidBodyTransform parentsTransformToRoot = frame->getParentFrame()->transformToRoot;
+				geometry::RigidBodyTransform parentsTransformToRoot = frame->getParentFrame()->transformToRoot;
 
 				frame->transformToRoot = parentsTransformToRoot;
 
 				frame->transformToRoot *= frame->transformToParent;
 
-				geometry_utilities::RigidBodyTransform transformToRoot = frame->transformToRoot;
+				geometry::RigidBodyTransform transformToRoot = frame->transformToRoot;
 				frame->inverseTransformToRoot = transformToRoot;
 				frame->inverseTransformToRoot.invert();
 

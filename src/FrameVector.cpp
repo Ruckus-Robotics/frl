@@ -105,7 +105,7 @@ namespace frames
         {
             this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
 
-            geometry_utilities::RigidBodyTransform thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
+            geometry::RigidBodyTransform thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
             thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot();
             desiredFramesInverseTransformToRoot = desiredFrame->getInverseTransformToRoot();
 

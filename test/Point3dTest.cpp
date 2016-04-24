@@ -4,7 +4,7 @@
 #include <math.h>
 #include <algorithm>
 
-namespace geometry_utilities
+namespace geometry
 {
 
     class Point3dTest : public ::testing::Test

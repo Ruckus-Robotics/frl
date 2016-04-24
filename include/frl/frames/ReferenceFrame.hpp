@@ -18,30 +18,30 @@ namespace frames
 class ReferenceFrame
 {
 	public:
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const ReferenceFrame &referenceFrameToCopy);
 		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const geometry_utilities::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const geometry::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry_utilities::RigidBodyTransform &transfomToParent, bool isBodyCenteredFrame);
+		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry::RigidBodyTransform &transfomToParent, bool isBodyCenteredFrame);
 		ReferenceFrame() {}
 		~ReferenceFrame();
 
 		void update();
-		void getTransformToDesiredFrame(geometry_utilities::RigidBodyTransform &transformToPack, ReferenceFrame* desiredFrame);
-		geometry_utilities::RigidBodyTransform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
+		void getTransformToDesiredFrame(geometry::RigidBodyTransform &transformToPack, ReferenceFrame* desiredFrame);
+		geometry::RigidBodyTransform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
 		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
-		void setTransformToParent(const geometry_utilities::RigidBodyTransform &transformToParent);
+		void setTransformToParent(const geometry::RigidBodyTransform &transformToParent);
 		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const;
 		void checkReferenceFramesMatch(const ReferenceFrame* referenceFrame) const;
 
-		geometry_utilities::RigidBodyTransform getTransformToRoot()
+		geometry::RigidBodyTransform getTransformToRoot()
 		{
 			computeTransform();
 			return this->transformToRoot;
 		}
 
-		geometry_utilities::RigidBodyTransform getInverseTransformToRoot()
+		geometry::RigidBodyTransform getInverseTransformToRoot()
 		{
 			return this->inverseTransformToRoot;
 		}
@@ -70,9 +70,9 @@ class ReferenceFrame
 		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
 		static ReferenceFrame* getWorldFrame();
 
-		virtual void updateTransformToParent(geometry_utilities::RigidBodyTransform &transformToParent) {};
+		virtual void updateTransformToParent(geometry::RigidBodyTransform &transformToParent) {};
 
-		inline geometry_utilities::RigidBodyTransform getTransformToParent()
+		inline geometry::RigidBodyTransform getTransformToParent()
 		{
 			return this->transformToParent;
 		}
@@ -83,7 +83,7 @@ class ReferenceFrame
 		static std::vector<ReferenceFrame*> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame);
 
 		void computeTransform();
-		geometry_utilities::RigidBodyTransform createIdentityTransform();
+		geometry::RigidBodyTransform createIdentityTransform();
 
 		static long nextTransformToRootID;
 		long transformToRootID = LLONG_MIN;
@@ -91,9 +91,9 @@ class ReferenceFrame
 		std::vector<ReferenceFrame*> framesStartingWithRootEndingWithThis;
 		std::string frameName;
 		ReferenceFrame *parentFrame;
-		geometry_utilities::RigidBodyTransform transformToParent;
-		geometry_utilities::RigidBodyTransform transformToRoot;
-		geometry_utilities::RigidBodyTransform inverseTransformToRoot;
+		geometry::RigidBodyTransform transformToParent;
+		geometry::RigidBodyTransform transformToRoot;
+		geometry::RigidBodyTransform inverseTransformToRoot;
 		bool isWorldFrame;
 		bool isBodyCenteredFrame;
 };

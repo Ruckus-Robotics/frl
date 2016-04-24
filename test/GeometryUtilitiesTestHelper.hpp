@@ -7,7 +7,7 @@
 #include <eigen3/Eigen/Eigen>
 #include <unistd.h>
 
-namespace geometry_utilities
+namespace geometry
 {
 
 class GeometryUtilitiesTestHelper
