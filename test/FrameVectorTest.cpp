@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "frl/frame_utilities/FrameVector.hpp"
+#include "frl/frames/FrameVector.hpp"
 #include "ReferenceFrameTestHelper.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 

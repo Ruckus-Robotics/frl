@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 #include <eigen3/Eigen/Eigen>
-#include "frl/geometry_utilities/RigidBodyTransform.hpp"
+#include "frl/geometry/RigidBodyTransform.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 
 namespace geometry_utilities

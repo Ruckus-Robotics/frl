@@ -1,4 +1,4 @@
-#include "frl/geometry_utilities/Point3d.hpp"
+#include "frl/geometry/Point3d.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 #include <gtest/gtest.h>
 #include <math.h>

@@ -1,5 +1,5 @@
-#include "frl/frame_utilities/ReferenceFrame.hpp"
-#include "frl/frame_utilities/ReferenceFrameHolder.hpp"
+#include "frl/frames/ReferenceFrame.hpp"
+#include "frl/frames/ReferenceFrameHolder.hpp"
 #include <random>
 #include <iostream>
 #include <math.h>

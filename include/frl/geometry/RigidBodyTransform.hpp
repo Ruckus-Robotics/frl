@@ -2,7 +2,7 @@
 #define RIGID_BODY_TRANSFORM_HPP
 
 #include <eigen3/Eigen/Eigen>
-#include "frl/geometry_utilities/Point3d.hpp"
+#include "frl/geometry/Point3d.hpp"
 
 namespace geometry_utilities
 {

@@ -23,12 +23,12 @@ set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
 			${SOURCES_DIR}/FramePoint.cpp
 			${SOURCES_DIR}/FrameVector.cpp)
 
-set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/RigidBodyTransform.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry_utilities/Point3d.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/ReferenceFrame.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/FramePoint.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/ReferenceFrameHolder.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/frame_utilities/FrameVector.hpp)
+set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/RigidBodyTransform.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/Point3d.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrame.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/FramePoint.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrameHolder.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/FrameVector.hpp)
 
 set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
 				 ${TEST_DIR}/RigidBodyTransformTest.cpp

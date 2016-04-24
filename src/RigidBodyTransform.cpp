@@ -1,4 +1,4 @@
-#include <frl/geometry_utilities/RigidBodyTransform.hpp>
+#include <frl/geometry/RigidBodyTransform.hpp>
 #include <iostream>
 
 /**
