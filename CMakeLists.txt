@@ -30,17 +30,6 @@ set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrameHolder.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/FrameVector.hpp)
 
-set(TEST_SOURCES ${TEST_DIR}/test_main.cpp
-				 ${TEST_DIR}/RigidBodyTransformTest.cpp
-				 ${TEST_DIR}/GeometryUtilitiesTestHelper.hpp
-				 ${TEST_DIR}/ReferenceFrameTest.cpp
-				 ${TEST_DIR}/ReferenceFrameTestHelper.hpp 
-				 ${TEST_DIR}/FrameUtilitiesTestHelper.hpp
-				 ${TEST_DIR}/Point3dTest.cpp
-				 ${TEST_DIR}/FramePointTest.cpp
-				 ${TEST_DIR}/FrameVectorTest.cpp)
-
-
 include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
 ## Declare a cpp library
@@ -61,7 +50,19 @@ target_link_libraries(${PROJECT_NAME}
 )
 
 # Add gtest based cpp test target and link libraries
-catkin_add_gtest(${PROJECT_NAME}-test ${TEST_SOURCES})
-if(TARGET ${PROJECT_NAME}-test)
-  target_link_libraries(${PROJECT_NAME}-test ${PROJECT_NAME} pthread)
+if (CATKIN_ENABLE_TESTING)
+	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+
+    catkin_add_gtest(RigidBodyTransform-test test/RigidBodyTransformTest.cpp)
+    catkin_add_gtest(ReferenceFrame-test test/ReferenceFrameTest.cpp)
+    catkin_add_gtest(Point3d-test test/Point3dTest.cpp)
+    catkin_add_gtest(FramePoint-test test/FramePointTest.cpp)
+    catkin_add_gtest(FrameVector-test test/FrameVectorTest.cpp)
+
+    target_link_libraries(RigidBodyTransform-test ${PROJECT_NAME})
+    target_link_libraries(ReferenceFrame-test ${PROJECT_NAME})
+    target_link_libraries(Point3d-test ${PROJECT_NAME})
+    target_link_libraries(FramePoint-test ${PROJECT_NAME})
+    target_link_libraries(FrameVector-test ${PROJECT_NAME})
+
 endif()
