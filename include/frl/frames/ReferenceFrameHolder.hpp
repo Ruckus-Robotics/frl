@@ -8,34 +8,39 @@
 **  All credit goes to them.
 **/
 
-namespace frames
+namespace frl
 {
 
-class ReferenceFrameHolder
-{
-	public:
-		virtual ReferenceFrame* getReferenceFrame() const = 0;
+	namespace frames
+	{
 
-		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const
+		class ReferenceFrameHolder
 		{
-			getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
-		}
+		public:
+			virtual ReferenceFrame *getReferenceFrame() const = 0;
 
-		void checkReferenceFramesMatch(const ReferenceFrame* referenceFrame) const
-		{
-			getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
-		}
+			void checkReferenceFramesMatch(ReferenceFrame *referenceFrame) const
+			{
+				getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
+			}
 
-		void checkReferenceFramesMatch(const ReferenceFrameHolder* referenceFrameHolder) const
-		{
-			getReferenceFrame()->checkReferenceFramesMatch(referenceFrameHolder->getReferenceFrame());
-		}
+			void checkReferenceFramesMatch(const ReferenceFrame *referenceFrame) const
+			{
+				getReferenceFrame()->checkReferenceFramesMatch(referenceFrame);
+			}
 
-		void checkReferenceFramesMatch(ReferenceFrameHolder* referenceFrameHolder) const
-		{
-			getReferenceFrame()->checkReferenceFramesMatch(referenceFrameHolder->getReferenceFrame());
-		}
-};
+			void checkReferenceFramesMatch(const ReferenceFrameHolder *referenceFrameHolder) const
+			{
+				getReferenceFrame()->checkReferenceFramesMatch(referenceFrameHolder->getReferenceFrame());
+			}
+
+			void checkReferenceFramesMatch(ReferenceFrameHolder *referenceFrameHolder) const
+			{
+				getReferenceFrame()->checkReferenceFramesMatch(referenceFrameHolder->getReferenceFrame());
+			}
+		};
+
+	}
 
 }
 

@@ -3,6 +3,7 @@
 #include "ReferenceFrameTestHelper.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 
+using namespace frl;
 using namespace frames;
 
 class FrameVectorTest : public ::testing::Test

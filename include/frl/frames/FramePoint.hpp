@@ -10,68 +10,73 @@
 #include "frl/frames/ReferenceFrameHolder.hpp"
 #include "frl/geometry/Point3d.hpp"
 
-namespace frames
+namespace frl
 {
-    class FramePoint : public ReferenceFrameHolder
+
+    namespace frames
     {
-    public:
-        FramePoint(const std::string &name);
-
-        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z);
-
-        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, double array[3]);
-
-        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, std::vector<double> vector);
-
-        FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry::Point3d &point);
-
-        FramePoint(const FramePoint &framePoint);
-
-        FramePoint(const std::string &name, ReferenceFrame *referenceFrame);
-
-        ~FramePoint(){};
-
-        void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
-        void setIncludingFrame(const geometry::Point3d &point, ReferenceFrame *referenceFrame);
-
-        void setAndKeepFrame(const double &x, const double &y, const double &z);
-
-        double distance(const FramePoint &framePoint) const;
-
-        double distanceSquared(const FramePoint &framePoint) const;
-
-        void changeFrame(ReferenceFrame *desiredFrame);
-
-        ReferenceFrame* getReferenceFrame() const
+        class FramePoint : public ReferenceFrameHolder
         {
-            return this->referenceFrame;
-        }
+        public:
+            FramePoint(const std::string &name);
 
-        geometry::Point3d getPoint() const
-        {
-            return point;
-        }
+            FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z);
 
-        double getX() const
-        {
-            return point.getX();
-        }
+            FramePoint(const std::string &name, ReferenceFrame *referenceFrame, double array[3]);
 
-        double getY() const
-        {
-            return point.getY();
-        }
+            FramePoint(const std::string &name, ReferenceFrame *referenceFrame, std::vector<double> vector);
 
-        double getZ() const
-        {
-            return point.getZ();
-        }
+            FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry::Point3d &point);
 
-        ReferenceFrame *referenceFrame;
-        geometry::Point3d point;
-        std::string name;
-    };
+            FramePoint(const FramePoint &framePoint);
 
+            FramePoint(const std::string &name, ReferenceFrame *referenceFrame);
+
+            ~FramePoint()
+            { };
+
+            void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
+
+            void setIncludingFrame(const geometry::Point3d &point, ReferenceFrame *referenceFrame);
+
+            void setAndKeepFrame(const double &x, const double &y, const double &z);
+
+            double distance(const FramePoint &framePoint) const;
+
+            double distanceSquared(const FramePoint &framePoint) const;
+
+            void changeFrame(ReferenceFrame *desiredFrame);
+
+            ReferenceFrame *getReferenceFrame() const
+            {
+                return this->referenceFrame;
+            }
+
+            geometry::Point3d getPoint() const
+            {
+                return point;
+            }
+
+            double getX() const
+            {
+                return point.getX();
+            }
+
+            double getY() const
+            {
+                return point.getY();
+            }
+
+            double getZ() const
+            {
+                return point.getZ();
+            }
+
+            ReferenceFrame *referenceFrame;
+            geometry::Point3d point;
+            std::string name;
+        };
+
+    }
 }
-
 #endif

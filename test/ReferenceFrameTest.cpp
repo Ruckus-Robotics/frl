@@ -2,6 +2,7 @@
 #include "frl/frames/ReferenceFrame.hpp"
 #include "ReferenceFrameTestHelper.hpp"
 
+using namespace frl;
 using namespace frames;
 
 class ReferenceFrameTest : public ::testing::Test

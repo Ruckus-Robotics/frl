@@ -10,70 +10,79 @@
 #include "frl/frames/ReferenceFrame.hpp"
 #include "frl/frames/ReferenceFrameHolder.hpp"
 
-namespace frames
+namespace frl
 {
-    class FrameVector : public ReferenceFrameHolder
+
+    namespace frames
     {
-    public:
-        FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z);
-        FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const Eigen::Vector3d &vector);
-
-        ~FrameVector(){};
-
-        void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
-        void setIncludingFrame(const Eigen::Vector3d &vector, ReferenceFrame *referenceFrame);
-
-        void setAndKeepFrame(const double &x, const double &y, const double &z);
-        void setAndKeepFrame(const Eigen::Vector3d vector);
-
-        double dot(const FrameVector &frameVector) const;
-        void cross(const FrameVector &frameVector,FrameVector &frameVectorToPack) const;
-        Eigen::Vector3d cross(const FrameVector &frameVector) const;
-
-        void changeFrame(ReferenceFrame *desiredFrame);
-
-        double length() const
+        class FrameVector : public ReferenceFrameHolder
         {
-            return this->vector.norm();
-        }
+        public:
+            FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z);
 
-        std::string getName() const
-        {
-            return name;
-        }
+            FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const Eigen::Vector3d &vector);
 
-        double getX() const
-        {
-            return vector(0);
-        }
+            ~FrameVector()
+            { };
 
-        double getY() const
-        {
-            return vector(1);
-        }
+            void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
 
-        double getZ() const
-        {
-            return vector(2);
-        }
+            void setIncludingFrame(const Eigen::Vector3d &vector, ReferenceFrame *referenceFrame);
 
-        double getAngleBetweenVectors(const FrameVector &frameVector) const;
+            void setAndKeepFrame(const double &x, const double &y, const double &z);
 
-        ReferenceFrame* getReferenceFrame() const
-        {
-            return this->referenceFrame;
-        }
+            void setAndKeepFrame(const Eigen::Vector3d vector);
 
-        Eigen::Vector3d getVector() const
-        {
-            return this->vector;
-        }
+            double dot(const FrameVector &frameVector) const;
 
-    private:
-        Eigen::Vector3d vector;
-        ReferenceFrame *referenceFrame;
-        std::string name;
-    };
+            void cross(const FrameVector &frameVector, FrameVector &frameVectorToPack) const;
+
+            Eigen::Vector3d cross(const FrameVector &frameVector) const;
+
+            void changeFrame(ReferenceFrame *desiredFrame);
+
+            double length() const
+            {
+                return this->vector.norm();
+            }
+
+            std::string getName() const
+            {
+                return name;
+            }
+
+            double getX() const
+            {
+                return vector(0);
+            }
+
+            double getY() const
+            {
+                return vector(1);
+            }
+
+            double getZ() const
+            {
+                return vector(2);
+            }
+
+            double getAngleBetweenVectors(const FrameVector &frameVector) const;
+
+            ReferenceFrame *getReferenceFrame() const
+            {
+                return this->referenceFrame;
+            }
+
+            Eigen::Vector3d getVector() const
+            {
+                return this->vector;
+            }
+
+        private:
+            Eigen::Vector3d vector;
+            ReferenceFrame *referenceFrame;
+            std::string name;
+        };
+    }
 }
-
 #endif

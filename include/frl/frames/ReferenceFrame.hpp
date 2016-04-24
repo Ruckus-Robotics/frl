@@ -12,91 +12,114 @@
 #include <vector>
 #include <climits>
 
-namespace frames
+namespace frl
 {
 
-class ReferenceFrame
-{
-	public:
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const ReferenceFrame &referenceFrameToCopy);
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const geometry::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
-		ReferenceFrame(const std::string &frameName, ReferenceFrame* parentFrame, const geometry::RigidBodyTransform &transfomToParent, bool isBodyCenteredFrame);
-		ReferenceFrame() {}
-		~ReferenceFrame();
+	namespace frames
+	{
 
-		void update();
-		void getTransformToDesiredFrame(geometry::RigidBodyTransform &transformToPack, ReferenceFrame* desiredFrame);
-		geometry::RigidBodyTransform getTransformToDesiredFrame(ReferenceFrame* desiredFrame);
-		void verifyFramesHaveSameRoot(ReferenceFrame* desiredFrame);
-		void setTransformToParent(const geometry::RigidBodyTransform &transformToParent);
-		void checkReferenceFramesMatch(ReferenceFrame* referenceFrame) const;
-		void checkReferenceFramesMatch(const ReferenceFrame* referenceFrame) const;
-
-		geometry::RigidBodyTransform getTransformToRoot()
+		class ReferenceFrame
 		{
-			computeTransform();
-			return this->transformToRoot;
-		}
+		public:
+			ReferenceFrame(const std::string &frameName, ReferenceFrame *parentFrame, const geometry::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 
-		geometry::RigidBodyTransform getInverseTransformToRoot()
-		{
-			return this->inverseTransformToRoot;
-		}
+			ReferenceFrame(const ReferenceFrame &referenceFrameToCopy);
 
-		ReferenceFrame* getRootFrame()
-		{
-			return this->framesStartingWithRootEndingWithThis[0];
-		}
+			ReferenceFrame(const std::string &frameName, ReferenceFrame *parentFrame, bool isWorldFrame, bool isBodyCenteredFrame);
 
-		ReferenceFrame* getParentFrame()
-		{
-			return this->parentFrame;
-		}
+			ReferenceFrame(const std::string &frameName, std::unique_ptr<ReferenceFrame> parentframe, const geometry::RigidBodyTransform &transformToParent, bool isWorldFrame, bool isBodyCenteredFrame);
 
-		std::string getName()
-		{
-			return this->frameName;
-		}
+			ReferenceFrame(const std::string &frameName, bool isWorldFrame, bool isBodyCenteredFrame);
 
-		const std::vector<ReferenceFrame*> getFramesStartingWithRootEndingWithThis()
-		{
-			return this->framesStartingWithRootEndingWithThis;
-		}
+			ReferenceFrame(const std::string &frameName, ReferenceFrame *parentFrame, const geometry::RigidBodyTransform &transfomToParent, bool isBodyCenteredFrame);
 
-		static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
-		static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
-		static ReferenceFrame* getWorldFrame();
+			ReferenceFrame()
+			{ }
 
-		virtual void updateTransformToParent(geometry::RigidBodyTransform &transformToParent) {};
+			~ReferenceFrame();
 
-		inline geometry::RigidBodyTransform getTransformToParent()
-		{
-			return this->transformToParent;
-		}
+			void update();
 
-	protected:
+			void getTransformToDesiredFrame(geometry::RigidBodyTransform &transformToPack, ReferenceFrame *desiredFrame);
 
-	private:
-		static std::vector<ReferenceFrame*> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame* thisFrame);
+			geometry::RigidBodyTransform getTransformToDesiredFrame(ReferenceFrame *desiredFrame);
 
-		void computeTransform();
-		geometry::RigidBodyTransform createIdentityTransform();
+			void verifyFramesHaveSameRoot(ReferenceFrame *desiredFrame);
 
-		static long nextTransformToRootID;
-		long transformToRootID = LLONG_MIN;
-		static std::unique_ptr<ReferenceFrame> worldFrame;
-		std::vector<ReferenceFrame*> framesStartingWithRootEndingWithThis;
-		std::string frameName;
-		ReferenceFrame *parentFrame;
-		geometry::RigidBodyTransform transformToParent;
-		geometry::RigidBodyTransform transformToRoot;
-		geometry::RigidBodyTransform inverseTransformToRoot;
-		bool isWorldFrame;
-		bool isBodyCenteredFrame;
-};
+			void setTransformToParent(const geometry::RigidBodyTransform &transformToParent);
+
+			void checkReferenceFramesMatch(ReferenceFrame *referenceFrame) const;
+
+			void checkReferenceFramesMatch(const ReferenceFrame *referenceFrame) const;
+
+			geometry::RigidBodyTransform getTransformToRoot()
+			{
+				computeTransform();
+				return this->transformToRoot;
+			}
+
+			geometry::RigidBodyTransform getInverseTransformToRoot()
+			{
+				return this->inverseTransformToRoot;
+			}
+
+			ReferenceFrame *getRootFrame()
+			{
+				return this->framesStartingWithRootEndingWithThis[0];
+			}
+
+			ReferenceFrame *getParentFrame()
+			{
+				return this->parentFrame;
+			}
+
+			std::string getName()
+			{
+				return this->frameName;
+			}
+
+			const std::vector<ReferenceFrame *> getFramesStartingWithRootEndingWithThis()
+			{
+				return this->framesStartingWithRootEndingWithThis;
+			}
+
+			static std::unique_ptr<ReferenceFrame> createAWorldFrame(const std::string &frameName);
+
+			static std::unique_ptr<ReferenceFrame> createARootFrame(const std::string &frameName);
+
+			static ReferenceFrame *getWorldFrame();
+
+			virtual void updateTransformToParent(geometry::RigidBodyTransform &transformToParent)
+			{ };
+
+			inline geometry::RigidBodyTransform getTransformToParent()
+			{
+				return this->transformToParent;
+			}
+
+		protected:
+
+		private:
+			static std::vector<ReferenceFrame *> constructVectorOfFramesStartingWithRootEndingWithThis(ReferenceFrame *thisFrame);
+
+			void computeTransform();
+
+			geometry::RigidBodyTransform createIdentityTransform();
+
+			static long nextTransformToRootID;
+			long transformToRootID = LLONG_MIN;
+			static std::unique_ptr<ReferenceFrame> worldFrame;
+			std::vector<ReferenceFrame *> framesStartingWithRootEndingWithThis;
+			std::string frameName;
+			ReferenceFrame *parentFrame;
+			geometry::RigidBodyTransform transformToParent;
+			geometry::RigidBodyTransform transformToRoot;
+			geometry::RigidBodyTransform inverseTransformToRoot;
+			bool isWorldFrame;
+			bool isBodyCenteredFrame;
+		};
+
+	}
 
 }
 
