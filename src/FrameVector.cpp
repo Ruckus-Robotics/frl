@@ -1,6 +1,6 @@
 #include "frl/frames/FrameVector.hpp"
 
-namespace frame_utilities
+namespace frames
 {
 
     FrameVector::FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z) : vector(x,y,z)

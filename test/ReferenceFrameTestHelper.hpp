@@ -8,7 +8,7 @@
 #include <memory>
 #include <math.h>
 
-using namespace frame_utilities;
+using namespace frames;
 
 class ReferenceFrameTestHelper
 {

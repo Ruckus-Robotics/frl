@@ -1,7 +1,7 @@
 #include "frl/frames/FramePoint.hpp"
 #include "frl/geometry/RigidBodyTransform.hpp"
 
-namespace frame_utilities
+namespace frames
 {
 
     FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z) : point(x, y, z)

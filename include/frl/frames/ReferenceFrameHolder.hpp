@@ -8,7 +8,7 @@
 **  All credit goes to them.
 **/
 
-namespace frame_utilities
+namespace frames
 {
 
 class ReferenceFrameHolder

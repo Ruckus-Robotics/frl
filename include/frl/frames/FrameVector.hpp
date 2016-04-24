@@ -10,7 +10,7 @@
 #include "frl/frames/ReferenceFrame.hpp"
 #include "frl/frames/ReferenceFrameHolder.hpp"
 
-namespace frame_utilities
+namespace frames
 {
     class FrameVector : public ReferenceFrameHolder
     {

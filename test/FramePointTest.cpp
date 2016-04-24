@@ -3,7 +3,7 @@
 #include "frl/frames/FramePoint.hpp"
 #include "ReferenceFrameTestHelper.hpp"
 
-using namespace frame_utilities;
+using namespace frames;
 
 class FramePointTest : public ::testing::Test
 {

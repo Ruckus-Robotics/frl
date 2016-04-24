@@ -10,7 +10,7 @@
 #include "frl/frames/ReferenceFrameHolder.hpp"
 #include "frl/geometry/Point3d.hpp"
 
-namespace frame_utilities
+namespace frames
 {
     class FramePoint : public ReferenceFrameHolder
     {

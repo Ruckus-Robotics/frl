@@ -10,7 +10,7 @@
 **  All credit goes to them.
 **/
 
-namespace frame_utilities
+namespace frames
 {
 
 std::unique_ptr<ReferenceFrame> ReferenceFrame::worldFrame = ReferenceFrame::createAWorldFrame("World");

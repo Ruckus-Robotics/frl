@@ -12,7 +12,7 @@
 #include <vector>
 #include <climits>
 
-namespace frame_utilities
+namespace frames
 {
 
 class ReferenceFrame

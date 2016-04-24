@@ -2,7 +2,7 @@
 #include <memory>
 #include <math.h>
 
-namespace frame_utilities
+namespace frames
 {
 
 class FrameUtilitiesTestHelper
