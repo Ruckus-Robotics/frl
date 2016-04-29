@@ -17,18 +17,22 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
-			${SOURCES_DIR}/Point3d.cpp
-			${SOURCES_DIR}/ReferenceFrame.cpp 
-			${SOURCES_DIR}/FramePoint.cpp
-			${SOURCES_DIR}/FrameVector.cpp)
+#set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
+#			${SOURCES_DIR}/Point3d.cpp
+#			${SOURCES_DIR}/ReferenceFrame.cpp
+#			${SOURCES_DIR}/FramePoint.cpp
+#			${SOURCES_DIR}/FrameVector.cpp)
+
+set(SOURCES
+        ${SOURCES_DIR}/Point3d.cpp)
 
 set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/Point3d.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrame.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/FramePoint.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrameHolder.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/FrameVector.hpp)
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/FrameVector.hpp
+             ${INCLUDES_DIR}/${PROJECT_NAME}/utils/Utilities.hpp)
 
 include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
@@ -53,16 +57,16 @@ target_link_libraries(${PROJECT_NAME}
 if (CATKIN_ENABLE_TESTING)
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-    catkin_add_gtest(RigidBodyTransform-test test/RigidBodyTransformTest.cpp)
-    catkin_add_gtest(ReferenceFrame-test test/ReferenceFrameTest.cpp)
+#    catkin_add_gtest(RigidBodyTransform-test test/RigidBodyTransformTest.cpp)
+#    catkin_add_gtest(ReferenceFrame-test test/ReferenceFrameTest.cpp)
     catkin_add_gtest(Point3d-test test/Point3dTest.cpp)
-    catkin_add_gtest(FramePoint-test test/FramePointTest.cpp)
-    catkin_add_gtest(FrameVector-test test/FrameVectorTest.cpp)
-
-    target_link_libraries(RigidBodyTransform-test ${PROJECT_NAME})
-    target_link_libraries(ReferenceFrame-test ${PROJECT_NAME})
+#    catkin_add_gtest(FramePoint-test test/FramePointTest.cpp)
+#    catkin_add_gtest(FrameVector-test test/FrameVectorTest.cpp)
+#
+#    target_link_libraries(RigidBodyTransform-test ${PROJECT_NAME})
+#    target_link_libraries(ReferenceFrame-test ${PROJECT_NAME})
     target_link_libraries(Point3d-test ${PROJECT_NAME})
-    target_link_libraries(FramePoint-test ${PROJECT_NAME})
-    target_link_libraries(FrameVector-test ${PROJECT_NAME})
+#    target_link_libraries(FramePoint-test ${PROJECT_NAME})
+#    target_link_libraries(FrameVector-test ${PROJECT_NAME})
 
 endif()

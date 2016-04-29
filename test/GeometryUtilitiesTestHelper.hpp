@@ -42,9 +42,10 @@ namespace frl
 				return vector;
 			}
 
-			static Point3d getRandomPoint3d()
+			template<typename T>
+			static Point3d<T> getRandomPoint3d()
 			{
-				Point3d point;
+				Point3d<T> point;
 				point.setX(getRandomDouble());
 				point.setY(getRandomDouble());
 				point.setZ(getRandomDouble());

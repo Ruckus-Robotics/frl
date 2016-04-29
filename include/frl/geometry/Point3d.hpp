@@ -3,90 +3,184 @@
 
 #include <eigen3/Eigen/Eigen>
 #include <vector>
+#include <math.h>
+#include "frl/utils/Utilities.hpp"
+#include <stdexcept>
 
 namespace frl
 {
-
     namespace geometry
     {
+        template<class T>
         class Point3d
         {
         public:
-            Point3d(const double &x, const double &y, const double &z);
+            Point3d(const T x, const T y, const T z)
+            {
+                set(x, y, z);
+            }
 
-            Point3d(const std::vector<double> &vector);
+            Point3d(const std::vector<T> &vector)
+            {
+                set(vector[0], vector[1], vector[2]);
+            }
 
-            Point3d(const Point3d &point);
+            Point3d(const Point3d &point)
+            {
+                set(point.x, point.y, point.z);
+            }
 
-            Point3d(const Eigen::Vector3d &vector);
+            Point3d(const T array[3])
+            {
+                set(array[0], array[1], array[2]);
+            }
 
-            Point3d(const double array[3]);
-
-            Point3d();
+            Point3d()
+            {
+                set(0.0, 0.0, 0.0);
+            }
 
             ~Point3d()
             { };
 
-            void set(const double &x, const double &y, const double &z);
+            void set(const std::vector<T> &vector)
+            {
+                if(vector.size() != 3)
+                {
+                    throw std::runtime_error("Vector must be size 3!");
+                }
+                set(vector[0], vector[1], vector[2]);
+            }
 
-            void set(const std::vector<double> &vector);
+            void set(const T x, const T y, const T z)
+            {
+                this->x = x;
+                this->y = y;
+                this->z = z;
+            }
 
-            void add(const double &x, const double &y, const double &z);
+            void add(const T &x, const T &y, const T &z)
+            {
+                this->x += x;
+                this->y += y;
+                this->z += z;
+            }
 
-            void subtract(const double &x, const double &y, const double &z);
+            void subtract(const T &x, const T &y, const T &z)
+            {
+                this->x -= x;
+                this->y -= y;
+                this->z -= z;
+            }
 
-            void negate();
+            void negate()
+            {
+                this->x *= -1;
+                this->y *= -1;
+                this->z *= -1;
+            }
 
-            void scale(const double &scale);
+            void scale(const T &scale)
+            {
+                this->x *= scale;
+                this->y *= scale;
+                this->z *= scale;
+            }
 
-            void scaleAdd(const double &scale, const Point3d &point);
+            void scaleAdd(const T &scale, const Point3d &point)
+            {
+                this->x *= scale;
+                this->y *= scale;
+                this->z *= scale;
 
-            bool equals(const Point3d &point);
+                this->x += point.x;
+                this->y += point.y;
+                this->z += point.z;
+            }
 
-            bool epsilonEquals(const Point3d &point, const double &epsilon);
+            bool equals(const Point3d &point)
+            {
+                return (this->x == point.x && this->y == point.y && this->z == point.z);
+            }
 
-            void clampMin(const double &min);
+            bool epsilonEquals(const Point3d &point, const T epsilon)
+            {
+                return (fabs(this->x - point.x) < epsilon && fabs(this->y - point.y) < epsilon && fabs(this->z - point.z) < epsilon);
+            }
 
-            void clampMax(const double &max);
+            void clampMin(const T min)
+            {
+                frl::utils::clampMin(x,min);
+                frl::utils::clampMin(y,min);
+                frl::utils::clampMin(z,min);
+            }
 
-            void clampMinMax(const double &min, const double &max);
+            void clampMax(const T max)
+            {
+                frl::utils::clampMax(x,max);
+                frl::utils::clampMax(y,max);
+                frl::utils::clampMax(z,max);
+            }
 
-            void absoluteValue();
+            void clampMinMax(const T min, const T max)
+            {
+                clampMin(min);
+                clampMax(max);
+            }
 
-            double distanceSquared(const Point3d &point) const;
+            void absoluteValue()
+            {
+                this->x = fabs(this->x);
+                this->y = fabs(this->y);
+                this->z = fabs(this->z);
+            }
 
-            double distance(const Point3d point) const;
+            T distanceSquared(const Point3d &point) const
+            {
+                return frl::utils::computeDistanceBetweenPointsSquared(x,y,z,point.x,point.y,point.z);
+            }
 
-            double distanceL1(const Point3d &point) const;
+            T distance(const Point3d point) const
+            {
+                return frl::utils::computeDistanceBetweenPoints(x,y,z,point.x,point.y,point.z);
+            }
 
-            double distanceLinf(const Point3d &point) const;
+            T distanceL1(const Point3d &point) const
+            {
+                return frl::utils::distanceL1(x,y,z,point.x,point.y,point.z);
+            }
 
-            inline double getX() const
+            T distanceLinf(const Point3d &point) const
+            {
+                return frl::utils::distanceLinf(x,y,z,point.x,point.y,point.z);
+            }
+
+            inline T getX() const
             {
                 return this->x;
             };
 
-            inline double getY() const
+            inline T getY() const
             {
                 return this->y;
             };
 
-            inline double getZ() const
+            inline T getZ() const
             {
                 return this->z;
             };
 
-            inline void setX(double x)
+            inline void setX(T x)
             {
                 this->x = x;
             }
 
-            inline void setY(double y)
+            inline void setY(T y)
             {
                 this->y = y;
             }
 
-            inline void setZ(double z)
+            inline void setZ(T z)
             {
                 this->z = z;
             }
@@ -133,7 +227,7 @@ namespace frl
                 return leftHandSide;
             }
 
-            double x, y, z;
+            T x, y, z;
         };
     }
 
