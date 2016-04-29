@@ -60,6 +60,12 @@ namespace frl
 
             return std::max(tmp, fabs(p1Z - p2Z));
         }
+
+        template<typename T>
+        static bool almostZero(const T a, const double epsilon=1e-5)
+        {
+            return ((a < epsilon) && (a > -epsilon));
+        }
     }
 }
 

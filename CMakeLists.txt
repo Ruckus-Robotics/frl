@@ -24,7 +24,8 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 #			${SOURCES_DIR}/FrameVector.cpp)
 
 set(SOURCES
-        ${SOURCES_DIR}/Point3d.cpp)
+        ${SOURCES_DIR}/Point3d.cpp
+        ${SOURCES_DIR}/RigidBodyTransform.cpp)
 
 set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/Point3d.hpp

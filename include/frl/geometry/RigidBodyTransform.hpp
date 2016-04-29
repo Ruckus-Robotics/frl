@@ -8,39 +8,30 @@ namespace frl
 {
 	namespace geometry
 	{
-		template<typename T>
+		template<class T>
 		class RigidBodyTransform
 		{
 		public:
 			RigidBodyTransform();
 
-			RigidBodyTransform(const RigidBodyTransform &transform);
+			RigidBodyTransform(const RigidBodyTransform &transform)
+			{
+
+			}
 
 			RigidBodyTransform(const Eigen::Matrix4d &matrix);
-
 			RigidBodyTransform(const Eigen::Matrix4f &matrix);
-
 			RigidBodyTransform(const Eigen::Matrix3d &matrix, const Eigen::Vector3d &vector);
-
 			RigidBodyTransform(const Eigen::Matrix3f &matrix, const Eigen::Vector3f &vector);
-
-			RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle, const Eigen::Vector3d &vector);
-
-			RigidBodyTransform(const Eigen::AngleAxis<float> &axisAngle, const Eigen::Vector3f &vector);
-
-			RigidBodyTransform(const Eigen::Quaternion<double> &quaternion, const Eigen::Vector3d &vector);
-
+			RigidBodyTransform(const Eigen::AngleAxisd &axisAngle, const Eigen::Vector3d &vector);
+			RigidBodyTransform(const Eigen::AngleAxisf &axisAngle, const Eigen::Vector3f &vector);
+			RigidBodyTransform(const Eigen::Quaterniond &quaternion, const Eigen::Vector3d &vector);
 			RigidBodyTransform(const Eigen::Matrix3d &matrix);
-
 			RigidBodyTransform(const Eigen::Matrix3f &matrix);
-
-			RigidBodyTransform(const Eigen::Quaternion<double> &quat);
-
-			RigidBodyTransform(const Eigen::Quaternion<float> &quat);
-
-			RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle);
-
-			RigidBodyTransform(const Eigen::AngleAxis<float> &axisAngle);
+			RigidBodyTransform(const Eigen::Quaterniond &quat);
+			RigidBodyTransform(const Eigen::Quaternionf &quat);
+			RigidBodyTransform(const Eigen::AngleAxisd &axisAngle);
+			RigidBodyTransform(const Eigen::AngleAxisf &axisAngle);
 
 			~RigidBodyTransform()
 			{ };
@@ -48,38 +39,44 @@ namespace frl
 			void setIdentity();
 
 			void set(const RigidBodyTransform &transform);
-
 			void set(const Eigen::Matrix4d &matrix);
-
+			void set(const Eigen::Matrix4f &matrix);
 			void set(const Eigen::Matrix3d &matrix, const Eigen::Vector3d &vector);
+			void set(const Eigen::Matrix3f &matrix, const Eigen::Vector3f &vector);
+			void set(const Eigen::AngleAxisd &axisAngle, const Eigen::Vector3d &vector);
+			void set(const Eigen::AngleAxisf &axisAngle, const Eigen::Vector3f &vector);
+			void set(const Eigen::Quaterniond &quat, const Eigen::Vector3d &vector);
+			void set(const Eigen::Quaternionf &quat, const Eigen::Vector3f &vector);
 
-			void set(const Eigen::AngleAxis<double> &axisAngle, const Eigen::Vector3d &vector);
-
-			void set(const Eigen::Quaternion<double> &quat, const Eigen::Vector3d &vector);
-
-			void setTranslation(const double &x, const double &y, const double &z);
+			template<typename TYPE>
+			void setTranslation(const TYPE x, const TYPE y, const TYPE z);
 
 			void setTranslation(const Eigen::Vector3d &vector);
+			void setTranslation(const Eigen::Vector3f &vector);
 
 			void setAsTranspose(const Eigen::Matrix4d &matrix);
 
 			void zeroTranslation();
 
 			void setRotation(const Eigen::Matrix3d &matrix);
+			void setRotation(const Eigen::Matrix3f &matrix);
+			void setRotation(const Eigen::Quaterniond &quat);
+			void setRotation(const Eigen::Quaternionf &quat);
+			void setRotation(const Eigen::AngleAxisd &axisAngle);
+			void setRotation(const Eigen::AngleAxisf &axisAngle);
 
-			void setRotation(const Eigen::Quaternion<double> &quat);
+			template<typename TYPE>
+			void setRotationWithQuaternion(const TYPE qx, const TYPE qy, const TYPE qz, const TYPE qw);
 
-			void setRotation(const Eigen::AngleAxis<double> &axisAngle);
-
-			void setRotationWithQuaternion(const double &qx, const double &qy, const double &qz, const double &qw);
-
-			void setRotationWithAxisAngle(const double &axisAngleX, const double &axisAngleY, const double &axisAngleZ, const double &axisAngleTheta);
+			template<typename TYPE>
+			void setRotationWithAxisAngle(const TYPE axisAngleX, const TYPE axisAngleY, const TYPE &axisAngleZ, const TYPE axisAngleTheta);
 
 			void setRotationAndZeroTranslation(const Eigen::Matrix3d &matrix);
-
-			void setRotationAndZeroTranslation(const Eigen::Quaternion<double> &quat);
-
-			void setRotationAndZeroTranslation(const Eigen::AngleAxis<double> &axisAngle);
+			void setRotationAndZeroTranslation(const Eigen::Matrix3f &matrix);
+			void setRotationAndZeroTranslation(const Eigen::Quaterniond &quat);
+			void setRotationAndZeroTranslation(const Eigen::Quaternionf &quat);
+			void setRotationAndZeroTranslation(const Eigen::AngleAxisd &axisAngle);
+			void setRotationAndZeroTranslation(const Eigen::AngleAxisf &axisAngle);
 
 			void setTranslationAndIdentityRotation(const Eigen::Vector3d &vector);
 
@@ -129,23 +126,29 @@ namespace frl
 
 			void transform(const Point3d &pointIn, Point3d &pointOut);
 
-			void applyRotationX(const double &angle);
+			template<typename TYPE>
+			void applyRotationX(const double angle);
 
-			void applyRotationY(const double &angle);
+			template<typename TYPE>
+			void applyRotationY(const double angle);
 
-			void applyRotationZ(const double &angle);
+			template<typename TYPE>
+			void applyRotationZ(const double angle);
 
-			void rotX(const double &angle);
+			template<typename TYPE>
+			void rotX(const double angle);
 
-			void rotY(const double &angle);
+			template<typename TYPE>
+			void rotY(const double angle);
 
-			void rotZ(const double &angle);
+			template<typename TYPE>
+			void rotZ(const double angle);
 
 			void multiply(const RigidBodyTransform &transform);
 
 			void multiply(const RigidBodyTransform &transform1, const RigidBodyTransform &transform);
 
-			bool isRotationMatrixEpsilonIdentity(const double &epsilon) const;
+			bool isRotationMatrixEpsilonIdentity(const double epsilon) const;
 
 			void invert(const RigidBodyTransform &transform);
 
@@ -162,8 +165,6 @@ namespace frl
 			double determinant() const;
 
 			void normalize();
-
-			static bool almostZero(const double &a);
 
 			static Eigen::Vector3d getTranslationDifference(const RigidBodyTransform &transform1, const RigidBodyTransform &transform2);
 
