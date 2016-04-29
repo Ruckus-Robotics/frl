@@ -155,32 +155,32 @@ namespace frl
                 return frl::utils::distanceLinf(x,y,z,point.x,point.y,point.z);
             }
 
-            inline T getX() const
+            T getX() const
             {
                 return this->x;
             };
 
-            inline T getY() const
+            T getY() const
             {
                 return this->y;
             };
 
-            inline T getZ() const
+            T getZ() const
             {
                 return this->z;
             };
 
-            inline void setX(T x)
+            void setX(T x)
             {
                 this->x = x;
             }
 
-            inline void setY(T y)
+            void setY(T y)
             {
                 this->y = y;
             }
 
-            inline void setZ(T z)
+            void setZ(T z)
             {
                 this->z = z;
             }

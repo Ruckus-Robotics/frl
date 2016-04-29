@@ -1,8 +1,6 @@
 #include "frl/geometry/Point3d.hpp"
 #include "GeometryUtilitiesTestHelper.hpp"
 #include <gtest/gtest.h>
-#include <math.h>
-#include <algorithm>
 
 using namespace frl;
 using namespace geometry;

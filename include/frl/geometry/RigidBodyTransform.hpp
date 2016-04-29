@@ -6,10 +6,9 @@
 
 namespace frl
 {
-
 	namespace geometry
 	{
-
+		template<typename T>
 		class RigidBodyTransform
 		{
 		public:
@@ -19,17 +18,29 @@ namespace frl
 
 			RigidBodyTransform(const Eigen::Matrix4d &matrix);
 
+			RigidBodyTransform(const Eigen::Matrix4f &matrix);
+
 			RigidBodyTransform(const Eigen::Matrix3d &matrix, const Eigen::Vector3d &vector);
 
+			RigidBodyTransform(const Eigen::Matrix3f &matrix, const Eigen::Vector3f &vector);
+
 			RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle, const Eigen::Vector3d &vector);
+
+			RigidBodyTransform(const Eigen::AngleAxis<float> &axisAngle, const Eigen::Vector3f &vector);
 
 			RigidBodyTransform(const Eigen::Quaternion<double> &quaternion, const Eigen::Vector3d &vector);
 
 			RigidBodyTransform(const Eigen::Matrix3d &matrix);
 
+			RigidBodyTransform(const Eigen::Matrix3f &matrix);
+
 			RigidBodyTransform(const Eigen::Quaternion<double> &quat);
 
+			RigidBodyTransform(const Eigen::Quaternion<float> &quat);
+
 			RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle);
+
+			RigidBodyTransform(const Eigen::AngleAxis<float> &axisAngle);
 
 			~RigidBodyTransform()
 			{ };
@@ -182,18 +193,18 @@ namespace frl
 		private:
 			void getRotation(Eigen::AngleAxis<double> &axisAngle, const double &epsilon) const;
 
-			double mat00;
-			double mat01;
-			double mat02;
-			double mat03;
-			double mat10;
-			double mat11;
-			double mat13;
-			double mat12;
-			double mat20;
-			double mat21;
-			double mat22;
-			double mat23;
+			T mat00;
+			T mat01;
+			T mat02;
+			T mat03;
+			T mat10;
+			T mat11;
+			T mat13;
+			T mat12;
+			T mat20;
+			T mat21;
+			T mat22;
+			T mat23;
 		};
 
 	}
