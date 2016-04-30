@@ -91,7 +91,8 @@ namespace frl
                 this->z *= scale;
             }
 
-            void scaleAdd(const T &scale, const Point3 &point)
+            template<typename TYPE>
+            void scaleAdd(const TYPE scale, const Point3 &point)
             {
                 this->x *= scale;
                 this->y *= scale;
@@ -107,7 +108,7 @@ namespace frl
                 return (this->x == point.x && this->y == point.y && this->z == point.z);
             }
 
-            bool epsilonEquals(const Point3 &point, const T epsilon)
+            bool epsilonEquals(const Point3 &point, const double epsilon)
             {
                 return (fabs(this->x - point.x) < epsilon && fabs(this->y - point.y) < epsilon && fabs(this->z - point.z) < epsilon);
             }
