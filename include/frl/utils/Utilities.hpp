@@ -27,8 +27,8 @@ namespace frl
             return sqrt(computeDistanceBetweenPointsSquared(p1X,p1Y,p1Z,p2X,p2Y,p2Z));
         }
 
-        template<typename T>
-        static void clampMin(T &x,const T min)
+        template<typename T1, typename T2>
+        static void clampMin(T1 &x,const T2 min)
         {
             if (x < min)
             {
@@ -36,8 +36,8 @@ namespace frl
             }
         }
 
-        template<typename T>
-        static void clampMax(T &x,const T max)
+        template<typename T1, typename T2>
+        static void clampMax(T1 &x,const T2 max)
         {
             if (x > max)
             {

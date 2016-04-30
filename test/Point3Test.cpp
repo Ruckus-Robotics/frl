@@ -292,161 +292,184 @@ TEST_F(Point3Test, testAdd2)
     }
 }
 
-//TEST_F(Point3Test, testAdd3)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point2 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point3(point1.getX() + point2.getX(), point1.getY() + point2.getY(), point1.getZ() + point2.getZ());
-//        point1.add(point2.getX(), point2.getY(), point2.getZ());
-//
-//        EXPECT_TRUE(point3.epsilonEquals(point1, 1e-12));
-//    }
-//}
-//
-//TEST_F(Point3Test, testSubtract1)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point2 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point3(point1.getX() - point2.getX(), point1.getY() - point2.getY(), point1.getZ() - point2.getZ());
-//        point1 -= point2;
-//
-//        EXPECT_TRUE(point3.epsilonEquals(point1, 1e-12));
-//    }
-//}
-//
-//TEST_F(Point3Test, testSubtract2)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point2 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point3(point1.getX() - point2.getX(), point1.getY() - point2.getY(), point1.getZ() - point2.getZ());
-//        point1.subtract(point2.getX(), point2.getY(), point2.getZ());
-//
-//        EXPECT_TRUE(point3.epsilonEquals(point1, 1e-12));
-//    }
-//}
-//
-//TEST_F(Point3Test, testNegate1)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point2 = point1;
-//        point1.negate();
-//
-//        EXPECT_TRUE(point1.getX() == -point2.getX());
-//        EXPECT_TRUE(point1.getY() == -point2.getY());
-//        EXPECT_TRUE(point1.getZ() == -point2.getZ());
-//    }
-//}
-//
-//TEST_F(Point3Test, testScale1)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point2 = point1;
-//        double scale = rand() % 100 - 50;
-//
-//        point1.scale(scale);
-//
-//        EXPECT_TRUE(point1.getX() == point2.getX() * scale);
-//        EXPECT_TRUE(point1.getY() == point2.getY() * scale);
-//        EXPECT_TRUE(point1.getZ() == point2.getZ() * scale);
-//    }
-//}
-//
-//TEST_F(Point3Test, testScaleAdd1)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point2 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point3 = point1;
-//        double scale = rand() % 100 - 50;
-//
-//        point1.scaleAdd(scale, point2);
-//
-//        point3.scale(scale);
-//        point3 += point2;
-//
-//        EXPECT_TRUE(point1.equals(point3));
-//    }
-//}
-//
-//TEST_F(Point3Test, testAbsoluteValue1)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
-//        Point3d point2 = point1;
-//        point1.absoluteValue();
-//
-//        EXPECT_TRUE(point1.getX() == fabs(point2.getX()));
-//        EXPECT_TRUE(point1.getY() == fabs(point2.getY()));
-//        EXPECT_TRUE(point1.getZ() == fabs(point2.getZ()));
-//    }
-//}
-//
-//TEST_F(Point3Test, testClampMinMax1)
-//{
-//    Point3d point1(100, 200, 300);
-//    Point3d point2 = point1;
-//    point2.clampMinMax(-100, -50);
-//
-//    EXPECT_TRUE(point2.getX() == -50);
-//    EXPECT_TRUE(point2.getY() == -50);
-//    EXPECT_TRUE(point2.getZ() == -50);
-//}
-//
-//TEST_F(Point3Test, testClampMinMax2)
-//{
-//    Point3d point1(100, 200, 300);
-//    Point3d point2 = point1;
-//    point2.clampMinMax(-100, 200);
-//
-//    EXPECT_TRUE(point2.getX() == 100);
-//    EXPECT_TRUE(point2.getY() == 200);
-//    EXPECT_TRUE(point2.getZ() == 200);
-//}
-//
-//TEST_F(Point3Test, testClampMinMax3)
-//{
-//    Point3d point1(100, 200, 300);
-//    Point3d point2 = point1;
-//    point2.clampMinMax(201, 220);
-//
-//    EXPECT_TRUE(point2.getX() == 201);
-//    EXPECT_TRUE(point2.getY() == 201);
-//    EXPECT_TRUE(point2.getZ() == 220);
-//}
-//
-//TEST_F(Point3Test, testClampMin)
-//{
-//    Point3d point1(100, 200, 300);
-//    Point3d point2 = point1;
-//    point2.clampMin(201);
-//
-//    EXPECT_TRUE(point2.getX() == 201);
-//    EXPECT_TRUE(point2.getY() == 201);
-//    EXPECT_TRUE(point2.getZ() == 300);
-//}
-//
-//TEST_F(Point3Test, testClampMax)
-//{
-//    Point3d point1(100, 200, 300);
-//    Point3d point2 = point1;
-//    point2.clampMax(201);
-//
-//    EXPECT_TRUE(point2.getX() == 100);
-//    EXPECT_TRUE(point2.getY() == 200);
-//    EXPECT_TRUE(point2.getZ() == 201);
-//}
+TEST_F(Point3Test, testSubtract1)
+{
+    for (int i = 0; i < 1000; i++)
+    {
+        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
+        Point3d point2 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
+        Point3d point3(point1.getX() - point2.getX(), point1.getY() - point2.getY(), point1.getZ() - point2.getZ());
+        point1 -= point2;
+
+        EXPECT_TRUE(point3.epsilonEquals(point1, 1e-12));
+    }
+
+    for (int i = 0; i < 1000; i++)
+    {
+        Point3f point1 = GeometryUtilitiesTestHelper::getRandomPoint3<float>();
+        Point3f point2 = GeometryUtilitiesTestHelper::getRandomPoint3<float>();
+        Point3f point3(point1.getX() - point2.getX(), point1.getY() - point2.getY(), point1.getZ() - point2.getZ());
+        point1 -= point2;
+
+        EXPECT_TRUE(point3.epsilonEquals(point1, 1e-12));
+    }
+}
+
+TEST_F(Point3Test, testScale1)
+{
+    for (int i = 0; i < 1000; i++)
+    {
+        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
+        Point3d point2 = point1;
+        double scale = rand() % 100 - 50;
+
+        point1 *= scale;
+
+        EXPECT_TRUE(point1.getX() == point2.getX() * scale);
+        EXPECT_TRUE(point1.getY() == point2.getY() * scale);
+        EXPECT_TRUE(point1.getZ() == point2.getZ() * scale);
+    }
+}
+
+TEST_F(Point3Test, testAbsoluteValue1)
+{
+    for (int i = 0; i < 1000; i++)
+    {
+        Point3d point1 = GeometryUtilitiesTestHelper::getRandomPoint3<double>();
+        Point3d point2 = point1;
+        point1.absoluteValue();
+
+        EXPECT_TRUE(point1.getX() == fabs(point2.getX()));
+        EXPECT_TRUE(point1.getY() == fabs(point2.getY()));
+        EXPECT_TRUE(point1.getZ() == fabs(point2.getZ()));
+    }
+
+    for (int i = 0; i < 1000; i++)
+    {
+        Point3f point1 = GeometryUtilitiesTestHelper::getRandomPoint3<float>();
+        Point3f point2 = point1;
+        point1.absoluteValue();
+
+        EXPECT_TRUE(point1.getX() == fabs(point2.getX()));
+        EXPECT_TRUE(point1.getY() == fabs(point2.getY()));
+        EXPECT_TRUE(point1.getZ() == fabs(point2.getZ()));
+    }
+}
+
+TEST_F(Point3Test, testClampMinMax1)
+{
+    {
+        Point3d point1(100, 200, 300);
+        Point3d point2 = point1;
+        point2.clampMinMax(-100, -50);
+
+        EXPECT_TRUE(point2.getX() == -50);
+        EXPECT_TRUE(point2.getY() == -50);
+        EXPECT_TRUE(point2.getZ() == -50);
+    }
+
+    {
+        Point3f point1(100, 200, 300);
+        Point3f point2 = point1;
+        point2.clampMinMax(-100, -50);
+
+        EXPECT_TRUE(point2.getX() == -50);
+        EXPECT_TRUE(point2.getY() == -50);
+        EXPECT_TRUE(point2.getZ() == -50);
+    }
+}
+
+TEST_F(Point3Test, testClampMinMax2)
+{
+    {
+        Point3d point1(100, 200, 300);
+        Point3d point2 = point1;
+        point2.clampMinMax(-100, 200);
+
+        EXPECT_TRUE(point2.getX() == 100);
+        EXPECT_TRUE(point2.getY() == 200);
+        EXPECT_TRUE(point2.getZ() == 200);
+    }
+
+    {
+        Point3f point1(100, 200, 300);
+        Point3f point2 = point1;
+        point2.clampMinMax(-100, 200);
+
+        EXPECT_TRUE(point2.getX() == 100);
+        EXPECT_TRUE(point2.getY() == 200);
+        EXPECT_TRUE(point2.getZ() == 200);
+    }
+}
+
+TEST_F(Point3Test, testClampMinMax3)
+{
+    {
+        Point3d point1(100, 200, 300);
+        Point3d point2 = point1;
+        point2.clampMinMax(201, 220);
+
+        EXPECT_TRUE(point2.getX() == 201);
+        EXPECT_TRUE(point2.getY() == 201);
+        EXPECT_TRUE(point2.getZ() == 220);
+    }
+
+    {
+        Point3f point1(100, 200, 300);
+        Point3f point2 = point1;
+        point2.clampMinMax(201, 220);
+
+        EXPECT_TRUE(point2.getX() == 201);
+        EXPECT_TRUE(point2.getY() == 201);
+        EXPECT_TRUE(point2.getZ() == 220);
+    }
+}
+
+TEST_F(Point3Test, testClampMin)
+{
+    {
+        Point3d point1(100, 200, 300);
+        Point3d point2 = point1;
+        point2.clampMin(201);
+
+        EXPECT_TRUE(point2.getX() == 201);
+        EXPECT_TRUE(point2.getY() == 201);
+        EXPECT_TRUE(point2.getZ() == 300);
+    }
+
+    {
+        Point3f point1(100, 200, 300);
+        Point3f point2 = point1;
+        point2.clampMin(201);
+
+        EXPECT_TRUE(point2.getX() == 201);
+        EXPECT_TRUE(point2.getY() == 201);
+        EXPECT_TRUE(point2.getZ() == 300);
+    }
+}
+
+TEST_F(Point3Test, testClampMax)
+{
+    {
+        Point3d point1(100, 200, 300);
+        Point3d point2 = point1;
+        point2.clampMax(201);
+
+        EXPECT_TRUE(point2.getX() == 100);
+        EXPECT_TRUE(point2.getY() == 200);
+        EXPECT_TRUE(point2.getZ() == 201);
+    }
+
+    {
+        Point3f point1(100, 200, 300);
+        Point3f point2 = point1;
+        point2.clampMax(201);
+
+        EXPECT_TRUE(point2.getX() == 100);
+        EXPECT_TRUE(point2.getY() == 200);
+        EXPECT_TRUE(point2.getZ() == 201);
+    }
+}
 
 
 int main(int argc, char **argv)

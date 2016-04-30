@@ -27,12 +27,14 @@ namespace frl
                 set(vector[0], vector[1], vector[2]);
             }
 
-            Point3(const Point3 &point)
+            template<class TYPE>
+            Point3(const Point3<TYPE> &point)
             {
                 set(point.x, point.y, point.z);
             }
 
-            Point3(const T array[3])
+            template<typename TYPE>
+            Point3(const TYPE array[3])
             {
                 set(array[0], array[1], array[2]);
             }
@@ -63,32 +65,30 @@ namespace frl
                 this->z = z;
             }
 
-            bool equals(const Point3 &point)
-            {
-                return (this->x == point.x && this->y == point.y && this->z == point.z);
-            }
-
             template<typename TYPE>
             bool epsilonEquals(const Point3<TYPE> &point, const double epsilon)
             {
                 return (fabs(this->x - point.x) < epsilon && fabs(this->y - point.y) < epsilon && fabs(this->z - point.z) < epsilon);
             }
 
-            void clampMin(const T min)
+            template<typename TYPE>
+            void clampMin(const TYPE min)
             {
                 frl::utils::clampMin(x,min);
                 frl::utils::clampMin(y,min);
                 frl::utils::clampMin(z,min);
             }
 
-            void clampMax(const T max)
+            template<typename TYPE>
+            void clampMax(const TYPE max)
             {
                 frl::utils::clampMax(x,max);
                 frl::utils::clampMax(y,max);
                 frl::utils::clampMax(z,max);
             }
 
-            void clampMinMax(const T min, const T max)
+            template<typename TYPE>
+            void clampMinMax(const TYPE min, const TYPE max)
             {
                 clampMin(min);
                 clampMax(max);
@@ -101,22 +101,26 @@ namespace frl
                 this->z = fabs(this->z);
             }
 
-            T distanceSquared(const Point3 &point) const
+            template<class TYPE>
+            T distanceSquared(const Point3<TYPE> &point) const
             {
                 return frl::utils::computeDistanceBetweenPointsSquared(x,y,z,point.x,point.y,point.z);
             }
 
-            T distance(const Point3 point) const
+            template<class TYPE>
+            T distance(const Point3<TYPE> point) const
             {
                 return frl::utils::computeDistanceBetweenPoints(x,y,z,point.x,point.y,point.z);
             }
 
-            T distanceL1(const Point3 &point) const
+            template<class TYPE>
+            T distanceL1(const Point3<TYPE> &point) const
             {
                 return frl::utils::distanceL1(x,y,z,point.x,point.y,point.z);
             }
 
-            T distanceLinf(const Point3 &point) const
+            template<class TYPE>
+            T distanceLinf(const Point3<TYPE> &point) const
             {
                 return frl::utils::distanceLinf(x,y,z,point.x,point.y,point.z);
             }
@@ -136,22 +140,26 @@ namespace frl
                 return this->z;
             };
 
-            void setX(T x)
+            template<typename TYPE>
+            void setX(TYPE x)
             {
                 this->x = x;
             }
 
-            void setY(T y)
+            template<typename TYPE>
+            void setY(TYPE y)
             {
                 this->y = y;
             }
 
-            void setZ(T z)
+            template<typename TYPE>
+            void setZ(TYPE z)
             {
                 this->z = z;
             }
 
-            Point3<T>& operator+=(const Point3 &point)
+            template<class TYPE>
+            Point3<T>& operator+=(const Point3<TYPE> &point)
             {
                 this->x += point.x;
                 this->y += point.y;
@@ -160,7 +168,8 @@ namespace frl
                 return *this;
             }
 
-            Point3<T>& operator-=(const Point3 &point)
+            template<class TYPE>
+            Point3<T>& operator-=(const Point3<TYPE> &point)
             {
                 this->x -= point.x;
                 this->y -= point.y;
@@ -169,20 +178,22 @@ namespace frl
                 return *this;
             }
 
-            Point3<T>& operator*=(const Point3 &point)
+            template<typename TYPE>
+            Point3<T>& operator*=(const TYPE &scale)
             {
-                this->x *= point.x;
-                this->y *= point.y;
-                this->z *= point.z;
+                this->x *= scale;
+                this->y *= scale;
+                this->z *= scale;
 
                 return *this;
             }
 
-            Point3<T>& operator/=(const Point3 &point)
+            template<typename TYPE>
+            Point3<T>& operator/=(const TYPE &scale)
             {
-                this->x /= point.x;
-                this->y /= point.y;
-                this->z /= point.z;
+                this->x /= scale;
+                this->y /= scale;
+                this->z /= scale;
 
                 return *this;
             }
@@ -219,26 +230,27 @@ namespace frl
 
             return leftHandSide;
         }
-//
-//        inline bool operator==(const Point3& lhs, const Point3& rhs)
-//        {
-//            if(lhs.x!=rhs.x)
-//            {
-//                return false;
-//            }
-//
-//            if(lhs.y!=rhs.y)
-//            {
-//                return false;
-//            }
-//
-//            if(lhs.z!=rhs.z)
-//            {
-//                return false;
-//            }
-//
-//            return true;
-//        }
+
+        template<class T1, class T2>
+        inline bool operator==(const Point3<T1>& lhs, const Point3<T2>& rhs)
+        {
+            if(lhs.x!=rhs.x)
+            {
+                return false;
+            }
+
+            if(lhs.y!=rhs.y)
+            {
+                return false;
+            }
+
+            if(lhs.z!=rhs.z)
+            {
+                return false;
+            }
+
+            return true;
+        }
 //        inline bool operator!=(const Point3& lhs, const Point3& rhs){return !operator==(lhs,rhs);}
 //
 //        std::ostream &operator<<(std::ostream &os, const Point3 &point)
