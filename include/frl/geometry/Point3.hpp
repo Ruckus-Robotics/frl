@@ -12,35 +12,35 @@ namespace frl
     namespace geometry
     {
         template<class T>
-        class Point3d
+        class Point3
         {
         public:
-            Point3d(const T x, const T y, const T z)
+            Point3(const T x, const T y, const T z)
             {
                 set(x, y, z);
             }
 
-            Point3d(const std::vector<T> &vector)
+            Point3(const std::vector<T> &vector)
             {
                 set(vector[0], vector[1], vector[2]);
             }
 
-            Point3d(const Point3d &point)
+            Point3(const Point3 &point)
             {
                 set(point.x, point.y, point.z);
             }
 
-            Point3d(const T array[3])
+            Point3(const T array[3])
             {
                 set(array[0], array[1], array[2]);
             }
 
-            Point3d()
+            Point3()
             {
                 set(0.0, 0.0, 0.0);
             }
 
-            ~Point3d()
+            ~Point3()
             { };
 
             void set(const std::vector<T> &vector)
@@ -87,7 +87,7 @@ namespace frl
                 this->z *= scale;
             }
 
-            void scaleAdd(const T &scale, const Point3d &point)
+            void scaleAdd(const T &scale, const Point3 &point)
             {
                 this->x *= scale;
                 this->y *= scale;
@@ -98,12 +98,12 @@ namespace frl
                 this->z += point.z;
             }
 
-            bool equals(const Point3d &point)
+            bool equals(const Point3 &point)
             {
                 return (this->x == point.x && this->y == point.y && this->z == point.z);
             }
 
-            bool epsilonEquals(const Point3d &point, const T epsilon)
+            bool epsilonEquals(const Point3 &point, const T epsilon)
             {
                 return (fabs(this->x - point.x) < epsilon && fabs(this->y - point.y) < epsilon && fabs(this->z - point.z) < epsilon);
             }
@@ -135,22 +135,22 @@ namespace frl
                 this->z = fabs(this->z);
             }
 
-            T distanceSquared(const Point3d &point) const
+            T distanceSquared(const Point3 &point) const
             {
                 return frl::utils::computeDistanceBetweenPointsSquared(x,y,z,point.x,point.y,point.z);
             }
 
-            T distance(const Point3d point) const
+            T distance(const Point3 point) const
             {
                 return frl::utils::computeDistanceBetweenPoints(x,y,z,point.x,point.y,point.z);
             }
 
-            T distanceL1(const Point3d &point) const
+            T distanceL1(const Point3 &point) const
             {
                 return frl::utils::distanceL1(x,y,z,point.x,point.y,point.z);
             }
 
-            T distanceLinf(const Point3d &point) const
+            T distanceLinf(const Point3 &point) const
             {
                 return frl::utils::distanceLinf(x,y,z,point.x,point.y,point.z);
             }
@@ -185,13 +185,13 @@ namespace frl
                 this->z = z;
             }
 
-            friend std::ostream &operator<<(std::ostream &os, const Point3d &point)
+            friend std::ostream &operator<<(std::ostream &os, const Point3 &point)
             {
                 os << "x: " << point.x << '\n' << "y: " << point.y << '\n' << "z: " << point.z << "\n";
                 return os;
             }
 
-            Point3d &operator+=(const Point3d &point)
+            Point3 &operator+=(const Point3 &point)
             {
                 this->x += point.x;
                 this->y += point.y;
@@ -200,7 +200,7 @@ namespace frl
                 return *this;
             }
 
-            Point3d &operator-=(const Point3d &point)
+            Point3 &operator-=(const Point3 &point)
             {
                 this->x -= point.x;
                 this->y -= point.y;
@@ -209,7 +209,7 @@ namespace frl
                 return *this;
             }
 
-            friend Point3d operator+(Point3d leftHandSide, const Point3d &point)
+            friend Point3 operator+(Point3 leftHandSide, const Point3 &point)
             {
                 leftHandSide.x += point.x;
                 leftHandSide.y += point.y;
@@ -218,7 +218,7 @@ namespace frl
                 return leftHandSide;
             }
 
-            friend Point3d operator-(Point3d leftHandSide, const Point3d &point)
+            friend Point3 operator-(Point3 leftHandSide, const Point3 &point)
             {
                 leftHandSide.x -= point.x;
                 leftHandSide.y -= point.y;
@@ -229,6 +229,9 @@ namespace frl
 
             T x, y, z;
         };
+
+        typedef Point3<float> Point3f;
+        typedef Point3<double> Point3d;
     }
 
 }

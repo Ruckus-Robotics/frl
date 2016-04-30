@@ -43,9 +43,9 @@ namespace frl
 			}
 
 			template<typename T>
-			static Point3d<T> getRandomPoint3d()
+			static Point3<T> getRandomPoint3()
 			{
-				Point3d<T> point;
+				Point3<T> point;
 				point.setX(getRandomDouble());
 				point.setY(getRandomDouble());
 				point.setZ(getRandomDouble());

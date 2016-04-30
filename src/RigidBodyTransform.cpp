@@ -213,21 +213,14 @@ namespace frl
             this->mat22 = matrix(2, 2);
         }
 
-/**
- * Set translational portion of the transformation matrix
- *
- * @param vector
- */
+        /**
+         * Set translational portion of the transformation matrix
+         *
+         * @param vector
+         */
         void RigidBodyTransform::setTranslation(const Eigen::Vector3d &vector)
         {
             setTranslation(vector(0), vector(1), vector(2));
-        }
-
-        void RigidBodyTransform::setTranslation(const double &x, const double &y, const double &z)
-        {
-            this->mat03 = x;
-            this->mat13 = y;
-            this->mat23 = z;
         }
 
 /**
@@ -238,41 +231,11 @@ namespace frl
 */
         void RigidBodyTransform::applyTranslation(const Eigen::Vector3d &translation)
         {
-            Point3d temp(translation);
+            Point3d<double> temp(translation(0),translation(1),translation(2));
             transform(temp);
             mat03 = temp.x;
             mat13 = temp.y;
             mat23 = temp.z;
-        }
-
-/**
-*  Add a rotation to the current transform.
-*/
-        void RigidBodyTransform::applyRotationX(const double &angle)
-        {
-            RigidBodyTransform temp;
-            temp.rotX(angle);
-            multiply(temp);
-        }
-
-/**
-*  Add a rotation to the current transform.
-*/
-        void RigidBodyTransform::applyRotationY(const double &angle)
-        {
-            RigidBodyTransform temp;
-            temp.rotY(angle);
-            multiply(temp);
-        }
-
-/**
-*  Add a rotation to the current transform.
-*/
-        void RigidBodyTransform::applyRotationZ(const double &angle)
-        {
-            RigidBodyTransform temp;
-            temp.rotZ(angle);
-            multiply(temp);
         }
 
         /**
@@ -651,7 +614,7 @@ namespace frl
             getRotation(axisAngle, 1.0e-12);
         }
 
-        void RigidBodyTransform::getRotation(Eigen::AngleAxis<double> &axisAngle, const double &epsilon) const
+        void RigidBodyTransform::getRotation(Eigen::AngleAxis<double> &axisAngle, const double epsilon) const
         {
             axisAngle.axis()[0] = mat21 - mat12;
             axisAngle.axis()[1] = mat02 - mat20;
@@ -969,119 +932,19 @@ namespace frl
             invertOrthogonal();
         }
 
-/**
- * Invert this assuming an orthogonal rotation portion.
- */
-        void RigidBodyTransform::invertOrthogonal()
-        {
-            double tmp01 = mat01;
-            double tmp02 = mat02;
-            double tmp12 = mat12;
-
-// For orthogonal matrix, R^{-1} = R^{T}
-            mat01 = mat10;
-            mat02 = mat20;
-            mat12 = mat21;
-            mat10 = tmp01;
-            mat20 = tmp02;
-            mat21 = tmp12;
-
-// New translation vector becomes -R^{T} * p
-            double newTransX = -(mat23 * mat02 + mat00 * mat03 + mat01 * mat13);
-            double newTransY = -(mat03 * mat10 + mat23 * mat12 + mat11 * mat13);
-            mat23 = -(mat22 * mat23 + mat03 * mat20 + mat13 * mat21);
-            mat03 = newTransX;
-            mat13 = newTransY;
-        }
-
         void RigidBodyTransform::invertRotationButKeepTranslation()
         {
             double tmp01 = mat01;
             double tmp02 = mat02;
             double tmp12 = mat12;
 
-// For orthogonal matrix, R^{-1} = R^{T}
+            // For orthogonal matrix, R^{-1} = R^{T}
             mat01 = mat10;
             mat02 = mat20;
             mat12 = mat21;
             mat10 = tmp01;
             mat20 = tmp02;
             mat21 = tmp12;
-        }
-
-/**
- * Create RigidBodyTransform with zero translation and the rotation matrix being a
- * rotation about the x-axis by angle.
- *
- * @param angle
- */
-        void RigidBodyTransform::rotX(const double &angle)
-        {
-            double cosAngle = cos(angle);
-            double sinAngle = sin(angle);
-
-            this->mat00 = 1.0;
-            this->mat01 = 0.0;
-            this->mat02 = 0.0;
-            this->mat03 = 0.0;
-            this->mat10 = 0.0;
-            this->mat11 = cosAngle;
-            this->mat12 = -sinAngle;
-            this->mat13 = 0.0;
-            this->mat20 = 0.0;
-            this->mat21 = sinAngle;
-            this->mat22 = cosAngle;
-            this->mat23 = 0.0;
-        }
-
-/**
- * Create RigidBodyTransform with zero translation and the rotation matrix being a
- * rotation about the y-axis by angle.
- *
- * @param angle
- */
-        void RigidBodyTransform::rotY(const double &angle)
-        {
-            double cosAngle = cos(angle);
-            double sinAngle = sin(angle);
-
-            mat00 = cosAngle;
-            mat01 = 0.0;
-            mat02 = sinAngle;
-            mat03 = 0.0;
-            mat10 = 0.0;
-            mat11 = 1.0;
-            mat12 = 0.0;
-            mat13 = 0.0;
-            mat20 = -sinAngle;
-            mat21 = 0.0;
-            mat22 = cosAngle;
-            mat23 = 0.0;
-        }
-
-/**
- * Create RigidBodyTransform with zero translation and the rotation matrix being a
- * rotation about the z-axis by angle.
- *
- * @param angle
- */
-        void RigidBodyTransform::rotZ(const double &angle)
-        {
-            double cosAngle = cos(angle);
-            double sinAngle = sin(angle);
-
-            mat00 = cosAngle;
-            mat01 = -sinAngle;
-            mat02 = 0.0;
-            mat03 = 0.0;
-            mat10 = sinAngle;
-            mat11 = cosAngle;
-            mat12 = 0.0;
-            mat13 = 0.0;
-            mat20 = 0.0;
-            mat21 = 0.0;
-            mat22 = 1.0;
-            mat23 = 0.0;
         }
 
 /**
@@ -1262,55 +1125,6 @@ namespace frl
             pointOut.z = mat20 * pointIn.x + mat21 * pointIn.y + mat22 * pointIn.z + mat23;
         }
 
-/**
- * Return the determinant of this transform.
- *
- * @return
- */
-        double RigidBodyTransform::determinant() const
-        {
-            return (mat00 * (mat11 * mat22 - mat12 * mat21) - mat01 * (mat10 * mat22 - mat12 * mat20) + mat02 * (mat10 * mat21 - mat11 * mat20));
-        }
-
-/**
- * Orthonormalization of the rotation matrix using Gram-Schmidt method.
- */
-        void RigidBodyTransform::normalize()
-        {
-            double xdoty = mat00 * mat01 + mat10 * mat11 + mat20 * mat21;
-            double xdotx = mat00 * mat00 + mat10 * mat10 + mat20 * mat20;
-            double tmp = xdoty / xdotx;
-
-            mat01 -= tmp * mat00;
-            mat11 -= tmp * mat10;
-            mat21 -= tmp * mat20;
-
-            double zdoty = mat02 * mat01 + mat12 * mat11 + mat22 * mat21;
-            double zdotx = mat02 * mat00 + mat12 * mat10 + mat22 * mat20;
-            double ydoty = mat01 * mat01 + mat11 * mat11 + mat21 * mat21;
-
-            tmp = zdotx / xdotx;
-            double tmp1 = zdoty / ydoty;
-
-            mat02 = mat02 - (tmp * mat00 + tmp1 * mat01);
-            mat12 = mat12 - (tmp * mat10 + tmp1 * mat11);
-            mat22 = mat22 - (tmp * mat20 + tmp1 * mat21);
-
-// Compute orthogonalized vector magnitudes and normalize
-            double magX = sqrt(mat00 * mat00 + mat10 * mat10 + mat20 * mat20);
-            double magY = sqrt(mat01 * mat01 + mat11 * mat11 + mat21 * mat21);
-            double magZ = sqrt(mat02 * mat02 + mat12 * mat12 + mat22 * mat22);
-
-            mat00 = mat00 / magX;
-            mat10 = mat10 / magX;
-            mat20 = mat20 / magX;
-            mat01 = mat01 / magY;
-            mat11 = mat11 / magY;
-            mat21 = mat21 / magY;
-            mat02 = mat02 / magZ;
-            mat12 = mat12 / magZ;
-            mat22 = mat22 / magZ;
-        }
 
         Eigen::Vector3d RigidBodyTransform::getTranslationDifference(const RigidBodyTransform &transform1, const RigidBodyTransform &transform2)
         {

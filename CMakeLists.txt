@@ -23,12 +23,11 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 #			${SOURCES_DIR}/FramePoint.cpp
 #			${SOURCES_DIR}/FrameVector.cpp)
 
-set(SOURCES
-        ${SOURCES_DIR}/Point3d.cpp
-        ${SOURCES_DIR}/RigidBodyTransform.cpp)
+set(SOURCES)
+#        ${SOURCES_DIR}/RigidBodyTransform.cpp)
 
 set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/RigidBodyTransform.hpp
-			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/Point3d.hpp
+			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/Point3.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrame.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/FramePoint.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrameHolder.hpp
@@ -42,6 +41,8 @@ include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
    ${SOURCES}
    ${INCLUDES}
  )
+
+set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
 
  catkin_package(
  INCLUDE_DIRS ${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR}
@@ -60,13 +61,13 @@ if (CATKIN_ENABLE_TESTING)
 
 #    catkin_add_gtest(RigidBodyTransform-test test/RigidBodyTransformTest.cpp)
 #    catkin_add_gtest(ReferenceFrame-test test/ReferenceFrameTest.cpp)
-    catkin_add_gtest(Point3d-test test/Point3dTest.cpp)
+    catkin_add_gtest(Point3-test test/Point3Test.cpp)
 #    catkin_add_gtest(FramePoint-test test/FramePointTest.cpp)
 #    catkin_add_gtest(FrameVector-test test/FrameVectorTest.cpp)
 #
 #    target_link_libraries(RigidBodyTransform-test ${PROJECT_NAME})
 #    target_link_libraries(ReferenceFrame-test ${PROJECT_NAME})
-    target_link_libraries(Point3d-test ${PROJECT_NAME})
+    target_link_libraries(Point3-test ${PROJECT_NAME})
 #    target_link_libraries(FramePoint-test ${PROJECT_NAME})
 #    target_link_libraries(FrameVector-test ${PROJECT_NAME})
 
