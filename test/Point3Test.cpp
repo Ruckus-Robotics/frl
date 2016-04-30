@@ -471,6 +471,31 @@ TEST_F(Point3Test, testClampMax)
     }
 }
 
+TEST_F(Point3Test, testEqualsEquals)
+{
+    {
+        double x = GeometryUtilitiesTestHelper::getRandomDouble();
+        double y = GeometryUtilitiesTestHelper::getRandomDouble();
+        double z = GeometryUtilitiesTestHelper::getRandomDouble();
+        Point3d point1(x, y, z);
+        Point3d point2 = point1;
+
+        EXPECT_TRUE(point2==point1);
+        EXPECT_FALSE(point2!=point1);
+    }
+
+    {
+        float x = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z = GeometryUtilitiesTestHelper::getRandomFloat();
+        Point3f point1(x, y, z);
+        Point3f point2 = point1;
+
+        EXPECT_TRUE(point2==point1);
+        EXPECT_FALSE(point2!=point1);
+    }
+}
+
 
 int main(int argc, char **argv)
 {

@@ -251,13 +251,19 @@ namespace frl
 
             return true;
         }
-//        inline bool operator!=(const Point3& lhs, const Point3& rhs){return !operator==(lhs,rhs);}
-//
-//        std::ostream &operator<<(std::ostream &os, const Point3 &point)
-//        {
-//            os << "x: " << point.x << '\n' << "y: " << point.y << '\n' << "z: " << point.z << "\n";
-//            return os;
-//        }
+
+        template<class T1, class T2>
+        inline bool operator!=(const Point3<T1>& lhs, const Point3<T2>& rhs)
+        {
+            return !operator==(lhs,rhs);
+        }
+
+        template<class T>
+        std::ostream &operator<<(std::ostream &os, const Point3<T> &point)
+        {
+            os << "x: " << point.x << '\n' << "y: " << point.y << '\n' << "z: " << point.z << "\n";
+            return os;
+        }
 
         typedef Point3<float> Point3f;
         typedef Point3<double> Point3d;
