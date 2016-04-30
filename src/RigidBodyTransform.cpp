@@ -120,11 +120,6 @@ namespace frl
             setTranslation(0.0, 0.0, 0.0);
         }
 
-        RigidBodyTransform::RigidBodyTransform(const Eigen::AngleAxis<double> &axisAngle, const Eigen::Vector3d &vector)
-        {
-            set(axisAngle, vector);
-        }
-
         void RigidBodyTransform::setRotation(const Eigen::AngleAxis<double> &axisAngle)
         {
             setRotationWithAxisAngle(axisAngle.axis()[0], axisAngle.axis()[1], axisAngle.axis()[2], axisAngle.angle());
@@ -132,39 +127,7 @@ namespace frl
 
         void RigidBodyTransform::setRotationWithAxisAngle(const double &axisAngleX, const double &axisAngleY, const double &axisAngleZ, const double &axisAngleTheta)
         {
-            double mag = sqrt(axisAngleX * axisAngleX + axisAngleY * axisAngleY + axisAngleZ * axisAngleZ);
 
-            if (frl::utils::almostZero(mag))
-            {
-                setIdentity();
-            }
-            else
-            {
-                mag = 1.0 / mag;
-                double ax = axisAngleX * mag;
-                double ay = axisAngleY * mag;
-                double az = axisAngleZ * mag;
-
-                double sinTheta = sin(axisAngleTheta);
-                double cosTheta = cos(axisAngleTheta);
-                double t = 1.0 - cosTheta;
-
-                double xz = ax * az;
-                double xy = ax * ay;
-                double yz = ay * az;
-
-                mat00 = (t * ax * ax + cosTheta);
-                mat01 = (t * xy - sinTheta * az);
-                mat02 = (t * xz + sinTheta * ay);
-
-                mat10 = (t * xy + sinTheta * az);
-                mat11 = (t * ay * ay + cosTheta);
-                mat12 = (t * yz - sinTheta * ax);
-
-                mat20 = (t * xz - sinTheta * ay);
-                mat21 = (t * yz + sinTheta * ax);
-                mat22 = (t * az * az + cosTheta);
-            }
         }
 
         void RigidBodyTransform::setRotation(const Eigen::Quaternion<double> &quat)
@@ -202,25 +165,7 @@ namespace frl
  */
         void RigidBodyTransform::setRotation(const Eigen::Matrix3d &matrix)
         {
-            this->mat00 = matrix(0, 0);
-            this->mat01 = matrix(0, 1);
-            this->mat02 = matrix(0, 2);
-            this->mat10 = matrix(1, 0);
-            this->mat11 = matrix(1, 1);
-            this->mat12 = matrix(1, 2);
-            this->mat20 = matrix(2, 0);
-            this->mat21 = matrix(2, 1);
-            this->mat22 = matrix(2, 2);
-        }
 
-        /**
-         * Set translational portion of the transformation matrix
-         *
-         * @param vector
-         */
-        void RigidBodyTransform::setTranslation(const Eigen::Vector3d &vector)
-        {
-            setTranslation(vector(0), vector(1), vector(2));
         }
 
 /**
@@ -236,40 +181,6 @@ namespace frl
             mat03 = temp.x;
             mat13 = temp.y;
             mat23 = temp.z;
-        }
-
-        /**
-         * Set elements of this transform equal to the elements of transform.
-         *
-         * @param transform
-         */
-        void RigidBodyTransform::set(const RigidBodyTransform &transform)
-        {
-            this->mat00 = transform.mat00;
-            this->mat01 = transform.mat01;
-            this->mat02 = transform.mat02;
-            this->mat03 = transform.mat03;
-            this->mat10 = transform.mat10;
-            this->mat11 = transform.mat11;
-            this->mat12 = transform.mat12;
-            this->mat13 = transform.mat13;
-            this->mat20 = transform.mat20;
-            this->mat21 = transform.mat21;
-            this->mat22 = transform.mat22;
-            this->mat23 = transform.mat23;
-        }
-
-        /**
-         * Set this transform to have translation described in vector
-         * and a rotation equal to the Eigen::Matrix3d matrix.
-         *
-         * @param Eigen::Matrix3d matrix
-         * @param Eigen::Vector3d vector
-         */
-        void RigidBodyTransform::set(const Eigen::Matrix3d &matrix, const Eigen::Vector3d &vector)
-        {
-            setRotation(matrix);
-            setTranslation(vector);
         }
 
         /**
@@ -383,97 +294,6 @@ namespace frl
             this->mat20 = 0.0;
             this->mat21 = 0.0;
             this->mat22 = 1.0;
-        }
-
-        /**
-         * Set elements of transform equal to elements of the Eigen::Matrix4d.
-         *
-         * @param matrix
-         */
-        void RigidBodyTransform::set(const Eigen::Matrix4d &matrix)
-        {
-            this->mat00 = matrix(0, 0);
-            this->mat01 = matrix(0, 1);
-            this->mat02 = matrix(0, 2);
-            this->mat03 = matrix(0, 3);
-            this->mat10 = matrix(1, 0);
-            this->mat11 = matrix(1, 1);
-            this->mat12 = matrix(1, 2);
-            this->mat13 = matrix(1, 3);
-            this->mat20 = matrix(2, 0);
-            this->mat21 = matrix(2, 1);
-            this->mat22 = matrix(2, 2);
-            this->mat23 = matrix(2, 3);
-        }
-
-        /**
-         * Set elements of transform equal to elements of the Eigen::Matrix4f.
-         *
-         * @param matrix
-         */
-        void RigidBodyTransform::set(const Eigen::Matrix4f &matrix)
-        {
-            this->mat00 = matrix(0, 0);
-            this->mat01 = matrix(0, 1);
-            this->mat02 = matrix(0, 2);
-            this->mat03 = matrix(0, 3);
-            this->mat10 = matrix(1, 0);
-            this->mat11 = matrix(1, 1);
-            this->mat12 = matrix(1, 2);
-            this->mat13 = matrix(1, 3);
-            this->mat20 = matrix(2, 0);
-            this->mat21 = matrix(2, 1);
-            this->mat22 = matrix(2, 2);
-            this->mat23 = matrix(2, 3);
-        }
-
-/**
- * This method is for when the Eigen::Matrix4d matrix is column major and needs to
- * be transposed.
- *
- * @param matrix
- */
-        void RigidBodyTransform::setAsTranspose(const Eigen::Matrix4d &matrix)
-        {
-            double tmp10 = matrix(1, 0);
-            double tmp20 = matrix(2, 0);
-            double tmp21 = matrix(2, 1);
-            double tmp30 = matrix(3, 0);
-            double tmp31 = matrix(3, 1);
-            double tmp32 = matrix(3, 2);
-
-            mat00 = matrix(0, 0);
-            mat11 = matrix(1, 1);
-            mat22 = matrix(2, 2);
-            mat10 = matrix(0, 1);
-            mat20 = matrix(0, 2);
-            mat21 = matrix(1, 2);
-            mat01 = tmp10;
-            mat03 = tmp30;
-            mat13 = tmp31;
-            mat23 = tmp32;
-            mat02 = tmp20;
-            mat12 = tmp21;
-        }
-
-/**
- * Set transformation matrix to Identity, meaning no rotation or
- * translation.
- */
-        void RigidBodyTransform::setIdentity()
-        {
-            this->mat00 = 1.0;
-            this->mat01 = 0.0;
-            this->mat02 = 0.0;
-            this->mat03 = 0.0;
-            this->mat10 = 0.0;
-            this->mat11 = 1.0;
-            this->mat12 = 0.0;
-            this->mat13 = 0.0;
-            this->mat20 = 0.0;
-            this->mat21 = 0.0;
-            this->mat22 = 1.0;
-            this->mat23 = 0.0;
         }
 
 /**

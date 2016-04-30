@@ -23,8 +23,7 @@ set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 #			${SOURCES_DIR}/FramePoint.cpp
 #			${SOURCES_DIR}/FrameVector.cpp)
 
-set(SOURCES)
-#        ${SOURCES_DIR}/RigidBodyTransform.cpp)
+#set(SOURCES) )
 
 set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/Point3.hpp
@@ -38,7 +37,6 @@ include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
 ## Declare a cpp library
  add_library(${PROJECT_NAME}
-   ${SOURCES}
    ${INCLUDES}
  )
 
@@ -59,13 +57,13 @@ target_link_libraries(${PROJECT_NAME}
 if (CATKIN_ENABLE_TESTING)
 	SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 
-#    catkin_add_gtest(RigidBodyTransform-test test/RigidBodyTransformTest.cpp)
+    catkin_add_gtest(RigidBodyTransform-test test/RigidBodyTransformTest.cpp)
 #    catkin_add_gtest(ReferenceFrame-test test/ReferenceFrameTest.cpp)
     catkin_add_gtest(Point3-test test/Point3Test.cpp)
 #    catkin_add_gtest(FramePoint-test test/FramePointTest.cpp)
 #    catkin_add_gtest(FrameVector-test test/FrameVectorTest.cpp)
 #
-#    target_link_libraries(RigidBodyTransform-test ${PROJECT_NAME})
+    target_link_libraries(RigidBodyTransform-test ${PROJECT_NAME})
 #    target_link_libraries(ReferenceFrame-test ${PROJECT_NAME})
     target_link_libraries(Point3-test ${PROJECT_NAME})
 #    target_link_libraries(FramePoint-test ${PROJECT_NAME})

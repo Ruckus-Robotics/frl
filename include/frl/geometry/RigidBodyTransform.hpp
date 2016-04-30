@@ -2,7 +2,8 @@
 #define RIGID_BODY_TRANSFORM_HPP
 
 #include <eigen3/Eigen/Eigen>
-#include "frl/geometry/Point3d.hpp"
+#include "frl/geometry/Point3.hpp"
+#include "../../../../../../../../../usr/include/eigen3/Eigen/src/Core/Matrix.h"
 
 namespace frl
 {
@@ -10,71 +11,338 @@ namespace frl
 	{
 		template<class T>
 		class RigidBodyTransform
-		{
-		public:
-			RigidBodyTransform();
+        {
+        public:
+            RigidBodyTransform();
 
-			RigidBodyTransform(const RigidBodyTransform &transform)
-			{
+            template<class TYPE>
+            RigidBodyTransform(const RigidBodyTransform<TYPE> &transform)
+            {
+                set(transform);
+            }
 
-			}
+            template<class TYPE>
+            RigidBodyTransform(const Eigen::Matrix<TYPE, 4, 4> &matrix)
+            {
+                set(matrix);
+            }
 
-			RigidBodyTransform(const Eigen::Matrix4d &matrix);
-			RigidBodyTransform(const Eigen::Matrix4f &matrix);
-			RigidBodyTransform(const Eigen::Matrix3d &matrix, const Eigen::Vector3d &vector);
-			RigidBodyTransform(const Eigen::Matrix3f &matrix, const Eigen::Vector3f &vector);
-			RigidBodyTransform(const Eigen::AngleAxisd &axisAngle, const Eigen::Vector3d &vector);
-			RigidBodyTransform(const Eigen::AngleAxisf &axisAngle, const Eigen::Vector3f &vector);
-			RigidBodyTransform(const Eigen::Quaterniond &quaternion, const Eigen::Vector3d &vector);
-			RigidBodyTransform(const Eigen::Matrix3d &matrix);
-			RigidBodyTransform(const Eigen::Matrix3f &matrix);
-			RigidBodyTransform(const Eigen::Quaterniond &quat);
-			RigidBodyTransform(const Eigen::Quaternionf &quat);
-			RigidBodyTransform(const Eigen::AngleAxisd &axisAngle);
-			RigidBodyTransform(const Eigen::AngleAxisf &axisAngle);
+            template<class T1, class T2>
+            RigidBodyTransform(const Eigen::Matrix<T1, 3, 3> &matrix, const Eigen::Matrix<T2, 3, 1> &vector)
+            {
+                set(matrix, vector);
+            };
 
-			~RigidBodyTransform()
-			{ };
+            template<class T1, class T2>
+            RigidBodyTransform(const Eigen::AngleAxis<T1> &axisAngle, const Eigen::Matrix<T2, 3, 1> &vector)
+            {
+                set(axisAngle, vector);
+            }
 
-			void setIdentity();
+            template<class T1, class T2>
+            RigidBodyTransform(const Eigen::Quaternion<T1> &quaternion, const Eigen::Matrix<T2, 3, 1> &vector)
+            {
+                set(quaternion, vector);
+            };
 
-			void set(const RigidBodyTransform &transform);
-			void set(const Eigen::Matrix4d &matrix);
-			void set(const Eigen::Matrix4f &matrix);
-			void set(const Eigen::Matrix3d &matrix, const Eigen::Vector3d &vector);
-			void set(const Eigen::Matrix3f &matrix, const Eigen::Vector3f &vector);
-			void set(const Eigen::AngleAxisd &axisAngle, const Eigen::Vector3d &vector);
-			void set(const Eigen::AngleAxisf &axisAngle, const Eigen::Vector3f &vector);
-			void set(const Eigen::Quaterniond &quat, const Eigen::Vector3d &vector);
-			void set(const Eigen::Quaternionf &quat, const Eigen::Vector3f &vector);
+            template<class TYPE>
+            RigidBodyTransform(const Eigen::Matrix<TYPE, 3, 3> &matrix)
+            {
+                setRotation(matrix);
+                setTranslation(0.0, 0.0, 0.0);
+            }
+
+            template<class TYPE>
+            RigidBodyTransform(const Eigen::Quaternion<TYPE> &quat)
+            {
+                setRotation(quat);
+                setTranslation(0.0, 0.0, 0.0);
+            }
+
+            template<class TYPE>
+            RigidBodyTransform(const Eigen::AngleAxis<TYPE> &axisAngle)
+            {
+                setRotation(axisAngle);
+                setTranslation(0.0, 0.0, 0.0);
+            }
+
+            ~RigidBodyTransform()
+            { };
+
+            /**
+            * Set transformation matrix to Identity, meaning no rotation or
+            * translation.
+            */
+            void setIdentity()
+            {
+                this->mat00 = 1.0;
+                this->mat01 = 0.0;
+                this->mat02 = 0.0;
+                this->mat03 = 0.0;
+                this->mat10 = 0.0;
+                this->mat11 = 1.0;
+                this->mat12 = 0.0;
+                this->mat13 = 0.0;
+                this->mat20 = 0.0;
+                this->mat21 = 0.0;
+                this->mat22 = 1.0;
+                this->mat23 = 0.0;
+            }
+
+            template<class TYPE>
+            void set(const RigidBodyTransform<TYPE> &transform)
+            {
+                this->mat00 = transform.mat00;
+                this->mat01 = transform.mat01;
+                this->mat02 = transform.mat02;
+                this->mat03 = transform.mat03;
+                this->mat10 = transform.mat10;
+                this->mat11 = transform.mat11;
+                this->mat12 = transform.mat12;
+                this->mat13 = transform.mat13;
+                this->mat20 = transform.mat20;
+                this->mat21 = transform.mat21;
+                this->mat22 = transform.mat22;
+                this->mat23 = transform.mat23;
+            }
+
+            /**
+             * Set elements of transform equal to elements of the Eigen::Matrix4d.
+             *
+             * @param matrix
+             */
+            template<class TYPE>
+            void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
+            {
+                this->mat00 = matrix(0, 0);
+                this->mat01 = matrix(0, 1);
+                this->mat02 = matrix(0, 2);
+                this->mat03 = matrix(0, 3);
+                this->mat10 = matrix(1, 0);
+                this->mat11 = matrix(1, 1);
+                this->mat12 = matrix(1, 2);
+                this->mat13 = matrix(1, 3);
+                this->mat20 = matrix(2, 0);
+                this->mat21 = matrix(2, 1);
+                this->mat22 = matrix(2, 2);
+                this->mat23 = matrix(2, 3);
+            }
+
+            /**
+             * Set elements of the transform
+             *
+             * @param matrix
+             */
+            template<typename TYPE>
+            void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
+            {
+                this->mat00 = matrix(0, 0);
+                this->mat01 = matrix(0, 1);
+                this->mat02 = matrix(0, 2);
+                this->mat03 = matrix(0, 3);
+                this->mat10 = matrix(1, 0);
+                this->mat11 = matrix(1, 1);
+                this->mat12 = matrix(1, 2);
+                this->mat13 = matrix(1, 3);
+                this->mat20 = matrix(2, 0);
+                this->mat21 = matrix(2, 1);
+                this->mat22 = matrix(2, 2);
+                this->mat23 = matrix(2, 3);
+            }
+
+            /**
+            * Set this transform to have translation described in vector
+            * and a rotation equal to matrix.
+            *
+            * @param Eigen::Matrix matrix
+            * @param Eigen::Matrix vector
+            */
+            template<class T1, class T2>
+            void set(const Eigen::Matrix<T1, 3, 3> &matrix, const Eigen::Matrix<T2, 3, 1> &vector)
+            {
+                setRotation(matrix);
+                setTranslation(vector);
+            }
+
+            /**
+            * Set this transform to have translation described in vector
+            * and a rotation equal to axisAngles.
+            *
+            * @param Eigen::AxisAngle axisAngle
+            * @param Eigen::Matrix vector
+            */
+            template<class T1, class T2>
+            void set(const Eigen::AngleAxis<T1> &axisAngle, const Eigen::Matrix<T2, 3, 1> &vector)
+            {
+                setRotation(axisAngle);
+                setTranslation(vector);
+            }
+
+            /**
+            * Set this transform to have translation described in vector
+            * and a rotation equal to quat.
+            *
+            * @param Eigen::Quaternion quat
+            * @param Eigen::Matrix vector
+            */
+            template<class T1, class T2>
+            void set(const Eigen::Quaternion<T1> &quat, const Eigen::Matrix<T2, 3, 1> &vector)
+            {
+                setRotation(quat);
+                setTranslation(vector);
+            }
+
+
+            /**
+             * Set translational portion of the transformation matrix
+             *
+             * @param x The x-component of the translation
+             * @param y The y-component of the translation
+             * @param z The z-component of the translation
+             */
+            template<typename TYPE>
+            void setTranslation(const TYPE x, const TYPE y, const TYPE z)
+            {
+                this->mat03 = x;
+                this->mat13 = y;
+                this->mat23 = z;
+            }
+
+            /**
+             * Set translational portion of the transformation matrix
+             *
+             * @param vector
+             */
+            template<class TYPE>
+            void setTranslation(const Eigen::Matrix<TYPE, 3, 1> &vector)
+            {
+                setTranslation(vector(0), vector(1), vector(2));
+            }
+
+            /**
+            * This method is for when the matrix is column major and needs to
+            * be transposed.
+            *
+            * @param matrix
+            */
+            template<class TYPE>
+            void setAsTranspose(const Eigen::Matrix<TYPE, 4, 4> &matrix)
+            {
+                double tmp10 = matrix(1, 0);
+                double tmp20 = matrix(2, 0);
+                double tmp21 = matrix(2, 1);
+                double tmp30 = matrix(3, 0);
+                double tmp31 = matrix(3, 1);
+                double tmp32 = matrix(3, 2);
+
+                mat00 = matrix(0, 0);
+                mat11 = matrix(1, 1);
+                mat22 = matrix(2, 2);
+                mat10 = matrix(0, 1);
+                mat20 = matrix(0, 2);
+                mat21 = matrix(1, 2);
+                mat01 = tmp10;
+                mat03 = tmp30;
+                mat13 = tmp31;
+                mat23 = tmp32;
+                mat02 = tmp20;
+                mat12 = tmp21;
+            }
+
+            void zeroTranslation()
+            {
+                mat03 = 0.0;
+                mat13 = 0.0;
+                mat23 = 0.0;
+            }
+
+            template<class TYPE>
+            void setRotation(const Eigen::Matrix<TYPE, 3, 3> &matrix)
+            {
+                this->mat00 = matrix(0, 0);
+                this->mat01 = matrix(0, 1);
+                this->mat02 = matrix(0, 2);
+                this->mat10 = matrix(1, 0);
+                this->mat11 = matrix(1, 1);
+                this->mat12 = matrix(1, 2);
+                this->mat20 = matrix(2, 0);
+                this->mat21 = matrix(2, 1);
+                this->mat22 = matrix(2, 2);
+            }
+
+            template<class TYPE>
+            void setRotation(const Eigen::Quaternion<TYPE> &quat)
+            {
+                setRotationWithQuaternion(quat.x(),quat.y(),quat.z(),quat.w());
+            }
+
+            template<class TYPE>
+			void setRotation(const Eigen::AngleAxis<TYPE> &axisAngle)
+            {
+                setRotationWithAxisAngle(axisAngle.axis()[0], axisAngle.axis()[1], axisAngle.axis()[2], axisAngle.angle());
+            }
 
 			template<typename TYPE>
-			void setTranslation(const TYPE x, const TYPE y, const TYPE z)
-			{
-				this->mat03 = x;
-				this->mat13 = y;
-				this->mat23 = z;
-			}
+			void setRotationWithQuaternion(const TYPE qx, const TYPE qy, const TYPE qz, const TYPE qw)
+            {
+                TYPE yy2 = 2.0 * qy * qy;
+                TYPE zz2 = 2.0 * qz * qz;
+                TYPE xx2 = 2.0 * qx * qx;
+                TYPE xy2 = 2.0 * qx * qy;
+                TYPE wz2 = 2.0 * qw * qz;
+                TYPE xz2 = 2.0 * qx * qz;
+                TYPE wy2 = 2.0 * qw * qy;
+                TYPE yz2 = 2.0 * qy * qz;
+                TYPE wx2 = 2.0 * qw * qx;
 
-			void setTranslation(const Eigen::Vector3d &vector);
-			void setTranslation(const Eigen::Vector3f &vector);
-
-			void setAsTranspose(const Eigen::Matrix4d &matrix);
-
-			void zeroTranslation();
-
-			void setRotation(const Eigen::Matrix3d &matrix);
-			void setRotation(const Eigen::Matrix3f &matrix);
-			void setRotation(const Eigen::Quaterniond &quat);
-			void setRotation(const Eigen::Quaternionf &quat);
-			void setRotation(const Eigen::AngleAxisd &axisAngle);
-			void setRotation(const Eigen::AngleAxisf &axisAngle);
+                this->mat00 = (1.0 - yy2 - zz2);
+                this->mat01 = (xy2 - wz2);
+                this->mat02 = (xz2 + wy2);
+                this->mat10 = (xy2 + wz2);
+                this->mat11 = (1.0 - xx2 - zz2);
+                this->mat12 = (yz2 - wx2);
+                this->mat20 = (xz2 - wy2);
+                this->mat21 = (yz2 + wx2);
+                this->mat22 = (1.0 - xx2 - yy2);
+            }
 
 			template<typename TYPE>
-			void setRotationWithQuaternion(const TYPE qx, const TYPE qy, const TYPE qz, const TYPE qw);
+			void setRotationWithAxisAngle(const TYPE axisAngleX, const TYPE axisAngleY, const TYPE &axisAngleZ, const TYPE axisAngleTheta)
+            {
+                TYPE mag = sqrt(axisAngleX * axisAngleX + axisAngleY * axisAngleY + axisAngleZ * axisAngleZ);
 
-			template<typename TYPE>
-			void setRotationWithAxisAngle(const TYPE axisAngleX, const TYPE axisAngleY, const TYPE &axisAngleZ, const TYPE axisAngleTheta);
+                if (frl::utils::almostZero(mag))
+                {
+                    setIdentity();
+                }
+                else
+                {
+                    mag = 1.0 / mag;
+                    TYPE ax = axisAngleX * mag;
+                    TYPE ay = axisAngleY * mag;
+                    TYPE az = axisAngleZ * mag;
+
+                    TYPE sinTheta = sin(axisAngleTheta);
+                    TYPE cosTheta = cos(axisAngleTheta);
+                    TYPE t = 1.0 - cosTheta;
+
+                    TYPE xz = ax * az;
+                    TYPE xy = ax * ay;
+                    TYPE yz = ay * az;
+
+                    mat00 = (t * ax * ax + cosTheta);
+                    mat01 = (t * xy - sinTheta * az);
+                    mat02 = (t * xz + sinTheta * ay);
+
+                    mat10 = (t * xy + sinTheta * az);
+                    mat11 = (t * ay * ay + cosTheta);
+                    mat12 = (t * yz - sinTheta * ax);
+
+                    mat20 = (t * xz - sinTheta * ay);
+                    mat21 = (t * yz + sinTheta * ax);
+                    mat22 = (t * az * az + cosTheta);
+                }
+            }
 
 			void setRotationAndZeroTranslation(const Eigen::Matrix3d &matrix);
 			void setRotationAndZeroTranslation(const Eigen::Matrix3f &matrix);
