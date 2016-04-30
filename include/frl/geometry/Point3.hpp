@@ -15,12 +15,14 @@ namespace frl
         class Point3
         {
         public:
-            Point3(const T x, const T y, const T z)
+            template<typename TYPE>
+            Point3(const TYPE x, const TYPE y, const TYPE z)
             {
                 set(x, y, z);
             }
 
-            Point3(const std::vector<T> &vector)
+            template<typename TYPE>
+            Point3(const std::vector<TYPE> &vector)
             {
                 set(vector[0], vector[1], vector[2]);
             }
@@ -43,7 +45,8 @@ namespace frl
             ~Point3()
             { };
 
-            void set(const std::vector<T> &vector)
+            template<typename TYPE>
+            void set(const std::vector<TYPE> &vector)
             {
                 if(vector.size() != 3)
                 {
@@ -60,55 +63,13 @@ namespace frl
                 this->z = z;
             }
 
-            template<typename TYPE>
-            void add(const TYPE x, const TYPE y, const TYPE z)
-            {
-                this->x += x;
-                this->y += y;
-                this->z += z;
-            }
-
-            template<typename TYPE>
-            void subtract(const TYPE x, const TYPE y, const TYPE z)
-            {
-                this->x -= x;
-                this->y -= y;
-                this->z -= z;
-            }
-
-            void negate()
-            {
-                this->x *= -1;
-                this->y *= -1;
-                this->z *= -1;
-            }
-
-            template<typename TYPE>
-            void scale(const TYPE scale)
-            {
-                this->x *= scale;
-                this->y *= scale;
-                this->z *= scale;
-            }
-
-            template<typename TYPE>
-            void scaleAdd(const TYPE scale, const Point3 &point)
-            {
-                this->x *= scale;
-                this->y *= scale;
-                this->z *= scale;
-
-                this->x += point.x;
-                this->y += point.y;
-                this->z += point.z;
-            }
-
             bool equals(const Point3 &point)
             {
                 return (this->x == point.x && this->y == point.y && this->z == point.z);
             }
 
-            bool epsilonEquals(const Point3 &point, const double epsilon)
+            template<typename TYPE>
+            bool epsilonEquals(const Point3<TYPE> &point, const double epsilon)
             {
                 return (fabs(this->x - point.x) < epsilon && fabs(this->y - point.y) < epsilon && fabs(this->z - point.z) < epsilon);
             }
@@ -190,13 +151,7 @@ namespace frl
                 this->z = z;
             }
 
-            friend std::ostream &operator<<(std::ostream &os, const Point3 &point)
-            {
-                os << "x: " << point.x << '\n' << "y: " << point.y << '\n' << "z: " << point.z << "\n";
-                return os;
-            }
-
-            Point3 &operator+=(const Point3 &point)
+            Point3<T>& operator+=(const Point3 &point)
             {
                 this->x += point.x;
                 this->y += point.y;
@@ -205,7 +160,7 @@ namespace frl
                 return *this;
             }
 
-            Point3 &operator-=(const Point3 &point)
+            Point3<T>& operator-=(const Point3 &point)
             {
                 this->x -= point.x;
                 this->y -= point.y;
@@ -214,26 +169,83 @@ namespace frl
                 return *this;
             }
 
-            friend Point3 operator+(Point3 leftHandSide, const Point3 &point)
+            Point3<T>& operator*=(const Point3 &point)
             {
-                leftHandSide.x += point.x;
-                leftHandSide.y += point.y;
-                leftHandSide.z += point.z;
+                this->x *= point.x;
+                this->y *= point.y;
+                this->z *= point.z;
 
-                return leftHandSide;
+                return *this;
             }
 
-            friend Point3 operator-(Point3 leftHandSide, const Point3 &point)
+            Point3<T>& operator/=(const Point3 &point)
             {
-                leftHandSide.x -= point.x;
-                leftHandSide.y -= point.y;
-                leftHandSide.z -= point.z;
+                this->x /= point.x;
+                this->y /= point.y;
+                this->z /= point.z;
 
-                return leftHandSide;
+                return *this;
             }
 
             T x, y, z;
         };
+
+        template<class T>
+        inline Point3<T> operator+(Point3<T> leftHandSide, const Point3<T> &point)
+        {
+            leftHandSide.x += point.x;
+            leftHandSide.y += point.y;
+            leftHandSide.z += point.z;
+
+            return leftHandSide;
+        }
+
+        template<class T>
+        inline Point3<T> operator-(Point3<T> leftHandSide, const Point3<T> &point)
+        {
+            leftHandSide.x -= point.x;
+            leftHandSide.y -= point.y;
+            leftHandSide.z -= point.z;
+
+            return leftHandSide;
+        }
+
+        template<class T,typename TYPE>
+        inline Point3<T> operator*(Point3<T> leftHandSide, const TYPE &scale)
+        {
+            leftHandSide.x *= scale;
+            leftHandSide.y *= scale;
+            leftHandSide.z *= scale;
+
+            return leftHandSide;
+        }
+//
+//        inline bool operator==(const Point3& lhs, const Point3& rhs)
+//        {
+//            if(lhs.x!=rhs.x)
+//            {
+//                return false;
+//            }
+//
+//            if(lhs.y!=rhs.y)
+//            {
+//                return false;
+//            }
+//
+//            if(lhs.z!=rhs.z)
+//            {
+//                return false;
+//            }
+//
+//            return true;
+//        }
+//        inline bool operator!=(const Point3& lhs, const Point3& rhs){return !operator==(lhs,rhs);}
+//
+//        std::ostream &operator<<(std::ostream &os, const Point3 &point)
+//        {
+//            os << "x: " << point.x << '\n' << "y: " << point.y << '\n' << "z: " << point.z << "\n";
+//            return os;
+//        }
 
         typedef Point3<float> Point3f;
         typedef Point3<double> Point3d;

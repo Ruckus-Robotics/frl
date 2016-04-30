@@ -100,15 +100,15 @@ TEST_F(Point3Test, testDistance)
 
     for (int i = 0; i < nTests; i++)
     {
-        float x = GeometryUtilitiesTestHelper::getRandomDouble();
-        float y = GeometryUtilitiesTestHelper::getRandomDouble();
-        float z = GeometryUtilitiesTestHelper::getRandomDouble();
+        float x = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z = GeometryUtilitiesTestHelper::getRandomFloat();
 
         Point3f point(x, y, z);
 
-        float x2 = GeometryUtilitiesTestHelper::getRandomDouble();
-        float y2 = GeometryUtilitiesTestHelper::getRandomDouble();
-        float z2 = GeometryUtilitiesTestHelper::getRandomDouble();
+        float x2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z2 = GeometryUtilitiesTestHelper::getRandomFloat();
 
         Point3f point2(x2, y2, z2);
 
@@ -131,94 +131,167 @@ TEST_F(Point3Test, testDistance)
     }
 }
 
-//TEST_F(Point3Test, testDistanceL1)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        double x = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double y = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double z = GeometryUtilitiesTestHelper::getRandomDouble();
-//
-//        Point3d point(x, y, z);
-//
-//        double x2 = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double y2 = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double z2 = GeometryUtilitiesTestHelper::getRandomDouble();
-//
-//        Point3d point2(x2, y2, z2);
-//
-//        double distanceL1 = fabs(x2 - x) + fabs(y2 - y) + fabs(z2 - z);
-//
-//        EXPECT_TRUE(distanceL1 - point.distanceL1(point2) < 1e-8);
-//    }
-//}
-//
-//TEST_F(Point3Test, testDistanceLInf)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        double x = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double y = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double z = GeometryUtilitiesTestHelper::getRandomDouble();
-//
-//        Point3d point(x, y, z);
-//
-//        double x2 = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double y2 = GeometryUtilitiesTestHelper::getRandomDouble();
-//        double z2 = GeometryUtilitiesTestHelper::getRandomDouble();
-//
-//        Point3d point2(x2, y2, z2);
-//
-//        double distanceLInf = std::max(fabs(x2 - x), fabs(y2 - y));
-//        distanceLInf = std::max(distanceLInf, fabs(z2 - z));
-//
-//        EXPECT_TRUE(distanceLInf - point.distanceLinf(point2) < 1e-8);
-//    }
-//}
-//
-//TEST_F(Point3Test, testAdd1)
-//{
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        double array1[3] = {GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble()};
-//        double array2[3] = {GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble()};
-//
-//        Point3d point1(array1);
-//        Point3d point2(array2);
-//
-//        Point3d point3(array1[0] + array2[0], array1[1] + array2[1], array1[2] + array2[2]);
-//
-//        point1 += point2;
-//
-//        EXPECT_TRUE(point1.epsilonEquals(point3, 1e-12));
-//    }
-//}
-//
-//TEST_F(Point3Test, testAdd2)
-//{
-//    Point3d point1;
-//    Point3d point2;
-//
-//    for (int i = 0; i < 1000; i++)
-//    {
-//        point1.set(GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble());
-//
-//        std::vector<double> vector(3);
-//        vector[0] = GeometryUtilitiesTestHelper::getRandomDouble();
-//        vector[1] = GeometryUtilitiesTestHelper::getRandomDouble();
-//        vector[2] = GeometryUtilitiesTestHelper::getRandomDouble();
-//
-//        point2.set(vector);
-//
-//        Point3d point3;
-//        point3.set(vector[0] + point1.getX(), vector[1] + point1.getY(), vector[2] + point1.getZ());
-//
-//        point2 = point2 + point1;
-//
-//        EXPECT_TRUE(point2.epsilonEquals(point3, 1e-12));
-//    }
-//}
-//
+TEST_F(Point3Test, testDistanceL1)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        double x = GeometryUtilitiesTestHelper::getRandomDouble();
+        double y = GeometryUtilitiesTestHelper::getRandomDouble();
+        double z = GeometryUtilitiesTestHelper::getRandomDouble();
+
+        Point3d point(x, y, z);
+
+        double x2 = GeometryUtilitiesTestHelper::getRandomDouble();
+        double y2 = GeometryUtilitiesTestHelper::getRandomDouble();
+        double z2 = GeometryUtilitiesTestHelper::getRandomDouble();
+
+        Point3d point2(x2, y2, z2);
+
+        double distanceL1 = fabs(x2 - x) + fabs(y2 - y) + fabs(z2 - z);
+
+        EXPECT_TRUE(distanceL1 - point.distanceL1(point2) < 1e-8);
+    }
+
+    for (int i = 0; i < nTests; i++)
+    {
+        float x = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z = GeometryUtilitiesTestHelper::getRandomFloat();
+
+        Point3f point(x, y, z);
+
+        float x2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z2 = GeometryUtilitiesTestHelper::getRandomFloat();
+
+        Point3f point2(x2, y2, z2);
+
+        float distanceL1 = fabs(x2 - x) + fabs(y2 - y) + fabs(z2 - z);
+
+        EXPECT_TRUE(distanceL1 - point.distanceL1(point2) < 1e-8);
+    }
+}
+
+TEST_F(Point3Test, testDistanceLInf)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        double x = GeometryUtilitiesTestHelper::getRandomDouble();
+        double y = GeometryUtilitiesTestHelper::getRandomDouble();
+        double z = GeometryUtilitiesTestHelper::getRandomDouble();
+
+        Point3d point(x, y, z);
+
+        double x2 = GeometryUtilitiesTestHelper::getRandomDouble();
+        double y2 = GeometryUtilitiesTestHelper::getRandomDouble();
+        double z2 = GeometryUtilitiesTestHelper::getRandomDouble();
+
+        Point3d point2(x2, y2, z2);
+
+        double distanceLInf = std::max(fabs(x2 - x), fabs(y2 - y));
+        distanceLInf = std::max(distanceLInf, fabs(z2 - z));
+
+        EXPECT_TRUE(distanceLInf - point.distanceLinf(point2) < 1e-8);
+    }
+
+    for (int i = 0; i < nTests; i++)
+    {
+        float x = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z = GeometryUtilitiesTestHelper::getRandomFloat();
+
+        Point3f point(x, y, z);
+
+        float x2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z2 = GeometryUtilitiesTestHelper::getRandomFloat();
+
+        Point3f point2(x2, y2, z2);
+
+        float distanceLInf = std::max(fabs(x2 - x), fabs(y2 - y));
+        distanceLInf = std::max(distanceLInf, (float)fabs(z2 - z));
+
+        EXPECT_TRUE(distanceLInf - point.distanceLinf(point2) < 1e-8);
+    }
+}
+
+TEST_F(Point3Test, testAdd1)
+{
+    for (int i = 0; i < 1000; i++)
+    {
+        double array1[3] = {GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble()};
+        double array2[3] = {GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble()};
+
+        Point3d point1(array1);
+        Point3d point2(array2);
+
+        Point3d point3(array1[0] + array2[0], array1[1] + array2[1], array1[2] + array2[2]);
+
+        point1 += point2;
+
+        EXPECT_TRUE(point1.epsilonEquals(point3, 1e-12));
+    }
+
+    for (int i = 0; i < 1000; i++)
+    {
+        float array1[3] = {GeometryUtilitiesTestHelper::getRandomFloat(), GeometryUtilitiesTestHelper::getRandomFloat(), GeometryUtilitiesTestHelper::getRandomFloat()};
+        float array2[3] = {GeometryUtilitiesTestHelper::getRandomFloat(), GeometryUtilitiesTestHelper::getRandomFloat(), GeometryUtilitiesTestHelper::getRandomFloat()};
+
+        Point3f point1(array1);
+        Point3f point2(array2);
+
+        Point3f point3(array1[0] + array2[0], array1[1] + array2[1], array1[2] + array2[2]);
+
+        point1 += point2;
+
+        EXPECT_TRUE(point1.epsilonEquals(point3, 1e-12));
+    }
+}
+
+TEST_F(Point3Test, testAdd2)
+{
+    Point3d point1,point2;
+    Point3f point3,point4;
+
+    for (int i = 0; i < 1000; i++)
+    {
+        point1.set(GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble(), GeometryUtilitiesTestHelper::getRandomDouble());
+
+        std::vector<double> vector(3);
+        vector[0] = GeometryUtilitiesTestHelper::getRandomDouble();
+        vector[1] = GeometryUtilitiesTestHelper::getRandomDouble();
+        vector[2] = GeometryUtilitiesTestHelper::getRandomDouble();
+
+        point2.set(vector);
+
+        Point3d tmpPoint;
+        tmpPoint.set(vector[0] + point1.getX(), vector[1] + point1.getY(), vector[2] + point1.getZ());
+
+        point2 = point2 + point1;
+
+        EXPECT_TRUE(point2.epsilonEquals(tmpPoint, 1e-12));
+    }
+
+    for (int i = 0; i < 1000; i++)
+    {
+        point3.set(GeometryUtilitiesTestHelper::getRandomFloat(), GeometryUtilitiesTestHelper::getRandomFloat(), GeometryUtilitiesTestHelper::getRandomFloat());
+
+        std::vector<float> vector(3);
+        vector[0] = GeometryUtilitiesTestHelper::getRandomFloat();
+        vector[1] = GeometryUtilitiesTestHelper::getRandomFloat();
+        vector[2] = GeometryUtilitiesTestHelper::getRandomFloat();
+
+        point4.set(vector);
+
+        Point3f tmpPoint;
+        tmpPoint.set(vector[0] + point3.getX(), vector[1] + point3.getY(), vector[2] + point3.getZ());
+
+        point4 = point4 + point3;
+
+        EXPECT_TRUE(point4.epsilonEquals(tmpPoint, 1e-12));
+    }
+}
+
 //TEST_F(Point3Test, testAdd3)
 //{
 //    for (int i = 0; i < 1000; i++)

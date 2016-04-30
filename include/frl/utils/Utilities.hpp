@@ -55,10 +55,15 @@ namespace frl
         template<typename T>
         T distanceLinf(const T p1X,const T p1Y, const T p1Z,const T p2X,const T p2Y, const T p2Z)
         {
-            T tmp;
-            tmp = std::max(fabs(p1X - p2X), fabs(p1Y - p2Y));
+            T tmp,dx,dy,dz;
 
-            return std::max(tmp, fabs(p1Z - p2Z));
+            dx=p1X-p2X;
+            dy=p1Y-p2Y;
+            dz=p1Z-p2Z;
+
+            tmp = fabs(dx)>fabs(dy) ? fabs(dx) : fabs(dy);
+
+            return tmp>fabs(dz) ? tmp : fabs(dz);
         }
 
         template<typename T>
