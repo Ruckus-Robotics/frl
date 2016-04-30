@@ -22,6 +22,12 @@ namespace frl
 				return (2000.0 * rand() / RAND_MAX - 1000.0);
 			}
 
+			static float getRandomFloat()
+			{
+				// Generates random double between -1000 & 1000
+				return (float)(2000.0 * rand() / RAND_MAX - 1000.0);
+			}
+
 			static double getRandomDoubleBetween1AndMinus1()
 			{
 				return 2.0 * rand() / RAND_MAX - 1.0;
