@@ -24,8 +24,8 @@ namespace frl
 
 			static float getRandomFloat()
 			{
-				// Generates random double between -1000 & 1000
-				return (float)(2000.0 * rand() / RAND_MAX - 1000.0);
+				// Generates random double between -100 & 100
+				return (float)(200.0 * rand() / RAND_MAX - 100.0);
 			}
 
 			static double getRandomDoubleBetween1AndMinus1()

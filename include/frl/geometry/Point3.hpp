@@ -52,21 +52,24 @@ namespace frl
                 set(vector[0], vector[1], vector[2]);
             }
 
-            void set(const T x, const T y, const T z)
+            template<typename TYPE>
+            void set(const TYPE x, const TYPE y, const TYPE z)
             {
                 this->x = x;
                 this->y = y;
                 this->z = z;
             }
 
-            void add(const T &x, const T &y, const T &z)
+            template<typename TYPE>
+            void add(const TYPE x, const TYPE y, const TYPE z)
             {
                 this->x += x;
                 this->y += y;
                 this->z += z;
             }
 
-            void subtract(const T &x, const T &y, const T &z)
+            template<typename TYPE>
+            void subtract(const TYPE x, const TYPE y, const TYPE z)
             {
                 this->x -= x;
                 this->y -= y;
@@ -80,7 +83,8 @@ namespace frl
                 this->z *= -1;
             }
 
-            void scale(const T &scale)
+            template<typename TYPE>
+            void scale(const TYPE scale)
             {
                 this->x *= scale;
                 this->y *= scale;

@@ -44,23 +44,29 @@ TEST_F(Point3Test, testDistanceSquared)
         EXPECT_TRUE(distanceSquared - point.distanceSquared(point2) < 1e-8);
     }
 
-    for (int i = 0; i < nTests; i++)
+    for (int i = 0; i < 10; i++)
     {
-        double x = GeometryUtilitiesTestHelper::getRandomDouble();
-        double y = GeometryUtilitiesTestHelper::getRandomDouble();
-        double z = GeometryUtilitiesTestHelper::getRandomDouble();
+        float x = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z = GeometryUtilitiesTestHelper::getRandomFloat();
 
-        Point3d point(x, y, z);
+        Point3f point(x, y, z);
 
-        double x2 = GeometryUtilitiesTestHelper::getRandomDouble();
-        double y2 = GeometryUtilitiesTestHelper::getRandomDouble();
-        double z2 = GeometryUtilitiesTestHelper::getRandomDouble();
+        float x2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float y2 = GeometryUtilitiesTestHelper::getRandomFloat();
+        float z2 = GeometryUtilitiesTestHelper::getRandomFloat();
 
-        Point3d point2(x2, y2, z2);
+        Point3f point2(x2, y2, z2);
 
-        double distanceSquared = pow((x2 - x), 2) + pow((y2 - y), 2) + pow((z2 - z), 2);
+        float distanceSquared = pow((x2 - x), 2) + pow((y2 - y), 2) + pow((z2 - z), 2);
 
-        EXPECT_TRUE(distanceSquared - point.distanceSquared(point2) < 1e-8);
+        bool res = (distanceSquared - point.distanceSquared(point2)) < 1e-5;
+        EXPECT_TRUE(res);
+
+        if(!res)
+        {
+            std::cout << std::setprecision(15) << distanceSquared << "," << point.distanceSquared(point2) << std::endl;
+        }
     }
 }
 
