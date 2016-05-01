@@ -344,48 +344,325 @@ namespace frl
                 }
             }
 
-			void setRotationAndZeroTranslation(const Eigen::Matrix3d &matrix);
-			void setRotationAndZeroTranslation(const Eigen::Matrix3f &matrix);
-			void setRotationAndZeroTranslation(const Eigen::Quaterniond &quat);
-			void setRotationAndZeroTranslation(const Eigen::Quaternionf &quat);
-			void setRotationAndZeroTranslation(const Eigen::AngleAxisd &axisAngle);
-			void setRotationAndZeroTranslation(const Eigen::AngleAxisf &axisAngle);
+            template<class TYPE>
+			void setRotationAndZeroTranslation(const Eigen::Matrix<TYPE,3,3> &matrix)
+            {
+                setRotation(matrix);
+                setTranslation(0.0,0.0,0.0);
+            }
 
-			void setTranslationAndIdentityRotation(const Eigen::Vector3d &vector);
+            template<class TYPE>
+			void setRotationAndZeroTranslation(const Eigen::Quaternion<TYPE> &quat)
+            {
+                setRotation(quat);
+                setTranslation(0.0,0.0,0.0);
+            }
 
-			void setRotationToIdentity();
+            template<class TYPE>
+			void setRotationAndZeroTranslation(const Eigen::AngleAxis<TYPE> &axisAngle)
+            {
+                setRotation(axisAngle);
+                setTranslation(0.0,0.0,0.0);
+            }
 
-			void setEuler(const Eigen::Vector3d &vector);
+            /**
+            * Set this transform to have an identity rotation and a translation given
+            * by the Eigen::Vector3d vector.
+            *
+            * @param vector
+            */
+            template<class TYPE>
+			void setTranslationAndIdentityRotation(const Eigen::Matrix<TYPE,3,1> &vector)
+            {
+                setTranslation(vector(0), vector(1), vector(2));
+                setRotationToIdentity();
+            }
 
-			void setEuler(const double &rotX, const double &rotY, const double &rotZ);
+            /**
+            * Sets rotation to the identity, does not effect the translational component of the Transform
+            *
+            */
+			void setRotationToIdentity()
+            {
+                this->mat00 = 1.0;
+                this->mat01 = 0.0;
+                this->mat02 = 0.0;
+                this->mat10 = 0.0;
+                this->mat11 = 1.0;
+                this->mat12 = 0.0;
+                this->mat20 = 0.0;
+                this->mat21 = 0.0;
+                this->mat22 = 1.0;
+            }
 
-			void getEulerXYZ(Eigen::Vector3d &vector) const;
+            /**
+            * Set the rotational component of the transform to the rotation matrix
+            * created given an X-Y-Z rotation described by the angles in vector which
+            * describe angles of rotation about the X, Y, and Z axis, respectively. The
+            * orientation of each rotation is not effected by any of the other
+            * rotations. This method sets the translational component of this
+            * transform3d to zeros.
+            *
+            * @param vector
+            */
+            template<class TYPE>
+			void setEulerXYZ(const Eigen::Matrix<TYPE,3,1> &vector)
+            {
+                setEulerXYZ(vector(0), vector(1), vector(2));
+            }
 
-			void getRotation(Eigen::Matrix3d &matrix) const;
+            /**
+             * Set the rotational component of the transform to the rotation matrix
+             * created given an X-Y-Z rotation described by the angles in vector which
+             * describe angles of rotation about the X, Y, and Z axis, respectively. The
+             * orientation of each rotation is not effected by any of the other
+             * rotations. This method sets the translational component of this
+             * transform3d to zeros.
+             *
+             * @param rotX
+             * @param rotY
+             * @param rotZ
+             */
+            template<typename T>
+			void setEulerXYZ(const T rotX, const T rotY, const T rotZ)
+            {
+                double sina = sin(rotX);
+                double sinb = sin(rotY);
+                double sinc = sin(rotZ);
+                double cosa = cos(rotX);
+                double cosb = cos(rotY);
+                double cosc = cos(rotZ);
 
-			void getRotation(Eigen::Quaternion<double> &quat) const;
+                this->mat00 = cosb * cosc;
+                this->mat01 = -(cosa * sinc) + (sina * sinb * cosc);
+                this->mat02 = (sina * sinc) + (cosa * sinb * cosc);
+                this->mat10 = cosb * sinc;
+                this->mat11 = (cosa * cosc) + (sina * sinb * sinc);
+                this->mat12 = -(sina * cosc) + (cosa * sinb * sinc);
+                this->mat20 = -sinb;
+                this->mat21 = sina * cosb;
+                this->mat22 = cosa * cosb;
+                this->mat03 = 0.0;
+                this->mat13 = 0.0;
+                this->mat23 = 0.0;
+            }
 
-			void getRotation(Eigen::AngleAxis<double> &axisAngle) const;
+            /**
+            * Computes the RPY angles from the rotation matrix for rotations about the
+            * X, Y, and Z axes respectively. Note that this method is here for the
+            * purpose of unit testing the method setEuler. This particular solution is
+            * only valid for -pi/2 < vector.y < pi/2 and for vector.y != 0.
+            *
+            * @param vector
+            */
+            template<typename TYPE>
+			void getEulerXYZ(Eigen::Matrix<TYPE,3,1> &vector) const
+            {
+                vector(0) = atan2(mat21, mat22);
+                vector(1) = atan2(-mat20, sqrt(mat21 * mat21 + mat22 * mat22));
+                vector(2) = atan2(mat10, mat00);
+            }
 
-			void getTranslation(Eigen::Vector3d &vector) const;
+            /**
+            * Return rotation matrix
+            *
+            * @param matrix
+            */
+            template<class TYPE>
+			void getRotation(Eigen::Matrix<TYPE,3,3> &matrix) const
+            {
+                matrix(0, 0) = mat00;
+                matrix(0, 1) = mat01;
+                matrix(0, 2) = mat02;
+                matrix(1, 0) = mat10;
+                matrix(1, 1) = mat11;
+                matrix(1, 2) = mat12;
+                matrix(2, 0) = mat20;
+                matrix(2, 1) = mat21;
+                matrix(2, 2) = mat22;
+            }
 
-			void getTranslation(Point3d<double> &point) const;
-            void getTranslation(Point3d<float> &point) const;
+            /**
+            * Return rotation in quaternion form.
+            *
+            * @param Eigen::Quaternion quat
+            */
+            template<class TYPE>
+			void getRotation(Eigen::Quaternion<TYPE> &quat) const
+            {
+                TYPE trace = mat00 + mat11 + mat22;
+                TYPE val;
 
-			void get(Eigen::Matrix4d &matrix) const;
-			void get(Eigen::Matrix3d &matrix, Eigen::Vector3d &vector) const;
-			void get(Eigen::Matrix3d &matrix) const;
-			void get(Eigen::Vector3d &vector) const;
-			void get(Eigen::Quaternion<double> &quat, Eigen::Vector3d &vector) const;
-			void get(Eigen::Quaternion<double> &quat, Point3d &point) const;
-			void get(Eigen::Quaternion<double> &quat) const;
+                if (trace > 0.0)
+                {
+                    val = sqrt(trace + 1.0) * 2.0;
+                    quat.x() = (mat21 - mat12) / val;
+                    quat.y() = (mat02 - mat20) / val;
+                    quat.z() = (mat10 - mat01) / val;
+                    quat.w() = 0.25 * val;
+                }
+                else if (mat11 > mat22)
+                {
+                    TYPE temp = std::max(0.0, 1.0 + mat11 - mat00 - mat22);
+                    val = sqrt(temp) * 2.0;
+                    quat.x() = (mat01 + mat10) / val;
+                    quat.y() = 0.25 * val;
+                    quat.z() = (mat12 + mat21) / val;
+                    quat.w() = (mat02 - mat20) / val;
+                }
+                else if ((mat00 > mat11) && (mat00 > mat22))
+                {
+                    val = sqrt(1.0 + mat00 - mat11 - mat22) * 2.0;
+                    quat.x() = 0.25 * val;
+                    quat.y() = (mat01 + mat10) / val;
+                    quat.z() = (mat02 + mat20) / val;
+                    quat.w() = (mat21 - mat12) / val;
+                }
+                else
+                {
+                    val = sqrt(1.0 + mat22 - mat00 - mat11) * 2.0;
+                    quat.x() = (mat02 + mat20) / val;
+                    quat.y() = (mat12 + mat21) / val;
+                    quat.z() = 0.25 * val;
+                    quat.w() = (mat10 - mat01) / val;
+                }
+            }
 
-			void applyTranslation(const Eigen::Vector3d &translation);
+            /**
+            * Return rotation in AxisAngle form.
+            *
+            * @param axisAngle
+            */
+            template<class TYPE>
+			void getRotation(Eigen::AngleAxis<TYPE> &axisAngle) const
+            {
+                getRotation(axisAngle,1.0e-12);
+            }
 
-			void transform(Point3d<double> &point);
-            void transform(Point3d<float> &point);
+            /**
+            * Return translational part
+            *
+            * @param vector
+            */
+            template<class TYPE>
+			void getTranslation(Eigen::Matrix<TYPE,3,1> &vector) const
+            {
+                vector(0) = mat03;
+                vector(1) = mat13;
+                vector(2) = mat23;
+            }
 
-			void transform(Eigen::Vector4d &vector);
+            /**
+            * Return translational part
+            *
+            * @param point
+            */
+            template<class TYPE>
+			void getTranslation(Point3<TYPE> &point) const
+            {
+                point.x = mat03;
+                point.y = mat13;
+                point.z = mat23;
+            }
+
+            /**
+            * Pack transform into matrix
+            *
+            * @param matrix
+            */
+            template<class TYPE>
+			void get(Eigen::Matrix<TYPE,4,4> &matrix) const
+            {
+                matrix(0, 0) = mat00;
+                matrix(0, 1) = mat01;
+                matrix(0, 2) = mat02;
+                matrix(0, 3) = mat03;
+
+                matrix(1, 0) = mat10;
+                matrix(1, 1) = mat11;
+                matrix(1, 2) = mat12;
+                matrix(1, 3) = mat13;
+
+                matrix(2, 0) = mat20;
+                matrix(2, 1) = mat21;
+                matrix(2, 2) = mat22;
+                matrix(2, 3) = mat23;
+
+                matrix(3, 0) = 0;
+                matrix(3, 1) = 0;
+                matrix(3, 2) = 0;
+                matrix(3, 3) = 1;
+            }
+
+            template<class TYPE>
+			void get(Eigen::Matrix<TYPE,3,3> &matrix, Eigen::Matrix<TYPE,3,1> &vector) const
+            {
+                getRotation(matrix);
+                getTranslation(vector);
+            }
+
+            template<class TYPE>
+			void get(Eigen::Quaternion<TYPE> &quat, Eigen::Matrix<TYPE,3,1> &vector) const
+            {
+                getRotation(quat);
+                getTranslation(vector);
+            }
+
+            template<class TYPE>
+			void get(Eigen::Quaternion<TYPE> &quat, Point3<TYPE> &point) const
+            {
+                getRotation(quat);
+                getTranslation(point);
+            }
+
+            template<class TYPE>
+			void applyTranslation(const Eigen::Matrix<TYPE,3,1> &translation)
+            {
+                Point3d<TYPE> temp(translation(0),translation(1),translation(2));
+                transform(temp);
+                mat03 = temp.x;
+                mat13 = temp.y;
+                mat23 = temp.z;
+            }
+
+            /**
+            * Transform the Point3d point by this transform and place result back in
+            * point.
+            *
+            * @param point
+            */
+            template<class TYPE>
+			void transform(Point3<TYPE> &point)
+            {
+                TYPE x = mat00 * point.x + mat01 * point.y + mat02 * point.z + mat03;
+                TYPE y = mat10 * point.x + mat11 * point.y + mat12 * point.z + mat13;
+                point.z = mat20 * point.x + mat21 * point.y + mat22 * point.z + mat23;
+
+                point.x = x;
+                point.y = y;
+            }
+
+            /**
+            * Transform vector by multiplying it by this transform and put result back
+            * into vector.
+            *
+            * @param vector
+            */
+            template<class TYPE>
+			void transform(Eigen::Matrix<TYPE,4,1> &vector)
+            {
+                if (vector(3) != 1.0)
+                {
+                    throw std::runtime_error("Final element of vector must be 1.");
+                }
+
+                TYPE x = mat00 * vector(0) + mat01 * vector(1) + mat02 * vector(2) + mat03;
+                TYPE y = mat10 * vector(0) + mat11 * vector(1) + mat12 * vector(2) + mat13;
+                vector(2) = mat20 * vector(0) + mat21 * vector(1) + mat22 * vector(2) + mat23;
+                vector(0) = x;
+                vector(1) = y;
+                vector(3) = 1.0;
+            }
 
 			void transform(Eigen::Vector3d &vector);
 
@@ -619,7 +896,101 @@ namespace frl
 			}
 
 		private:
-			void getRotation(Eigen::AngleAxis<double> &axisAngle, const double epsilon) const;
+            template<class TYPE>
+			void getRotation(Eigen::AngleAxis<TYPE> &axisAngle, const double epsilon) const
+            {
+                axisAngle.axis()[0] = mat21 - mat12;
+                axisAngle.axis()[1] = mat02 - mat20;
+                axisAngle.axis()[2] = mat10 - mat01;
+
+                TYPE mag = axisAngle.axis()[0] * axisAngle.axis()[0] + axisAngle.axis()[1] * axisAngle.axis()[1] + axisAngle.axis()[2] * axisAngle.axis()[2];
+
+                if (mag > epsilon)
+                {
+                    mag = sqrt(mag);
+                    TYPE sin = 0.5 * mag;
+                    TYPE cos = 0.5 * (mat00 + mat11 + mat22 - 1.0);
+
+                    axisAngle.angle() = atan2(sin, cos);
+
+                    TYPE invMag = 1.0 / mag;
+                    axisAngle.axis()[0] = axisAngle.axis()[0] * invMag;
+                    axisAngle.axis()[1] = axisAngle.axis()[1] * invMag;
+                    axisAngle.axis()[2] = axisAngle.axis()[2] * invMag;
+                }
+                else
+                {
+                    if (isRotationMatrixEpsilonIdentity(10.0 * epsilon))
+                    {
+                        axisAngle.angle() = 0.0;
+                        axisAngle.axis()[0] = 1.0;
+                        axisAngle.axis()[1] = 0.0;
+                        axisAngle.axis()[2] = 0.0;
+                        return;
+                    }
+                    else
+                    {
+                        axisAngle.angle() = M_PI;
+
+                        TYPE xx = (mat00 + 1.0) / 2.0;
+                        TYPE yy = (mat11 + 1.0) / 2.0;
+                        TYPE zz = (mat22 + 1.0) / 2.0;
+                        TYPE xy = (mat01 + mat10) / 4.0;
+                        TYPE xz = (mat02 + mat20) / 4.0;
+                        TYPE yz = (mat12 + mat21) / 4.0;
+                        TYPE cos45 = cos(M_PI / 4.0);
+
+                        if ((xx > yy) && (xx > zz))
+                        {
+                            // mat00 is the largest diagonal term
+                            if (xx < epsilon)
+                            {
+                                axisAngle.axis()[0] = 0.0;
+                                axisAngle.axis()[1] = cos45;
+                                axisAngle.axis()[2] = cos45;
+                            }
+                            else
+                            {
+                                axisAngle.axis()[0] = sqrt(xx);
+                                axisAngle.axis()[1] = xy / axisAngle.axis()[0];
+                                axisAngle.axis()[2] = xz / axisAngle.axis()[0];
+                            }
+                        }
+                        else if (yy > zz)
+                        {
+                            // mat11 is the largest diagonal term
+                            if (yy < epsilon)
+                            {
+                                axisAngle.axis()[0] = cos45;
+                                axisAngle.axis()[1] = 0.0;
+                                axisAngle.axis()[2] = cos45;
+                            }
+                            else
+                            {
+                                axisAngle.axis()[1] = sqrt(yy);
+                                axisAngle.axis()[0] = xy / axisAngle.axis()[1];
+                                axisAngle.axis()[2] = yz / axisAngle.axis()[1];
+                            }
+                        }
+                        else
+                        {
+                            // mat22 is the largest diagonal term
+                            if (zz < epsilon)
+                            {
+                                axisAngle.axis()[0] = cos45;
+                                axisAngle.axis()[1] = cos45;
+                                axisAngle.axis()[2] = 0.0;
+                            }
+                            else
+                            {
+                                axisAngle.axis()[2] = sqrt(zz);
+                                axisAngle.axis()[0] = xz / axisAngle.axis()[2];
+                                axisAngle.axis()[1] = yz / axisAngle.axis()[2];
+                            }
+                        }
+                    }
+                }
+            }
 
 			T mat00;
 			T mat01;
