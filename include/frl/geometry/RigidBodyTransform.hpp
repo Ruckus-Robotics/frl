@@ -651,11 +651,6 @@ namespace frl
             template<class TYPE>
 			void transform(Eigen::Matrix<TYPE,4,1> &vector)
             {
-                if (vector(3) != 1.0)
-                {
-                    throw std::runtime_error("Final element of vector must be 1.");
-                }
-
                 TYPE x = mat00 * vector(0) + mat01 * vector(1) + mat02 * vector(2) + mat03;
                 TYPE y = mat10 * vector(0) + mat11 * vector(1) + mat12 * vector(2) + mat13;
                 vector(2) = mat20 * vector(0) + mat21 * vector(1) + mat22 * vector(2) + mat23;
@@ -664,14 +659,65 @@ namespace frl
                 vector(3) = 1.0;
             }
 
-			void transform(Eigen::Vector3d &vector);
+            /**
+             * Transform vector by multiplying it by this transform and put result back
+             * into vector.
+             *
+             * @param vector
+             */
+            template<class TYPE>
+			void transform(Eigen::Matrix<TYPE,3,1> &vector)
+            {
+                TYPE x = mat00 * vector(0) + mat01 * vector(1) + mat02 * vector(2);
+                TYPE y = mat10 * vector(0) + mat11 * vector(1) + mat12 * vector(2);
+                vector(2) = (mat20 * vector(0) + mat21 * vector(1) + mat22 * vector(2);
 
-			void transform(const Eigen::Vector3d &vectorIn, Eigen::Vector3d &vectorOut);
+                vector(0) = x;
+                vector(1) = y;
+            }
 
-			void transform(const Eigen::Vector4d &vectorIn, Eigen::Vector4d &vectorOut);
+            /**
+            * Transform vector by multiplying it by this transform and put result back
+            * into vector.
+            *
+            * @param vector
+            */
+            template<class TYPE>
+			void transform(const Eigen::Matrix<TYPE,3,1> &vectorIn, Eigen::Matrix<TYPE,3,1> &vectorOut)
+            {
+                vectorOut(0) = mat00 * vectorIn(0) + mat01 * vectorIn(1) + mat02 * vectorIn(2);
+                vectorOut(1) = mat10 * vectorIn(0) + mat11 * vectorIn(1) + mat12 * vectorIn(2);
+                vectorOut(2) = mat20 * vectorIn(0) + mat21 * vectorIn(1) + mat22 * vectorIn(2);
+            }
 
-			void transform(const Point3d<double> &pointIn, Point3d<double> &pointOut);
-            void transform(const Point3d<float> &pointIn, Point3d<float> &pointOut);
+            /**
+            * Transform vectorIn using this transform and store result in vectorOut.
+            *
+            * @param vectorIn
+            * @param vectorOut
+            */
+            template<class TYPE>
+			void transform(const Eigen::Matrix<TYPE,4,1> &vectorIn, Eigen::Matrix<TYPE,4,1> &vectorOut)
+            {
+                vectorOut(0) = mat00 * vectorIn(0) + mat01 * vectorIn(1) + mat02 * vectorIn(2) + mat03;
+                vectorOut(1) = mat10 * vectorIn(0) + mat11 * vectorIn(1) + mat12 * vectorIn(2) + mat13;
+                vectorOut(2) = mat20 * vectorIn(0) + mat21 * vectorIn(1) + mat22 * vectorIn(2) + mat23;
+                vectorOut(3) = 1.0;
+            }
+
+            /**
+            * Transform the Point3d pointIn by this transform and place result in
+            * pointOut.
+            *
+            * @param point
+            */
+            template<class TYPE>
+			void transform(const Point3<TYPE> &pointIn, Point3<TYPE> &pointOut)
+            {
+                pointOut.x = mat00 * pointIn.x + mat01 * pointIn.y + mat02 * pointIn.z + mat03;
+                pointOut.y = mat10 * pointIn.x + mat11 * pointIn.y + mat12 * pointIn.z + mat13;
+                pointOut.z = mat20 * pointIn.x + mat21 * pointIn.y + mat22 * pointIn.z + mat23;
+            }
 
             /**
             *  Apply a x-axis rotation to the current transform.
@@ -690,7 +736,7 @@ namespace frl
 			template<typename TYPE>
 			void applyRotationY(const TYPE angle)
             {
-                RigidBodyTransform temp;
+                RigidBodyTransform<T> temp;
                 temp.rotY(angle);
                 multiply(temp);
             }
@@ -701,7 +747,7 @@ namespace frl
 			template<typename TYPE>
 			void applyRotationZ(const TYPE angle)
             {
-                RigidBodyTransform temp;
+                RigidBodyTransform<T> temp;
                 temp.rotZ(angle);
                 multiply(temp);
             }
@@ -709,8 +755,8 @@ namespace frl
 			template<typename TYPE>
 			void rotX(const TYPE angle)
             {
-                double cosAngle = cos(angle);
-                double sinAngle = sin(angle);
+                TYPE cosAngle = cos(angle);
+                TYPE sinAngle = sin(angle);
 
                 this->mat00 = 1.0;
                 this->mat01 = 0.0;
@@ -735,8 +781,8 @@ namespace frl
 			template<typename TYPE>
 			void rotY(const TYPE angle)
             {
-                double cosAngle = cos(angle);
-                double sinAngle = sin(angle);
+                TYPE cosAngle = cos(angle);
+                TYPE sinAngle = sin(angle);
 
                 mat00 = cosAngle;
                 mat01 = 0.0;
@@ -761,8 +807,8 @@ namespace frl
 			template<typename TYPE>
 			void rotZ(const TYPE angle)
             {
-                double cosAngle = cos(angle);
-                double sinAngle = sin(angle);
+                TYPE cosAngle = cos(angle);
+                TYPE sinAngle = sin(angle);
 
                 mat00 = cosAngle;
                 mat01 = -sinAngle;
@@ -778,11 +824,88 @@ namespace frl
                 mat23 = 0.0;
             }
 
-			void multiply(const RigidBodyTransform &transform);
+            /**
+            * Multiplies this RigidBodyTransform by transform and stores the result in this,
+            * i.e. this = this*transform
+            *
+            * @param transform
+            */
+            template<class TYPE>
+			void multiply(const RigidBodyTransform<TYPE> &transform)
+            {
+                T tmp00 = mat00 * transform.mat00 + mat01 * transform.mat10 + mat02 * transform.mat20;
+                T tmp01 = mat00 * transform.mat01 + mat01 * transform.mat11 + mat02 * transform.mat21;
+                T tmp02 = mat00 * transform.mat02 + mat01 * transform.mat12 + mat02 * transform.mat22;
+                T tmp03 = mat00 * transform.mat03 + mat01 * transform.mat13 + mat02 * transform.mat23 + mat03;
 
-			void multiply(const RigidBodyTransform &transform1, const RigidBodyTransform &transform);
+                T tmp10 = mat10 * transform.mat00 + mat11 * transform.mat10 + mat12 * transform.mat20;
+                T tmp11 = mat10 * transform.mat01 + mat11 * transform.mat11 + mat12 * transform.mat21;
+                T tmp12 = mat10 * transform.mat02 + mat11 * transform.mat12 + mat12 * transform.mat22;
+                T tmp13 = mat10 * transform.mat03 + mat11 * transform.mat13 + mat12 * transform.mat23 + mat13;
 
-			bool isRotationMatrixEpsilonIdentity(const double epsilon) const;
+                T tmp20 = mat20 * transform.mat00 + mat21 * transform.mat10 + mat22 * transform.mat20;
+                T tmp21 = mat20 * transform.mat01 + mat21 * transform.mat11 + mat22 * transform.mat21;
+                T tmp22 = mat20 * transform.mat02 + mat21 * transform.mat12 + mat22 * transform.mat22;
+                T tmp23 = mat20 * transform.mat03 + mat21 * transform.mat13 + mat22 * transform.mat23 + mat23;
+
+                mat00 = tmp00;
+                mat01 = tmp01;
+                mat02 = tmp02;
+                mat03 = tmp03;
+                mat10 = tmp10;
+                mat11 = tmp11;
+                mat12 = tmp12;
+                mat13 = tmp13;
+                mat20 = tmp20;
+                mat21 = tmp21;
+                mat22 = tmp22;
+                mat23 = tmp23;
+            }
+
+            /**
+            * Multiplies transform1 and transform and puts result into this. this =
+            * transform1*transform
+            *
+            * @param transform1
+            * @param transform
+            */
+            template<class TYPE>
+			void multiply(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform)
+            {
+                T tmp00 = transform1.mat00 * transform.mat00 + transform1.mat01 * transform.mat10 + transform1.mat02 * transform.mat20;
+                T tmp01 = transform1.mat00 * transform.mat01 + transform1.mat01 * transform.mat11 + transform1.mat02 * transform.mat21;
+                T tmp02 = transform1.mat00 * transform.mat02 + transform1.mat01 * transform.mat12 + transform1.mat02 * transform.mat22;
+                T tmp03 = transform1.mat00 * transform.mat03 + transform1.mat01 * transform.mat13 + transform1.mat02 * transform.mat23 + transform1.mat03;
+
+                T tmp10 = transform1.mat10 * transform.mat00 + transform1.mat11 * transform.mat10 + transform1.mat12 * transform.mat20;
+                T tmp11 = transform1.mat10 * transform.mat01 + transform1.mat11 * transform.mat11 + transform1.mat12 * transform.mat21;
+                T tmp12 = transform1.mat10 * transform.mat02 + transform1.mat11 * transform.mat12 + transform1.mat12 * transform.mat22;
+                T tmp13 = transform1.mat10 * transform.mat03 + transform1.mat11 * transform.mat13 + transform1.mat12 * transform.mat23 + transform1.mat13;
+
+                T tmp20 = transform1.mat20 * transform.mat00 + transform1.mat21 * transform.mat10 + transform1.mat22 * transform.mat20;
+                T tmp21 = transform1.mat20 * transform.mat01 + transform1.mat21 * transform.mat11 + transform1.mat22 * transform.mat21;
+                T tmp22 = transform1.mat20 * transform.mat02 + transform1.mat21 * transform.mat12 + transform1.mat22 * transform.mat22;
+                T tmp23 = transform1.mat20 * transform.mat03 + transform1.mat21 * transform.mat13 + transform1.mat22 * transform.mat23 + transform1.mat23;
+
+                mat00 = tmp00;
+                mat01 = tmp01;
+                mat02 = tmp02;
+                mat03 = tmp03;
+                mat10 = tmp10;
+                mat11 = tmp11;
+                mat12 = tmp12;
+                mat13 = tmp13;
+                mat20 = tmp20;
+                mat21 = tmp21;
+                mat22 = tmp22;
+                mat23 = tmp23;
+            }
+
+			bool isRotationMatrixEpsilonIdentity(const double epsilon) const
+            {
+                return fabs(mat01) < epsilon && fabs(mat02) < epsilon && fabs(mat10) < epsilon && fabs(mat12) < epsilon && fabs(mat20) < epsilon &&
+                       fabs(mat21) < epsilon && fabs(mat00 - 1.0) < epsilon && fabs(mat11 - 1.0) < epsilon && fabs(mat22 - 1.0) - epsilon;
+            }
 
 			void invert(const RigidBodyTransform &transform);
 
@@ -872,30 +995,6 @@ namespace frl
 
 			static Eigen::Vector3d getTranslationDifference(const RigidBodyTransform &transform1, const RigidBodyTransform &transform2);
 
-			friend std::ostream &operator<<(std::ostream &os, const RigidBodyTransform &transform)
-			{
-				os << "[ " << transform.mat00 << ',' << transform.mat01 << "," << transform.mat02 << "," << transform.mat03 << "]" << "\n" <<
-				"[ " << transform.mat10 << ',' << transform.mat11 << "," << transform.mat12 << "," << transform.mat13 << "]" << "\n" <<
-				"[ " << transform.mat20 << ',' << transform.mat21 << "," << transform.mat22 << "," << transform.mat23 << "]" << "\n" <<
-				"[ " << 0 << ',' << 0 << "," << 0 << "," << 1 << "]";
-				return os;
-			}
-
-			friend RigidBodyTransform operator*(const RigidBodyTransform &transform1, const RigidBodyTransform &transform2)
-			{
-				RigidBodyTransform tmp;
-				tmp = transform1;
-				tmp.multiply(transform2);
-				return tmp;
-			}
-
-			RigidBodyTransform &operator*=(const RigidBodyTransform &transform)
-			{
-				this->multiply(transform);
-				return *this;
-			}
-
-		private:
             template<class TYPE>
 			void getRotation(Eigen::AngleAxis<TYPE> &axisAngle, const double epsilon) const
             {
@@ -992,6 +1091,21 @@ namespace frl
                 }
             }
 
+            RigidBodyTransform& operator*=(const RigidBodyTransform &transform)
+            {
+                this->multiply(transform);
+                return *this;
+            }
+
+            std::ostream& operator<<(std::ostream &os, const RigidBodyTransform &transform)
+            {
+                os << "[ " << transform.mat00 << ',' << transform.mat01 << "," << transform.mat02 << "," << transform.mat03 << "]" << "\n" <<
+                "[ " << transform.mat10 << ',' << transform.mat11 << "," << transform.mat12 << "," << transform.mat13 << "]" << "\n" <<
+                "[ " << transform.mat20 << ',' << transform.mat21 << "," << transform.mat22 << "," << transform.mat23 << "]" << "\n" <<
+                "[ " << 0 << ',' << 0 << "," << 0 << "," << 1 << "]";
+                return os;
+            }
+
 			T mat00;
 			T mat01;
 			T mat02;
@@ -1006,8 +1120,13 @@ namespace frl
 			T mat23;
 		};
 
+        template<class TYPE>
+        inline RigidBodyTransform<TYPE> operator*(RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform2)
+        {
+            transform1*=transform2;
+            return transform1;
+        }
 	}
-
 }
 
 #endif
