@@ -907,19 +907,29 @@ namespace frl
                        fabs(mat21) < epsilon && fabs(mat00 - 1.0) < epsilon && fabs(mat11 - 1.0) < epsilon && fabs(mat22 - 1.0) - epsilon;
             }
 
-			void invert(const RigidBodyTransform &transform);
-
-			void invert();
-
             /**
-             * Invert this assuming an orthogonal rotation portion.
-             */
-			void invertOrthogonal()
-
+            * Compute the inverse of the RigidBodyTransform passed in as an
+            * argument exploiting the orthogonality of the rotation matrix
+            * and store the result in this.
+            * @param transform
+            */
+            template<class TYPE>
+			void invert(const RigidBodyTransform<TYPE> &transform)
             {
-                T tmp01 = mat01;
-                T tmp02 = mat02;
-                T tmp12 = mat12;
+                set(transform);
+                invert();
+            }
+
+			void invert()
+            {
+                invertOrthogonal();
+            }
+
+			void invertRotationButKeepTranslation()
+            {
+                double tmp01 = mat01;
+                double tmp02 = mat02;
+                double tmp12 = mat12;
 
                 // For orthogonal matrix, R^{-1} = R^{T}
                 mat01 = mat10;
@@ -928,18 +938,81 @@ namespace frl
                 mat10 = tmp01;
                 mat20 = tmp02;
                 mat21 = tmp12;
-
-                // New translation vector becomes -R^{T} * p
-                T newTransX = -(mat23 * mat02 + mat00 * mat03 + mat01 * mat13);
-                T newTransY = -(mat03 * mat10 + mat23 * mat12 + mat11 * mat13);
-                mat23 = -(mat22 * mat23 + mat03 * mat20 + mat13 * mat21);
-                mat03 = newTransX;
-                mat13 = newTransY;
             }
 
-			void invertRotationButKeepTranslation();
+            /**
+            * Check if the elements of this are within epsilon of the elements of
+            * transform.
+            *
+            * @param transform
+            * @param epsilon
+            * @return
+            */
+            template<class T>
+			bool epsilonEquals(const RigidBodyTransform<T> &transform, const double &epsilon) const
+            {
+                if (!fabs(mat00 - transform.mat00) < epsilon)
+                {
+                    return false;
+                }
 
-			bool epsilonEquals(const RigidBodyTransform &transform, const double &epsilon) const;
+                if (!fabs(mat01 - transform.mat01) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat02 - transform.mat02) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat03 - transform.mat03) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat10 - transform.mat10) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat11 - transform.mat11) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat12 - transform.mat12) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat13 - transform.mat13) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat20 - transform.mat20) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat21 - transform.mat21) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat22 - transform.mat22) < epsilon)
+                {
+                    return false;
+                }
+
+                if (!fabs(mat23 - transform.mat23) < epsilon)
+                {
+                    return false;
+                }
+
+                return true;
+            }
 
 			bool equals(const RigidBodyTransform &transform) const;
 
@@ -993,7 +1066,16 @@ namespace frl
                 mat22 = mat22 / magZ;
             }
 
-			static Eigen::Vector3d getTranslationDifference(const RigidBodyTransform &transform1, const RigidBodyTransform &transform2);
+            template<class TYPE>
+			static Eigen::Vector3d getTranslationDifference(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform2)
+            {
+                Eigen::Matrix<TYPE,3,1> pos1;
+                Eigen::Matrix<TYPE,3,1> pos2;
+                transform1.getTranslation(pos1);
+                transform2.getTranslation(pos2);
+
+                return (pos2 - pos1);
+            }
 
             template<class TYPE>
 			void getRotation(Eigen::AngleAxis<TYPE> &axisAngle, const double epsilon) const
@@ -1097,7 +1179,7 @@ namespace frl
                 return *this;
             }
 
-            std::ostream& operator<<(std::ostream &os, const RigidBodyTransform &transform)
+            friend std::ostream& operator<<(std::ostream &os, const RigidBodyTransform &transform)
             {
                 os << "[ " << transform.mat00 << ',' << transform.mat01 << "," << transform.mat02 << "," << transform.mat03 << "]" << "\n" <<
                 "[ " << transform.mat10 << ',' << transform.mat11 << "," << transform.mat12 << "," << transform.mat13 << "]" << "\n" <<
@@ -1106,22 +1188,83 @@ namespace frl
                 return os;
             }
 
-			T mat00;
-			T mat01;
-			T mat02;
-			T mat03;
-			T mat10;
-			T mat11;
-			T mat13;
-			T mat12;
-			T mat20;
-			T mat21;
-			T mat22;
-			T mat23;
+            template<class TYPE>
+            inline bool operator==(const RigidBodyTransform<TYPE> &lhs, const RigidBodyTransform<TYPE> &rhs)
+            {
+                return lhs.epsilonEquals(rhs,1e-10);
+            }
+
+
+
+            template<class TYPE>
+            RigidBodyTransform<T>& RigidBodyTransform<TYPE>::operator=(RigidBodyTransform<TYPE> rhs)
+            {
+                swap(*this,rhs);
+                return *this;
+            }
+
+            template<class TYPE>
+            friend void swap(RigidBodyTransform<TYPE>& first, RigidBodyTransform<TYPE>& second) // nothrow
+            {
+
+                // by swapping the members of two classes,
+                // the two classes are effectively swapped
+                std::swap(first.mat00, second.mat00);
+                std::swap(first.mat01, second.mat01);
+                std::swap(first.mat02, second.mat02);
+                std::swap(first.mat03, second.mat03);
+                std::swap(first.mat10, second.mat10);
+                std::swap(first.mat11, second.mat11);
+                std::swap(first.mat12, second.mat12);
+                std::swap(first.mat13, second.mat13);
+                std::swap(first.mat20, second.mat20);
+                std::swap(first.mat21, second.mat21);
+                std::swap(first.mat22, second.mat22);
+                std::swap(first.mat23, second.mat23);
+            }
+
+        private:
+            /**
+             * Invert this assuming an orthogonal rotation portion.
+             */
+            void invertOrthogonal()
+            {
+                T tmp01 = mat01;
+                T tmp02 = mat02;
+                T tmp12 = mat12;
+
+                // For orthogonal matrix, R^{-1} = R^{T}
+                mat01 = mat10;
+                mat02 = mat20;
+                mat12 = mat21;
+                mat10 = tmp01;
+                mat20 = tmp02;
+                mat21 = tmp12;
+
+                // New translation vector becomes -R^{T} * p
+                T newTransX = -(mat23 * mat02 + mat00 * mat03 + mat01 * mat13);
+                T newTransY = -(mat03 * mat10 + mat23 * mat12 + mat11 * mat13);
+                mat23 = -(mat22 * mat23 + mat03 * mat20 + mat13 * mat21);
+                mat03 = newTransX;
+                mat13 = newTransY;
+            }
+
+            T mat00;
+            T mat01;
+            T mat02;
+            T mat03;
+            T mat10;
+            T mat11;
+            T mat13;
+            T mat12;
+            T mat20;
+            T mat21;
+            T mat22;
+            T mat23;
 		};
 
         template<class TYPE>
-        inline RigidBodyTransform<TYPE> operator*(RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform2)
+        inline RigidBodyTransform<TYPE> operator*(RigidBodyTransform<TYPE> transform1, const RigidBodyTransform<TYPE> &transform2)
         {
             transform1*=transform2;
             return transform1;
