@@ -33,11 +33,29 @@ TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)
 
         for (int i = 0; i < nTests; i++)
         {
-            Eigen::AngleAxis<double> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle();
+            Eigen::AngleAxis<double> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
 
             RigidBodyTransform<double> transform(axisAngle, vector);
 
             Eigen::AngleAxis<double> axisAngleToCheck;
+
+            transform.getRotation(axisAngleToCheck);
+
+            ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-8));
+        }
+    }
+
+    for (int i = 0; i < nTests; i++)
+    {
+        vector << 0, 0, 0;
+
+        for (int i = 0; i < nTests; i++)
+        {
+            Eigen::AngleAxis<float> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle<float>();
+
+            RigidBodyTransform<float> transform(axisAngle, vector);
+
+            Eigen::AngleAxis<float> axisAngleToCheck;
 
             transform.getRotation(axisAngleToCheck);
 
@@ -46,25 +64,25 @@ TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)
     }
 }
 
-//TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngle4dAndRandomVector3d)
-//{
-//    Eigen::Vector3d vector;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        vector = GeometryUtilitiesTestHelper::createRandomVector3d();
-//        Eigen::AngleAxis<double> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle();
-//
-//        RigidBodyTransform transform(axisAngle, vector);
-//
-//        Eigen::AngleAxis<double> axisAngleToCheck;
-//
-//        transform.getRotation(axisAngleToCheck);
-//
-//        ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-5));
-//    }
-//}
-//
+TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngle4dAndRandomVector3d)
+{
+    Eigen::Vector3d vector;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        vector = GeometryUtilitiesTestHelper::createRandomVector3d();
+        Eigen::AngleAxis<double> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
+
+        RigidBodyTransform<double> transform(axisAngle, vector);
+
+        Eigen::AngleAxis<double> axisAngleToCheck;
+
+        transform.getRotation(axisAngleToCheck);
+
+        ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<double>(axisAngle, axisAngleToCheck, 1e-5));
+    }
+}
+
 //TEST_F(RigidBodyTransformTest, testNormalize)
 //{
 //    for (int i = 0; i < nTests; i++)

@@ -22,20 +22,31 @@ namespace frl
 				return (2000.0 * rand() / RAND_MAX - 1000.0);
 			}
 
+			template<typename T>
+			static T getRandomNumber()
+			{
+				double val = (2000.0 * rand() / RAND_MAX - 1000.0);
+				return static_cast<T>(val);
+			}
+
 			static float getRandomFloat()
 			{
 				// Generates random double between -100 & 100
 				return (float)(200.0 * rand() / RAND_MAX - 100.0);
 			}
 
-			static double getRandomDoubleBetween1AndMinus1()
+			template<typename T>
+			static T getRandomNumberBetween1AndMinus1()
 			{
-				return 2.0 * rand() / RAND_MAX - 1.0;
+				T value = 2.0 * rand() / RAND_MAX - 1.0;
+				return static_cast<T>(value);
 			}
 
-			static double getRandomAngle()
+			template<typename T>
+			static T getRandomAngle()
 			{
-				return 2 * (M_PI - 0.01) * rand() / RAND_MAX - (M_PI - 0.01);
+				double angle = 2 * (M_PI - 0.01) * rand() / RAND_MAX - (M_PI - 0.01);
+				return static_cast<T>(angle);
 			}
 
 			static std::vector<double> getRandom3dVector()
@@ -59,25 +70,27 @@ namespace frl
 				return point;
 			}
 
-			static Eigen::Matrix3d createRandomRotationMatrix()
+			template<typename T>
+			static Eigen::Matrix<T,3,3> createRandomRotationMatrix()
 			{
-				Eigen::Matrix3d rotX = createRandomRotationMatrixX();
-				Eigen::Matrix3d rotY = createRandomRotationMatrixY();
-				Eigen::Matrix3d rotZ = createRandomRotationMatrixZ();
+				Eigen::Matrix<T,3,3> rotX = createRandomRotationMatrixX<T>();
+				Eigen::Matrix<T,3,3> rotY = createRandomRotationMatrixY<T>();
+				Eigen::Matrix<T,3,3> rotZ = createRandomRotationMatrixZ<T>();
 
 				return rotX * rotY * rotZ;
 			}
 
-			static Eigen::Matrix3d createRandomRotationMatrixX()
+			template<typename T>
+			static Eigen::Matrix<T,3,3> createRandomRotationMatrixX()
 			{
-				Eigen::Matrix3d rotX;
+				Eigen::Matrix<T,3,3> rotX;
 				rotX(0, 0) = 1;
 				rotX(0, 1) = 0;
 				rotX(0, 2) = 0;
 				rotX(1, 0) = 0;
 				rotX(2, 0) = 0;
 
-				double angle = getRandomAngle();
+				T angle = getRandomAngle<T>();
 				rotX(1, 1) = cos(angle);
 				rotX(2, 2) = cos(angle);
 				rotX(1, 2) = -sin(angle);
@@ -86,16 +99,17 @@ namespace frl
 				return rotX;
 			}
 
-			static Eigen::Matrix3d createRandomRotationMatrixY()
+			template<typename T>
+			static Eigen::Matrix<T,3,3> createRandomRotationMatrixY()
 			{
-				Eigen::Matrix3d rotY;
+				Eigen::Matrix<T,3,3> rotY;
 				rotY(2, 1) = 0;
 				rotY(0, 1) = 0;
 				rotY(1, 0) = 0;
 				rotY(1, 1) = 1;
 				rotY(1, 2) = 0;
 
-				double angle = getRandomAngle();
+				T angle = getRandomAngle<T>();
 				rotY(0, 0) = cos(angle);
 				rotY(2, 2) = cos(angle);
 				rotY(2, 0) = -sin(angle);
@@ -104,16 +118,17 @@ namespace frl
 				return rotY;
 			}
 
-			static Eigen::Matrix3d createRandomRotationMatrixZ()
+			template<typename T>
+			static Eigen::Matrix<T,3,3> createRandomRotationMatrixZ()
 			{
-				Eigen::Matrix3d rotZ;
+				Eigen::Matrix<T,3,3> rotZ;
 				rotZ(0, 2) = 0;
 				rotZ(1, 2) = 0;
 				rotZ(2, 0) = 0;
 				rotZ(2, 1) = 0;
 				rotZ(2, 2) = 1;
 
-				double angle = getRandomAngle();
+				T angle = getRandomAngle<T>();
 				rotZ(0, 0) = cos(angle);
 				rotZ(1, 1) = cos(angle);
 				rotZ(0, 1) = -sin(angle);
@@ -122,11 +137,12 @@ namespace frl
 				return rotZ;
 			}
 
-			static Eigen::Matrix4d createRandomTransformationMatrix()
+			template<typename T>
+			static Eigen::Matrix<T,4,4> createRandomTransformationMatrix()
 			{
-				Eigen::Matrix3d rotationMatrix = createRandomRotationMatrix();
+				Eigen::Matrix<T,3,3> rotationMatrix = createRandomRotationMatrix<T>();
 
-				Eigen::Matrix4d transform;
+				Eigen::Matrix<T,4,4> transform;
 
 				transform(0, 0) = rotationMatrix(0, 0);
 				transform(0, 1) = rotationMatrix(0, 1);
@@ -138,9 +154,9 @@ namespace frl
 				transform(2, 1) = rotationMatrix(2, 1);
 				transform(2, 2) = rotationMatrix(2, 2);
 
-				transform(0, 3) = getRandomDouble();
-				transform(1, 3) = getRandomDouble();
-				transform(2, 3) = getRandomDouble();
+				transform(0, 3) = getRandomNumber<T>();
+				transform(1, 3) = getRandomNumber<T>();
+				transform(2, 3) = getRandomNumber<T>();
 
 				transform(3, 0) = 0.0;
 				transform(3, 1) = 0.0;
@@ -150,22 +166,23 @@ namespace frl
 				return transform;
 			}
 
-			static Eigen::Matrix4d createRandomMatrix4d()
+			template<typename T>
+			static Eigen::Matrix<T,4,4> createRandomMatrix4d()
 			{
-				Eigen::Matrix4d matrix;
+				Eigen::Matrix<T,4,4> matrix;
 
-				matrix(0, 0) = getRandomDoubleBetween1AndMinus1();
-				matrix(0, 1) = getRandomDoubleBetween1AndMinus1();
-				matrix(0, 2) = getRandomDoubleBetween1AndMinus1();
-				matrix(0, 3) = getRandomDoubleBetween1AndMinus1();
-				matrix(1, 0) = getRandomDoubleBetween1AndMinus1();
-				matrix(1, 1) = getRandomDoubleBetween1AndMinus1();
-				matrix(1, 2) = getRandomDoubleBetween1AndMinus1();
-				matrix(1, 3) = getRandomDoubleBetween1AndMinus1();
-				matrix(2, 0) = getRandomDoubleBetween1AndMinus1();
-				matrix(2, 1) = getRandomDoubleBetween1AndMinus1();
-				matrix(2, 2) = getRandomDoubleBetween1AndMinus1();
-				matrix(2, 3) = getRandomDoubleBetween1AndMinus1();
+				matrix(0, 0) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(0, 1) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(0, 2) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(0, 3) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(1, 0) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(1, 1) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(1, 2) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(1, 3) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(2, 0) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(2, 1) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(2, 2) = getRandomNumberBetween1AndMinus1<T>();
+				matrix(2, 3) = getRandomNumberBetween1AndMinus1<T>();
 				matrix(3, 0) = 0;
 				matrix(3, 1) = 0;
 				matrix(3, 2) = 0;
@@ -183,22 +200,23 @@ namespace frl
 				return (xMag && yMag && zMag);
 			}
 
-			static Eigen::AngleAxis<double> createRandomAxisAngle()
+			template<typename T>
+			static Eigen::AngleAxis<T> createRandomAxisAngle()
 			{
-				double x, y, z;
-				x = getRandomDouble();
-				y = getRandomDouble();
-				z = getRandomDouble();
+				T x, y, z;
+				x = getRandomNumber<T>();
+				y = getRandomNumber<T>();
+				z = getRandomNumber<T>();
 
-				double mag = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+				T mag = sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
 
 				x *= 1 / mag;
 				y *= 1 / mag;
 				z *= 1 / mag;
 
-				double angle = getRandomAngle();
+				T angle = getRandomAngle<T>();
 
-				Eigen::AngleAxis<double> ret;
+				Eigen::AngleAxis<T> ret;
 				ret.axis()[0] = x;
 				ret.axis()[1] = y;
 				ret.axis()[2] = z;
@@ -215,7 +233,8 @@ namespace frl
 				return quaternion;
 			}
 
-			static bool areAxisAngleEpsilonEqual(const Eigen::AngleAxis<double> &a1, const Eigen::AngleAxis<double> &a2, const double &eps)
+			template<typename T>
+			static bool areAxisAngleEpsilonEqual(const Eigen::AngleAxis<T> &a1, const Eigen::AngleAxis<T> &a2, const double &eps)
 			{
 				if ((fabs(a1.axis()[0] - a2.axis()[0]) < eps && fabs(a1.axis()[1] - a2.axis()[1]) < eps && fabs(a1.axis()[2] - a2.axis()[2]) < eps && fabs(a1.angle() - a2.angle()) < eps) ||
 					(fabs(-a1.axis()[0] - a2.axis()[0]) < eps && fabs(-a1.axis()[1] - a2.axis()[1]) < eps && fabs(-a1.axis()[2] - a2.axis()[2]) < eps && fabs(-a1.angle() - a2.angle()) < eps))
