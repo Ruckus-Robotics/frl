@@ -20,7 +20,8 @@ namespace frl
         public:
             FramePoint(const std::string &name);
 
-            FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z);
+            template<typename TYPE>
+            FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const TYPE &x, const TYPE &y, const TYPE &z);
 
             FramePoint(const std::string &name, ReferenceFrame *referenceFrame, double array[3]);
 
@@ -73,7 +74,7 @@ namespace frl
             }
 
             ReferenceFrame *referenceFrame;
-            geometry::Point3d point;
+            geometry::Point3<T> point;
             std::string name;
         };
 
