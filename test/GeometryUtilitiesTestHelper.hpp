@@ -167,7 +167,7 @@ namespace frl
 			}
 
 			template<typename T>
-			static Eigen::Matrix<T,4,4> createRandomMatrix4d()
+			static Eigen::Matrix<T,4,4> createRandomMatrix4()
 			{
 				Eigen::Matrix<T,4,4> matrix;
 
@@ -191,11 +191,12 @@ namespace frl
 				return matrix;
 			}
 
-			static bool checkOrthogonality(Eigen::Matrix4d matrix)
+			template<typename T>
+			static bool checkOrthogonality(Eigen::Matrix<T,4,4> matrix,T thresh=1e-8)
 			{
-				bool xMag = (1.0 - (sqrt(pow(matrix(0, 0), 2) + pow(matrix(1, 0), 2) + pow(matrix(2, 0), 2))) < 1e-8);
-				bool yMag = (1.0 - (sqrt(pow(matrix(0, 1), 2) + pow(matrix(1, 1), 2) + pow(matrix(2, 1), 2))) < 1e-8);
-				bool zMag = (1.0 - (sqrt(pow(matrix(0, 2), 2) + pow(matrix(1, 2), 2) + pow(matrix(2, 2), 2))) < 1e-8);
+				bool xMag = (1.0 - (sqrt(pow(matrix(0, 0), 2) + pow(matrix(1, 0), 2) + pow(matrix(2, 0), 2))) < thresh);
+				bool yMag = (1.0 - (sqrt(pow(matrix(0, 1), 2) + pow(matrix(1, 1), 2) + pow(matrix(2, 1), 2))) < thresh);
+				bool zMag = (1.0 - (sqrt(pow(matrix(0, 2), 2) + pow(matrix(1, 2), 2) + pow(matrix(2, 2), 2))) < thresh);
 
 				return (xMag && yMag && zMag);
 			}
@@ -217,16 +218,17 @@ namespace frl
 				T angle = getRandomAngle<T>();
 
 				Eigen::AngleAxis<T> ret;
-				ret.axis()[0] = x;
-				ret.axis()[1] = y;
-				ret.axis()[2] = z;
+				ret.axis()(0) = x;
+				ret.axis()(1) = y;
+				ret.axis()(2) = z;
 				ret.angle() = angle;
 				return ret;
 			}
 
-			static Eigen::Quaternion<double> createRandomQuaternion()
+			template<typename T>
+			static Eigen::Quaternion<T> createRandomQuaternion()
 			{
-				Eigen::Quaternion<double> quaternion(getRandomDouble(), getRandomDouble(), getRandomDouble(), getRandomDouble());
+				Eigen::Quaternion<T> quaternion(getRandomNumber<T>(), getRandomNumber<T>(), getRandomNumber<T>(), getRandomNumber<T>());
 
 				quaternion.normalize();
 
@@ -255,7 +257,8 @@ namespace frl
 				}
 			}
 
-			static bool areQuaternionsEpsilonEqual(const Eigen::Quaternion<double> &q1, const Eigen::Quaternion<double> &q2, const double &eps)
+			template<typename T>
+			static bool areQuaternionsEpsilonEqual(const Eigen::Quaternion<T> &q1, const Eigen::Quaternion<T> &q2, const double &eps)
 			{
 				if ((fabs(q1.x() - q2.x()) < eps && fabs(q1.y() - q2.y()) < eps && fabs(q1.z() - q2.z()) < eps && fabs(q1.w() - q2.w()) < eps) ||
 					(fabs(-q1.x() - q2.x()) < eps && fabs(-q1.y() - q2.y()) < eps && fabs(-q1.z() - q2.z()) < eps && fabs(-q1.w() - q2.w()) < eps))
@@ -266,23 +269,26 @@ namespace frl
 				return false;
 			}
 
-			static bool areVector3dsEpsilonEqual(const Eigen::Vector3d &v1, const Eigen::Vector3d &v2, const double &eps)
+            template<typename T>
+			static bool areVector3sEpsilonEqual(const Eigen::Matrix<T,3,1> &v1, const Eigen::Matrix<T,3,1> &v2, const double &eps)
 			{
 				return (fabs(v1(0) - v2(0)) < eps && fabs(v1(1) - v2(1)) < eps && fabs(v1(2) - v2(2)) < eps);
 			}
 
-			static bool areVector4dsEpsilonEqual(const Eigen::Vector4d &v1, const Eigen::Vector4d &v2, const double &eps)
+            template<typename T>
+			static bool areVector4sEpsilonEqual(const Eigen::Matrix<T,4,1> &v1, const Eigen::Matrix<T,4,1> &v2, const double &eps)
 			{
 				return (fabs(v1(0) - v2(0)) < eps && fabs(v1(1) - v2(1)) < eps && fabs(v1(2) - v2(2)) < eps && fabs(v1(3) - v2(3)) < eps);
 			}
 
-			static Eigen::Vector3d createRandomVector3d()
+			template<typename T>
+			static Eigen::Matrix<T,3,1> createRandomVector3()
 			{
-				Eigen::Vector3d vector;
+				Eigen::Matrix<T,3,1> vector;
 
-				vector(0) = getRandomDouble();
-				vector(1) = getRandomDouble();
-				vector(2) = getRandomDouble();
+				vector(0) = getRandomNumber<T>();
+				vector(1) = getRandomNumber<T>();
+				vector(2) = getRandomNumber<T>();
 
 				return vector;
 			}

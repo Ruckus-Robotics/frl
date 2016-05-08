@@ -53,7 +53,7 @@ namespace frl
         }
 
         template<typename T>
-        T distanceLinf(const T p1X,const T p1Y, const T p1Z,const T p2X,const T p2Y, const T p2Z)
+        static T distanceLinf(const T p1X,const T p1Y, const T p1Z,const T p2X,const T p2Y, const T p2Z)
         {
             T tmp,dx,dy,dz;
 

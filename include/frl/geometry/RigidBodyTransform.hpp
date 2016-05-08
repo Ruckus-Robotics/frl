@@ -13,7 +13,10 @@ namespace frl
 		class RigidBodyTransform
         {
         public:
-            RigidBodyTransform();
+            RigidBodyTransform()
+            {
+                setIdentity();
+            }
 
             RigidBodyTransform(const RigidBodyTransform &transform)
             {
@@ -307,39 +310,54 @@ namespace frl
 			template<typename TYPE>
 			void setRotationWithAxisAngle(const TYPE axisAngleX, const TYPE axisAngleY, const TYPE &axisAngleZ, const TYPE axisAngleTheta)
             {
-                TYPE mag = sqrt(axisAngleX * axisAngleX + axisAngleY * axisAngleY + axisAngleZ * axisAngleZ);
+//                TYPE mag = sqrt(axisAngleX * axisAngleX + axisAngleY * axisAngleY + axisAngleZ * axisAngleZ);
 
-                if (frl::utils::almostZero(mag))
-                {
-                    setIdentity();
-                }
-                else
-                {
-                    mag = 1.0 / mag;
-                    TYPE ax = axisAngleX * mag;
-                    TYPE ay = axisAngleY * mag;
-                    TYPE az = axisAngleZ * mag;
+                Eigen::Matrix<TYPE,3,1> v(axisAngleX,axisAngleY,axisAngleZ);
+                Eigen::AngleAxis<TYPE> blh(axisAngleTheta,v);
 
-                    TYPE sinTheta = sin(axisAngleTheta);
-                    TYPE cosTheta = cos(axisAngleTheta);
-                    TYPE t = 1.0 - cosTheta;
+                Eigen::Matrix<TYPE,3,3> mat = blh.toRotationMatrix();
 
-                    TYPE xz = ax * az;
-                    TYPE xy = ax * ay;
-                    TYPE yz = ay * az;
+                mat00 = mat(0,0);
+                mat01 = mat(0,1);
+                mat02 = mat(0,2);
+                mat10 = mat(1,0);
+                mat11 = mat(1,1);
+                mat12 = mat(1,2);
+                mat20 = mat(2,0);
+                mat21 = mat(2,1);
+                mat22 = mat(2,2);
 
-                    mat00 = (t * ax * ax + cosTheta);
-                    mat01 = (t * xy - sinTheta * az);
-                    mat02 = (t * xz + sinTheta * ay);
-
-                    mat10 = (t * xy + sinTheta * az);
-                    mat11 = (t * ay * ay + cosTheta);
-                    mat12 = (t * yz - sinTheta * ax);
-
-                    mat20 = (t * xz - sinTheta * ay);
-                    mat21 = (t * yz + sinTheta * ax);
-                    mat22 = (t * az * az + cosTheta);
-                }
+//                if (frl::utils::almostZero(mag))
+//                {
+//                    setIdentity();
+//                }
+//                else
+//                {
+//                    mag = 1.0 / mag;
+//                    TYPE ax = axisAngleX * mag;
+//                    TYPE ay = axisAngleY * mag;
+//                    TYPE az = axisAngleZ * mag;
+//
+//                    TYPE sinTheta = sin(axisAngleTheta);
+//                    TYPE cosTheta = cos(axisAngleTheta);
+//                    TYPE t = 1.0 - cosTheta;
+//
+//                    TYPE xz = ax * az;
+//                    TYPE xy = ax * ay;
+//                    TYPE yz = ay * az;
+//
+//                    mat00 = (t * ax * ax + cosTheta);
+//                    mat01 = (t * xy - sinTheta * az);
+//                    mat02 = (t * xz + sinTheta * ay);
+//
+//                    mat10 = (t * xy + sinTheta * az);
+//                    mat11 = (t * ay * ay + cosTheta);
+//                    mat12 = (t * yz - sinTheta * ax);
+//
+//                    mat20 = (t * xz - sinTheta * ay);
+//                    mat21 = (t * yz + sinTheta * ax);
+//                    mat22 = (t * az * az + cosTheta);
+//                }
             }
 
             template<class TYPE>
@@ -1074,6 +1092,10 @@ namespace frl
             template<class TYPE>
 			void getRotation(Eigen::AngleAxis<TYPE> &axisAngle, const double epsilon) const
             {
+//                Eigen::Matrix<TYPE,3,3> m;
+//                m << mat00, mat01, mat02, mat10, mat11, mat12, mat20, mat21, mat22;
+//                std::cout << m << std::endl;
+//                axisAngle.fromRotationMatrix(m);
                 axisAngle.axis()[0] = mat21 - mat12;
                 axisAngle.axis()[1] = mat02 - mat20;
                 axisAngle.axis()[2] = mat10 - mat01;
@@ -1259,6 +1281,9 @@ namespace frl
         {
             return lhs.epsilonEquals(rhs,1e-10);
         }
+
+        typedef RigidBodyTransform<double> RigidBodyTransform3d;
+        typedef RigidBodyTransform<float> RigidBodyTransform3f;
 	}
 }
 
