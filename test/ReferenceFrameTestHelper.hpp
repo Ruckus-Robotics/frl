@@ -14,11 +14,12 @@ using namespace frames;
 class ReferenceFrameTestHelper
 {
 	public:
-		static geometry::RigidBodyTransform createRandomTransformationMatrix()
+		template<typename T>
+		static geometry::RigidBodyTransform<T> createRandomTransformationMatrix()
 		{
-			Eigen::Quaternion<double> quaternion = geometry::GeometryUtilitiesTestHelper::createRandomQuaternion();
-			Eigen::Vector3d translation = generateRandomTranslation();
-			geometry::RigidBodyTransform transform(quaternion, translation);
+			Eigen::Quaternion<T> quaternion = geometry::GeometryUtilitiesTestHelper::createRandomQuaternion<T>();
+			Eigen::Matrix<T,3,1> translation = generateRandomTranslation();
+			geometry::RigidBodyTransform<T> transform(quaternion, translation);
 
 			return transform;
 		}
@@ -39,11 +40,11 @@ class ReferenceFrameTestHelper
 			}
 		}
 
-		static geometry::RigidBodyTransform getTransformToRootByClimbingTree(ReferenceFrame* frame)
+		static geometry::RigidBodyTransform<double> getTransformToRootByClimbingTree(ReferenceFrame* frame)
 		{
 			const std::vector<ReferenceFrame*> framesStartingWithRootEndingWithFrame = frame->getFramesStartingWithRootEndingWithThis();
 
-			geometry::RigidBodyTransform transform;
+			geometry::RigidBodyTransform<double> transform;
 
 			if (frame->getParentFrame() != nullptr)
 			{
@@ -102,22 +103,22 @@ class RandomlyChangingFrame : public ReferenceFrame
 
 		}
 
-		RandomlyChangingFrame(const std::string& frameName, ReferenceFrame* parentFrame, geometry::RigidBodyTransform transformToParent) : ReferenceFrame(frameName, parentFrame, transformToParent, false, false)
+		RandomlyChangingFrame(const std::string& frameName, ReferenceFrame* parentFrame, geometry::RigidBodyTransform<double> transformToParent) : ReferenceFrame(frameName, parentFrame, transformToParent, false, false)
 		{
 
 		}
 
 		static std::shared_ptr<RandomlyChangingFrame> create(const std::string& frameName, ReferenceFrame* parentFrame)
 		{
-			geometry::RigidBodyTransform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+			geometry::RigidBodyTransform<double> randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix<double>();
 			std::shared_ptr<RandomlyChangingFrame> frame(new RandomlyChangingFrame(frameName, parentFrame, randomTransform));
 			return frame;
 		}
 
 	protected:
-		void updateTransformToParent(geometry::RigidBodyTransform& transformToParent)
+		void updateTransformToParent(geometry::RigidBodyTransform<double>& transformToParent)
 		{
-			geometry::RigidBodyTransform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+			geometry::RigidBodyTransform<double> randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix<double>();
 			// std::cout << "RandomlyChangingFrame updating!!" << std::endl;
 			transformToParent = randomTransform;
 		}
@@ -128,21 +129,21 @@ class RandomUnchangingFrame : public ReferenceFrame
 	public:
 		RandomUnchangingFrame() : ReferenceFrame() {}
 
-		RandomUnchangingFrame(const std::string& frameName, ReferenceFrame* parentFrame, geometry::RigidBodyTransform transformToParent) : ReferenceFrame(frameName, parentFrame, transformToParent, false, false)
+		RandomUnchangingFrame(const std::string& frameName, ReferenceFrame* parentFrame, geometry::RigidBodyTransform<double> transformToParent) : ReferenceFrame(frameName, parentFrame, transformToParent, false, false)
 		{
 
 		}
 
 		static std::shared_ptr<RandomUnchangingFrame> create(const std::string& frameName, ReferenceFrame* parentFrame)
 		{
-			geometry::RigidBodyTransform randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix();
+			geometry::RigidBodyTransform<double> randomTransform = ReferenceFrameTestHelper::createRandomTransformationMatrix<double>();
 
 			std::shared_ptr<RandomUnchangingFrame> frame(new RandomUnchangingFrame(frameName, parentFrame, randomTransform));
 			return frame;
 		}
 
 	protected:
-		void updateTransformToParent(geometry::RigidBodyTransform& transformToParent)
+		void updateTransformToParent(geometry::RigidBodyTransform<double>& transformToParent)
 		{
 			// std::cout << "RandomUnchangingFrame updating!!" << std::endl;
 		}

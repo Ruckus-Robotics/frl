@@ -3,7 +3,6 @@
 
 #include <eigen3/Eigen/Eigen>
 #include "frl/geometry/Point3.hpp"
-#include "../../../../../../../../../usr/include/eigen3/Eigen/src/Core/Matrix.h"
 
 namespace frl
 {

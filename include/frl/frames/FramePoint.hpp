@@ -8,11 +8,10 @@
 
 #include "frl/frames/ReferenceFrame.hpp"
 #include "frl/frames/ReferenceFrameHolder.hpp"
-#include "frl/geometry/Point3d.hpp"
+#include "frl/geometry/Point3.hpp"
 
 namespace frl
 {
-
     namespace frames
     {
         class FramePoint : public ReferenceFrameHolder

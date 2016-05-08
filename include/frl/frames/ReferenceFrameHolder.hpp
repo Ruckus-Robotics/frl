@@ -10,7 +10,6 @@
 
 namespace frl
 {
-
 	namespace frames
 	{
 
