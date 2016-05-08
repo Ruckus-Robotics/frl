@@ -100,24 +100,26 @@ namespace frl
 				this->transformToRootID = LLONG_MIN;
 			}
 
-			void getTransformToDesiredFrame(geometry::RigidBodyTransform<double> &transformToPack, ReferenceFrame *desiredFrame)
+            template<typename T=double>
+			void getTransformToDesiredFrame(geometry::RigidBodyTransform<T> &transformToPack, ReferenceFrame *desiredFrame)
 			{
 				verifyFramesHaveSameRoot(desiredFrame);
 
 				this->computeTransform();
 				desiredFrame->computeTransform();
 
-				geometry::RigidBodyTransform<double> tmpTransform = desiredFrame->inverseTransformToRoot;
-				geometry::RigidBodyTransform<double> tmpTransform2 = this->transformToRoot;
+				geometry::RigidBodyTransform<T> tmpTransform = desiredFrame->inverseTransformToRoot;
+				geometry::RigidBodyTransform<T> tmpTransform2 = this->transformToRoot;
 
 				tmpTransform *= tmpTransform2;
 
 				transformToPack = tmpTransform;
 			}
 
-			geometry::RigidBodyTransform<double> getTransformToDesiredFrame(ReferenceFrame *desiredFrame)
+            template<typename T=double>
+			geometry::RigidBodyTransform<T> getTransformToDesiredFrame(ReferenceFrame *desiredFrame)
 			{
-				geometry::RigidBodyTransform<double> transform;
+				geometry::RigidBodyTransform<T> transform;
 				getTransformToDesiredFrame(transform, desiredFrame);
 				return transform;
 			}
@@ -161,12 +163,14 @@ namespace frl
 				}
 			}
 
-			geometry::RigidBodyTransform<double> getTransformToRoot()
+            template<typename T = double>
+			geometry::RigidBodyTransform<T> getTransformToRoot()
 			{
 				computeTransform();
 				return this->transformToRoot;
 			}
 
+            template<typename T = double>
 			geometry::RigidBodyTransform<double> getInverseTransformToRoot()
 			{
 				return this->inverseTransformToRoot;

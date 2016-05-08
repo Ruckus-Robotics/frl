@@ -7,53 +7,53 @@ namespace frl
     namespace frames
     {
 
-        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z) : point(x, y, z)
-        {
-            this->name = name;
-            this->referenceFrame = referenceFrame;
-        }
+//        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z) : point(x, y, z)
+//        {
+//            this->name = name;
+//            this->referenceFrame = referenceFrame;
+//        }
 
-        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, double array[3]) : point(array)
-        {
-            this->name = name;
-            this->referenceFrame = referenceFrame;
-        }
+//        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, double array[3]) : point(array)
+//        {
+//            this->name = name;
+//            this->referenceFrame = referenceFrame;
+//        }
 
-        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, std::vector<double> vector) : point(vector)
-        {
-            this->name = name;
-            this->referenceFrame = referenceFrame;
-        }
+//        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, std::vector<double> vector) : point(vector)
+//        {
+//            this->name = name;
+//            this->referenceFrame = referenceFrame;
+//        }
 
-        FramePoint::FramePoint(const FramePoint &framePoint)
-        {
-            point.set(framePoint.point.x, framePoint.point.y, framePoint.point.z);
-            this->referenceFrame = framePoint.referenceFrame;
-        }
+//        FramePoint::FramePoint(const FramePoint &framePoint)
+//        {
+//            point.set(framePoint.point.x, framePoint.point.y, framePoint.point.z);
+//            this->referenceFrame = framePoint.referenceFrame;
+//        }
 
-        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame) : point(0.0, 0.0, 0.0)
-        {
-            this->name = name;
-            this->referenceFrame = referenceFrame;
-        }
+//        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame) : point(0.0, 0.0, 0.0)
+//        {
+//            this->name = name;
+//            this->referenceFrame = referenceFrame;
+//        }
 
-        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry::Point3d &point) : point(point)
-        {
-            this->name = name;
-            this->referenceFrame = referenceFrame;
-        }
+//        FramePoint::FramePoint(const std::string &name, ReferenceFrame *referenceFrame, const geometry::Point3d &point) : point(point)
+//        {
+//            this->name = name;
+//            this->referenceFrame = referenceFrame;
+//        }
 
-        void FramePoint::setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame)
-        {
-            if (!referenceFrame)
-            {
-                throw std::runtime_error("Reference frame cannot be nullptr!");
-            }
-            this->point.setX(x);
-            this->point.setY(y);
-            this->point.setZ(z);
-            this->referenceFrame = referenceFrame;
-        }
+//        void FramePoint::setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame)
+//        {
+//            if (!referenceFrame)
+//            {
+//                throw std::runtime_error("Reference frame cannot be nullptr!");
+//            }
+//            this->point.setX(x);
+//            this->point.setY(y);
+//            this->point.setZ(z);
+//            this->referenceFrame = referenceFrame;
+//        }
 
         void FramePoint::setIncludingFrame(const geometry::Point3d &point, ReferenceFrame *referenceFrame)
         {

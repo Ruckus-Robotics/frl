@@ -99,12 +99,12 @@ namespace frl
                 this->z = fabs(this->z);
             }
 
-            T distanceSquared(const Point3&point) const
+            T distanceSquared(const Point3 &point) const
             {
                 return frl::utils::computeDistanceBetweenPointsSquared(x,y,z,point.x,point.y,point.z);
             }
 
-            T distance(const Point3 point) const
+            T distance(const Point3 &point) const
             {
                 return frl::utils::computeDistanceBetweenPoints(x,y,z,point.x,point.y,point.z);
             }
