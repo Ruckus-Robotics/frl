@@ -646,46 +646,46 @@ TEST_F(RigidBodyTransformTest, testGetTranslationDifference)
     }
 }
 
-//TEST_F(RigidBodyTransformTest, testDeterminant)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix();
-//        Eigen::Matrix4d m2;
-//
-//        RigidBodyTransform t1(m1);
-//
-//        EXPECT_TRUE(fabs(t1.determinant() - m1.determinant()) < 1e-5);
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testTransformVector3)
-//{
-//    Eigen::Vector3d v1(1, 2, 3);
-//
-//    RigidBodyTransform transform;
-//    transform.setEuler(0.0, 0.0, -M_PI / 2);
-//
-//    transform.transform(v1);
-//    EXPECT_TRUE(v1(0) == 2);
-//    EXPECT_TRUE(v1(1) - (-1) < 1e-15);
-//    EXPECT_TRUE(v1(2) == 3);
-//}
-//
-//TEST_F(RigidBodyTransformTest, testTransformPoints1)
-//{
-//    Point3d p1(3, 2, 4);
-//    Point3d p2;
-//
-//    RigidBodyTransform t1;
-//    t1.setEuler(-M_PI / 2, 0, 0);
-//
-//    t1.transform(p1, p2);
-//
-//    EXPECT_TRUE(p2.getX() - 3 < 1e-15);
-//    EXPECT_TRUE(p2.getY() - 4 < 1e-15);
-//    EXPECT_TRUE(p2.getZ() - (-2) < 1e-15);
-//}
+TEST_F(RigidBodyTransformTest, testDeterminant)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        Eigen::Matrix4d m2;
+
+        RigidBodyTransform<double> t1(m1);
+
+        EXPECT_TRUE(fabs(t1.determinant() - m1.determinant()) < 1e-5);
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testTransformVector3)
+{
+    Eigen::Vector3d v1(1, 2, 3);
+
+    RigidBodyTransform<double> transform;
+    transform.setEulerXYZ(0.0, 0.0, -M_PI / 2);
+
+    transform.transform(v1);
+    EXPECT_TRUE(v1(0) == 2);
+    EXPECT_TRUE(v1(1) - (-1) < 1e-15);
+    EXPECT_TRUE(v1(2) == 3);
+}
+
+TEST_F(RigidBodyTransformTest, testTransformPoints1)
+{
+    Point3d p1(3, 2, 4);
+    Point3d p2;
+
+    RigidBodyTransform<double> t1;
+    t1.setEulerXYZ(-M_PI / 2, 0.0, 0.0);
+
+    t1.transform(p1, p2);
+
+    EXPECT_TRUE(p2.getX() - 3 < 1e-15);
+    EXPECT_TRUE(p2.getY() - 4 < 1e-15);
+    EXPECT_TRUE(p2.getZ() - (-2) < 1e-15);
+}
 
 
 int main(int argc, char **argv)
