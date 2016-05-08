@@ -1079,7 +1079,7 @@ namespace frl
             }
 
             template<class TYPE>
-			static Eigen::Vector3d getTranslationDifference(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform2)
+			static Eigen::Matrix<TYPE,3,1> getTranslationDifference(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform2)
             {
                 Eigen::Matrix<TYPE,3,1> pos1;
                 Eigen::Matrix<TYPE,3,1> pos2;

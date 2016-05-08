@@ -293,7 +293,8 @@ namespace frl
 				return vector;
 			}
 
-			static bool areMatrix3dEpsilonEqual(const Eigen::Matrix3d &m1, const Eigen::Matrix3d &m2, double epsilon)
+            template<typename T>
+			static bool areMatrix3EpsilonEqual(const Eigen::Matrix<T,3,3> &m1, const Eigen::Matrix<T,3,3> &m2, double epsilon)
 			{
 				for (int i = 0; i < 3; i++)
 				{
@@ -310,7 +311,8 @@ namespace frl
 				return true;
 			}
 
-			static bool areMatrix4dEpsilonEqual(const Eigen::Matrix4d &m1, const Eigen::Matrix4d &m2, double epsilon)
+            template<typename T>
+			static bool areMatrix4EpsilonEqual(const Eigen::Matrix<T,4,4> &m1, const Eigen::Matrix<T,4,4> &m2, double epsilon)
 			{
 				for (int i = 0; i < 4; i++)
 				{
