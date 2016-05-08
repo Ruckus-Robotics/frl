@@ -27,8 +27,7 @@ namespace frl
                 set(vector[0], vector[1], vector[2]);
             }
 
-            template<class TYPE>
-            Point3(const Point3<TYPE> &point)
+            Point3(const Point3 &point)
             {
                 set(point.x, point.y, point.z);
             }
@@ -65,8 +64,7 @@ namespace frl
                 this->z = z;
             }
 
-            template<typename TYPE>
-            bool epsilonEquals(const Point3<TYPE> &point, const double epsilon)
+            bool epsilonEquals(const Point3 &point, const double epsilon)
             {
                 return (fabs(this->x - point.x) < epsilon && fabs(this->y - point.y) < epsilon && fabs(this->z - point.z) < epsilon);
             }
@@ -101,26 +99,22 @@ namespace frl
                 this->z = fabs(this->z);
             }
 
-            template<class TYPE>
-            T distanceSquared(const Point3<TYPE> &point) const
+            T distanceSquared(const Point3&point) const
             {
                 return frl::utils::computeDistanceBetweenPointsSquared(x,y,z,point.x,point.y,point.z);
             }
 
-            template<class TYPE>
-            T distance(const Point3<TYPE> point) const
+            T distance(const Point3 point) const
             {
                 return frl::utils::computeDistanceBetweenPoints(x,y,z,point.x,point.y,point.z);
             }
 
-            template<class TYPE>
-            T distanceL1(const Point3<TYPE> &point) const
+            T distanceL1(const Point3 &point) const
             {
                 return frl::utils::distanceL1(x,y,z,point.x,point.y,point.z);
             }
 
-            template<class TYPE>
-            T distanceLinf(const Point3<TYPE> &point) const
+            T distanceLinf(const Point3 &point) const
             {
                 return frl::utils::distanceLinf(x,y,z,point.x,point.y,point.z);
             }
@@ -158,8 +152,7 @@ namespace frl
                 this->z = z;
             }
 
-            template<class TYPE>
-            Point3<T>& operator+=(const Point3<TYPE> &point)
+            Point3<T>& operator+=(const Point3 &point)
             {
                 this->x += point.x;
                 this->y += point.y;
@@ -168,8 +161,7 @@ namespace frl
                 return *this;
             }
 
-            template<class TYPE>
-            Point3<T>& operator-=(const Point3<TYPE> &point)
+            Point3<T>& operator-=(const Point3 &point)
             {
                 this->x -= point.x;
                 this->y -= point.y;
@@ -221,8 +213,8 @@ namespace frl
             return leftHandSide;
         }
 
-        template<class T,typename TYPE>
-        inline Point3<T> operator*(Point3<T> leftHandSide, const TYPE &scale)
+        template<class T>
+        inline Point3<T> operator*(Point3<T> leftHandSide, const T &scale)
         {
             leftHandSide.x *= scale;
             leftHandSide.y *= scale;
@@ -231,8 +223,8 @@ namespace frl
             return leftHandSide;
         }
 
-        template<class T1, class T2>
-        inline bool operator==(const Point3<T1>& lhs, const Point3<T2>& rhs)
+        template<class T>
+        inline bool operator==(const Point3<T>& lhs, const Point3<T>& rhs)
         {
             if(lhs.x!=rhs.x)
             {
@@ -252,8 +244,8 @@ namespace frl
             return true;
         }
 
-        template<class T1, class T2>
-        inline bool operator!=(const Point3<T1>& lhs, const Point3<T2>& rhs)
+        template<class T>
+        inline bool operator!=(const Point3<T>& lhs, const Point3<T>& rhs)
         {
             return !operator==(lhs,rhs);
         }

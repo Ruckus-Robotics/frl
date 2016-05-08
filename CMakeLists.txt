@@ -17,14 +17,6 @@ set(SOURCES_DIR ${PROJECT_SOURCE_DIR}/src)
 set(INCLUDES_DIR ${PROJECT_SOURCE_DIR}/include)
 set(TEST_DIR ${PROJECT_SOURCE_DIR}/test)
 
-#set(SOURCES ${SOURCES_DIR}/RigidBodyTransform.cpp
-#			${SOURCES_DIR}/Point3d.cpp
-#			${SOURCES_DIR}/ReferenceFrame.cpp
-#			${SOURCES_DIR}/FramePoint.cpp
-#			${SOURCES_DIR}/FrameVector.cpp)
-
-#set(SOURCES) )
-
 set(INCLUDES ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/RigidBodyTransform.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/geometry/Point3.hpp
 			 ${INCLUDES_DIR}/${PROJECT_NAME}/frames/ReferenceFrame.hpp

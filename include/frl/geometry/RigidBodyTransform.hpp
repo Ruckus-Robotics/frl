@@ -15,8 +15,7 @@ namespace frl
         public:
             RigidBodyTransform();
 
-            template<class TYPE>
-            RigidBodyTransform(const RigidBodyTransform<TYPE> &transform)
+            RigidBodyTransform(const RigidBodyTransform &transform)
             {
                 set(transform);
             }
@@ -89,8 +88,7 @@ namespace frl
                 this->mat23 = 0.0;
             }
 
-            template<class TYPE>
-            void set(const RigidBodyTransform<TYPE> &transform)
+            void set(const RigidBodyTransform &transform)
             {
                 this->mat00 = transform.mat00;
                 this->mat01 = transform.mat01;
@@ -127,28 +125,28 @@ namespace frl
                 this->mat22 = matrix(2, 2);
                 this->mat23 = matrix(2, 3);
             }
-
-            /**
-             * Set elements of the transform
-             *
-             * @param matrix
-             */
-            template<typename TYPE>
-            void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
-            {
-                this->mat00 = matrix(0, 0);
-                this->mat01 = matrix(0, 1);
-                this->mat02 = matrix(0, 2);
-                this->mat03 = matrix(0, 3);
-                this->mat10 = matrix(1, 0);
-                this->mat11 = matrix(1, 1);
-                this->mat12 = matrix(1, 2);
-                this->mat13 = matrix(1, 3);
-                this->mat20 = matrix(2, 0);
-                this->mat21 = matrix(2, 1);
-                this->mat22 = matrix(2, 2);
-                this->mat23 = matrix(2, 3);
-            }
+//
+//            /**
+//             * Set elements of the transform
+//             *
+//             * @param matrix
+//             */
+//            template<typename TYPE>
+//            void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
+//            {
+//                this->mat00 = matrix(0, 0);
+//                this->mat01 = matrix(0, 1);
+//                this->mat02 = matrix(0, 2);
+//                this->mat03 = matrix(0, 3);
+//                this->mat10 = matrix(1, 0);
+//                this->mat11 = matrix(1, 1);
+//                this->mat12 = matrix(1, 2);
+//                this->mat13 = matrix(1, 3);
+//                this->mat20 = matrix(2, 0);
+//                this->mat21 = matrix(2, 1);
+//                this->mat22 = matrix(2, 2);
+//                this->mat23 = matrix(2, 3);
+//            }
 
             /**
             * Set this transform to have translation described in vector
@@ -423,8 +421,8 @@ namespace frl
              * @param rotY
              * @param rotZ
              */
-            template<typename T>
-			void setEulerXYZ(const T rotX, const T rotY, const T rotZ)
+            template<typename TYPE>
+			void setEulerXYZ(const TYPE rotX, const TYPE rotY, const TYPE rotZ)
             {
                 double sina = sin(rotX);
                 double sinb = sin(rotY);
@@ -618,7 +616,7 @@ namespace frl
             template<class TYPE>
 			void applyTranslation(const Eigen::Matrix<TYPE,3,1> &translation)
             {
-                Point3d<TYPE> temp(translation(0),translation(1),translation(2));
+                Point3<TYPE> temp(translation(0),translation(1),translation(2));
                 transform(temp);
                 mat03 = temp.x;
                 mat13 = temp.y;
@@ -626,7 +624,7 @@ namespace frl
             }
 
             /**
-            * Transform the Point3d point by this transform and place result back in
+            * Transform the Point3 point by this transform and place result back in
             * point.
             *
             * @param point
@@ -670,7 +668,7 @@ namespace frl
             {
                 TYPE x = mat00 * vector(0) + mat01 * vector(1) + mat02 * vector(2);
                 TYPE y = mat10 * vector(0) + mat11 * vector(1) + mat12 * vector(2);
-                vector(2) = (mat20 * vector(0) + mat21 * vector(1) + mat22 * vector(2);
+                vector(2) = mat20 * vector(0) + mat21 * vector(1) + mat22 * vector(2);
 
                 vector(0) = x;
                 vector(1) = y;
@@ -913,8 +911,7 @@ namespace frl
             * and store the result in this.
             * @param transform
             */
-            template<class TYPE>
-			void invert(const RigidBodyTransform<TYPE> &transform)
+			void invert(const RigidBodyTransform &transform)
             {
                 set(transform);
                 invert();
@@ -948,8 +945,7 @@ namespace frl
             * @param epsilon
             * @return
             */
-            template<class T>
-			bool epsilonEquals(const RigidBodyTransform<T> &transform, const double &epsilon) const
+			bool epsilonEquals(const RigidBodyTransform &transform, const double &epsilon) const
             {
                 if (!fabs(mat00 - transform.mat00) < epsilon)
                 {
@@ -1013,8 +1009,6 @@ namespace frl
 
                 return true;
             }
-
-			bool equals(const RigidBodyTransform &transform) const;
 
             /**
             * Return the determinant of this transform.
@@ -1173,7 +1167,7 @@ namespace frl
                 }
             }
 
-            RigidBodyTransform& operator*=(const RigidBodyTransform &transform)
+            RigidBodyTransform<T>& operator*=(const RigidBodyTransform &transform)
             {
                 this->multiply(transform);
                 return *this;
@@ -1188,23 +1182,13 @@ namespace frl
                 return os;
             }
 
-            template<class TYPE>
-            inline bool operator==(const RigidBodyTransform<TYPE> &lhs, const RigidBodyTransform<TYPE> &rhs)
-            {
-                return lhs.epsilonEquals(rhs,1e-10);
-            }
-
-
-
-            template<class TYPE>
-            RigidBodyTransform<T>& RigidBodyTransform<TYPE>::operator=(RigidBodyTransform<TYPE> rhs)
+            RigidBodyTransform<T>& operator=(RigidBodyTransform rhs)
             {
                 swap(*this,rhs);
                 return *this;
             }
 
-            template<class TYPE>
-            friend void swap(RigidBodyTransform<TYPE>& first, RigidBodyTransform<TYPE>& second) // nothrow
+            friend void swap(RigidBodyTransform& first, RigidBodyTransform& second) // nothrow
             {
 
                 // by swapping the members of two classes,
@@ -1263,11 +1247,17 @@ namespace frl
             T mat23;
 		};
 
-        template<class TYPE>
+        template<typename TYPE>
         inline RigidBodyTransform<TYPE> operator*(RigidBodyTransform<TYPE> transform1, const RigidBodyTransform<TYPE> &transform2)
         {
             transform1*=transform2;
             return transform1;
+        }
+
+        template<typename TYPE>
+        inline bool operator==(const RigidBodyTransform<TYPE> &lhs, const RigidBodyTransform<TYPE> &rhs)
+        {
+            return lhs.epsilonEquals(rhs,1e-10);
         }
 	}
 }

@@ -35,7 +35,7 @@ TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)
         {
             Eigen::AngleAxis<double> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle();
 
-            RigidBodyTransform transform(axisAngle, vector);
+            RigidBodyTransform<double> transform(axisAngle, vector);
 
             Eigen::AngleAxis<double> axisAngleToCheck;
 
