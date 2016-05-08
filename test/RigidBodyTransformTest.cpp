@@ -246,74 +246,94 @@ TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngleAndVector3)
     }
 }
 
-//TEST_F(RigidBodyTransformTest, testSetWithEuler)
-//{
-//    Eigen::Vector3d rpy;
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        rpy(0) = 2 * M_PI * rand() / RAND_MAX - M_PI;
-//        rpy(1) = 2 * (M_PI / 2 - 0.01) * rand() / RAND_MAX - (M_PI / 2 - 0.01);
-//        rpy(2) = 2 * M_PI * rand() / RAND_MAX - M_PI;
-//
-//        RigidBodyTransform transform;
-//        transform.setEuler(rpy);
-//
-//        Eigen::Vector3d rpyCheck;
-//        transform.getEulerXYZ(rpyCheck);
-//
-//        EXPECT_TRUE(fabs(rpy(0) - rpyCheck(0)) < 1e-5);
-//        EXPECT_TRUE(fabs(rpy(1) - rpyCheck(1)) < 1e-5);
-//        EXPECT_TRUE(fabs(rpy(2) - rpyCheck(2)) < 1e-5);
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testSetAsTranspose)
-//{
-//    Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomMatrix4d();
-//
-//    RigidBodyTransform transform;
-//    transform.setAsTranspose(m1);
-//
-//    m1.transpose();
-//
-//    RigidBodyTransform transform2;
-//    transform2.setAsTranspose(m1);
-//
-//    transform.get(m1);
-//
-//    Eigen::Matrix4d m2;
-//
-//    transform2.get(m2);
-//
-//    for (int i = 0; i < 4; i++)
-//    {
-//        for (int j = 0; j < 4; j++)
-//        {
-//            EXPECT_TRUE(fabs(m1(i, j) - m2(i, j)) < 1e-5);
-//        }
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testZeroTranslation)
-//{
-//    Eigen::Matrix4d m1;
-//    Eigen::Vector3d translation;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        m1 = GeometryUtilitiesTestHelper::createRandomMatrix4d();
-//        RigidBodyTransform transform(m1);
-//
-//        transform.zeroTranslation();
-//
-//        transform.getTranslation(translation);
-//
-//        ASSERT_TRUE(translation(0) == 0.0);
-//        ASSERT_TRUE(translation(1) == 0.0);
-//        ASSERT_TRUE(translation(2) == 0.0);
-//    }
-//}
-//
+TEST_F(RigidBodyTransformTest, testSetWithEuler)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix<double,3,1> rpy;
+
+        rpy(0) = 2 * M_PI * rand() / RAND_MAX - M_PI;
+        rpy(1) = 2 * (M_PI / 2 - 0.01) * rand() / RAND_MAX - (M_PI / 2 - 0.01);
+        rpy(2) = 2 * M_PI * rand() / RAND_MAX - M_PI;
+
+        RigidBodyTransform<double> transform;
+        transform.setEulerXYZ(rpy);
+
+        Eigen::Matrix<double,3,1> rpyCheck;
+        transform.getEulerXYZ(rpyCheck);
+
+        EXPECT_TRUE(fabs(rpy(0) - rpyCheck(0)) < 1e-5);
+        EXPECT_TRUE(fabs(rpy(1) - rpyCheck(1)) < 1e-5);
+        EXPECT_TRUE(fabs(rpy(2) - rpyCheck(2)) < 1e-5);
+    }
+
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix<float,3,1> rpy;
+
+        rpy(0) = 2 * M_PI * rand() / RAND_MAX - M_PI;
+        rpy(1) = 2 * (M_PI / 2 - 0.01) * rand() / RAND_MAX - (M_PI / 2 - 0.01);
+        rpy(2) = 2 * M_PI * rand() / RAND_MAX - M_PI;
+
+        RigidBodyTransform<float> transform;
+        transform.setEulerXYZ(rpy);
+
+        Eigen::Matrix<float,3,1> rpyCheck;
+        transform.getEulerXYZ(rpyCheck);
+
+        EXPECT_TRUE(fabs(rpy(0) - rpyCheck(0)) < 1e-5);
+        EXPECT_TRUE(fabs(rpy(1) - rpyCheck(1)) < 1e-5);
+        EXPECT_TRUE(fabs(rpy(2) - rpyCheck(2)) < 1e-5);
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testSetAsTranspose)
+{
+    Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomMatrix4<double>();
+
+    RigidBodyTransform<double> transform;
+    transform.setAsTranspose(m1);
+
+    m1.transpose();
+
+    RigidBodyTransform<double> transform2;
+    transform2.setAsTranspose(m1);
+
+    transform.get(m1);
+
+    Eigen::Matrix4d m2;
+
+    transform2.get(m2);
+
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            EXPECT_TRUE(fabs(m1(i, j) - m2(i, j)) < 1e-5);
+        }
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testZeroTranslation)
+{
+    Eigen::Matrix4d m1;
+    Eigen::Vector3d translation;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        m1 = GeometryUtilitiesTestHelper::createRandomMatrix4<double>();
+        RigidBodyTransform<double> transform(m1);
+
+        transform.zeroTranslation();
+
+        transform.getTranslation(translation);
+
+        ASSERT_TRUE(translation(0) == 0.0);
+        ASSERT_TRUE(translation(1) == 0.0);
+        ASSERT_TRUE(translation(2) == 0.0);
+    }
+}
+
 //TEST_F(RigidBodyTransformTest, testSetRotationWithRotationMatrix)
 //{
 //    Eigen::Matrix3d rot1;
