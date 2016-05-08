@@ -20,7 +20,7 @@ protected:
 
     }
 
-    int nTests = 100;
+    int nTests = 1000;
 };
 
 TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)
@@ -41,7 +41,7 @@ TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)
 
             transform.getRotation(axisAngleToCheck);
 
-            ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-8));
+            ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual(axisAngle, axisAngleToCheck, 1e-5));
         }
     }
 
