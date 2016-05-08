@@ -124,6 +124,7 @@ class RandomlyChangingFrame : public ReferenceFrame
 		}
 };
 
+
 class RandomUnchangingFrame : public ReferenceFrame
 {
 	public:

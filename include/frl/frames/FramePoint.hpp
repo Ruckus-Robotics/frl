@@ -14,6 +14,7 @@ namespace frl
 {
     namespace frames
     {
+        template<typename T>
         class FramePoint : public ReferenceFrameHolder
         {
         public:
