@@ -687,6 +687,21 @@ TEST_F(RigidBodyTransformTest, testTransformPoints1)
     EXPECT_TRUE(p2.getZ() - (-2) < 1e-15);
 }
 
+TEST_F(RigidBodyTransformTest, testEqualsOperator)
+{
+    RigidBodyTransform3d t1;
+    RigidBodyTransform3f t2;
+
+    t2=t1;
+
+    Eigen::Matrix4d m1,m2;
+
+    t1.get(m1);
+    t2.get(m2);
+
+    GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual(m1,m2,1e-5);
+}
+
 
 int main(int argc, char **argv)
 {

@@ -1203,30 +1203,37 @@ namespace frl
                 return os;
             }
 
-            RigidBodyTransform<T>& operator=(RigidBodyTransform rhs)
+            template<class TYPE>
+            RigidBodyTransform<T>& operator=(RigidBodyTransform<TYPE> rhs)
             {
-                swap(*this,rhs);
+                mat00 = static_cast<T>(rhs.mat00);
+                mat01 = static_cast<T>(rhs.mat01);
+                mat02 = static_cast<T>(rhs.mat02);
+                mat03 = static_cast<T>(rhs.mat03);
+                mat10 = static_cast<T>(rhs.mat10);
+                mat11 = static_cast<T>(rhs.mat11);
+                mat12 = static_cast<T>(rhs.mat12);
+                mat13 = static_cast<T>(rhs.mat13);
+                mat20 = static_cast<T>(rhs.mat20);
+                mat21 = static_cast<T>(rhs.mat21);
+                mat22 = static_cast<T>(rhs.mat22);
+                mat23 = static_cast<T>(rhs.mat23);
+
                 return *this;
             }
 
-            friend void swap(RigidBodyTransform& first, RigidBodyTransform& second) // nothrow
-            {
-
-                // by swapping the members of two classes,
-                // the two classes are effectively swapped
-                std::swap(first.mat00, second.mat00);
-                std::swap(first.mat01, second.mat01);
-                std::swap(first.mat02, second.mat02);
-                std::swap(first.mat03, second.mat03);
-                std::swap(first.mat10, second.mat10);
-                std::swap(first.mat11, second.mat11);
-                std::swap(first.mat12, second.mat12);
-                std::swap(first.mat13, second.mat13);
-                std::swap(first.mat20, second.mat20);
-                std::swap(first.mat21, second.mat21);
-                std::swap(first.mat22, second.mat22);
-                std::swap(first.mat23, second.mat23);
-            }
+            T mat00;
+            T mat01;
+            T mat02;
+            T mat03;
+            T mat10;
+            T mat11;
+            T mat13;
+            T mat12;
+            T mat20;
+            T mat21;
+            T mat22;
+            T mat23;
 
         private:
             /**
@@ -1253,19 +1260,6 @@ namespace frl
                 mat03 = newTransX;
                 mat13 = newTransY;
             }
-
-            T mat00;
-            T mat01;
-            T mat02;
-            T mat03;
-            T mat10;
-            T mat11;
-            T mat13;
-            T mat12;
-            T mat20;
-            T mat21;
-            T mat22;
-            T mat23;
 		};
 
         template<typename TYPE>
