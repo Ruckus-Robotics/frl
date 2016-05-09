@@ -168,15 +168,13 @@ namespace frl
 			{
 				computeTransform();
 
-                geometry::RigidBodyTransform<T> t = this->transformToRoot;
-				return t;
+                return this->transformToRoot;
 			}
 
             template<typename T=double>
 			geometry::RigidBodyTransform<T> getInverseTransformToRoot()
 			{
-                geometry::RigidBodyTransform<T> t = this->inverseTransformToRoot;
-				return t;
+                return this->inverseTransformToRoot;
 			}
 
 			ReferenceFrame *getRootFrame()
