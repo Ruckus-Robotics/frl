@@ -689,7 +689,7 @@ TEST_F(RigidBodyTransformTest, testTransformPoints1)
 
 TEST_F(RigidBodyTransformTest, testEqualsOperator)
 {
-    RigidBodyTransform3d t1;
+    RigidBodyTransform3d t1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
     RigidBodyTransform3f t2;
 
     t2=t1;
