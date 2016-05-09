@@ -163,15 +163,20 @@ namespace frl
 				}
 			}
 
-			geometry::RigidBodyTransform<double> getTransformToRoot()
+            template<typename T=double>
+			geometry::RigidBodyTransform<T> getTransformToRoot()
 			{
 				computeTransform();
-				return this->transformToRoot;
+
+                geometry::RigidBodyTransform<T> t = this->transformToRoot;
+				return t;
 			}
 
-			geometry::RigidBodyTransform<double> getInverseTransformToRoot()
+            template<typename T=double>
+			geometry::RigidBodyTransform<T> getInverseTransformToRoot()
 			{
-				return this->inverseTransformToRoot;
+                geometry::RigidBodyTransform<T> t = this->inverseTransformToRoot;
+				return t;
 			}
 
 			ReferenceFrame *getRootFrame()

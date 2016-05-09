@@ -88,8 +88,8 @@ namespace frl
                     this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
 
                     geometry::RigidBodyTransform<T> thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
-                    thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot();
-                    desiredFramesInverseTransformToRoot = desiredFrame->getInverseTransformToRoot();
+                    thisFramesTransformToRoot = this->referenceFrame->template getTransformToRoot<T>();
+                    desiredFramesInverseTransformToRoot = desiredFrame->template getInverseTransformToRoot<T>();
 
                     if (this->referenceFrame && desiredFrame)
                     {
