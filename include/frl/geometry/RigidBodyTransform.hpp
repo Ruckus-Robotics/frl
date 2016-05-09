@@ -8,7 +8,7 @@ namespace frl
 {
 	namespace geometry
 	{
-		template<class T>
+		template<typename T>
 		class RigidBodyTransform
         {
         public:
@@ -22,45 +22,45 @@ namespace frl
                 set(transform);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
             RigidBodyTransform(const Eigen::Matrix<TYPE, 4, 4> &matrix)
             {
                 set(matrix);
             }
 
-            template<class T1, class T2>
+            template<typename T1, typename T2>
             RigidBodyTransform(const Eigen::Matrix<T1, 3, 3> &matrix, const Eigen::Matrix<T2, 3, 1> &vector)
             {
                 set(matrix, vector);
             };
 
-            template<class T1, class T2>
+            template<typename T1, typename T2>
             RigidBodyTransform(const Eigen::AngleAxis<T1> &axisAngle, const Eigen::Matrix<T2, 3, 1> &vector)
             {
                 set(axisAngle, vector);
             }
 
-            template<class T1, class T2>
+            template<typename T1, typename T2>
             RigidBodyTransform(const Eigen::Quaternion<T1> &quaternion, const Eigen::Matrix<T2, 3, 1> &vector)
             {
                 set(quaternion, vector);
             };
 
-            template<class TYPE>
+            template<typename TYPE>
             RigidBodyTransform(const Eigen::Matrix<TYPE, 3, 3> &matrix)
             {
                 setRotation(matrix);
                 setTranslation(0.0, 0.0, 0.0);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
             RigidBodyTransform(const Eigen::Quaternion<TYPE> &quat)
             {
                 setRotation(quat);
                 setTranslation(0.0, 0.0, 0.0);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
             RigidBodyTransform(const Eigen::AngleAxis<TYPE> &axisAngle)
             {
                 setRotation(axisAngle);
@@ -111,7 +111,7 @@ namespace frl
              *
              * @param matrix
              */
-            template<class TYPE>
+            template<typename TYPE>
             void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
             {
                 this->mat00 = matrix(0, 0);
@@ -157,7 +157,7 @@ namespace frl
             * @param Eigen::Matrix matrix
             * @param Eigen::Matrix vector
             */
-            template<class T1, class T2>
+            template<typename T1, typename T2>
             void set(const Eigen::Matrix<T1, 3, 3> &matrix, const Eigen::Matrix<T2, 3, 1> &vector)
             {
                 setRotation(matrix);
@@ -171,7 +171,7 @@ namespace frl
             * @param Eigen::AxisAngle axisAngle
             * @param Eigen::Matrix vector
             */
-            template<class T1, class T2>
+            template<typename T1, typename T2>
             void set(const Eigen::AngleAxis<T1> &axisAngle, const Eigen::Matrix<T2, 3, 1> &vector)
             {
                 setRotation(axisAngle);
@@ -185,7 +185,7 @@ namespace frl
             * @param Eigen::Quaternion quat
             * @param Eigen::Matrix vector
             */
-            template<class T1, class T2>
+            template<typename T1, typename T2>
             void set(const Eigen::Quaternion<T1> &quat, const Eigen::Matrix<T2, 3, 1> &vector)
             {
                 setRotation(quat);
@@ -213,7 +213,7 @@ namespace frl
              *
              * @param vector
              */
-            template<class TYPE>
+            template<typename TYPE>
             void setTranslation(const Eigen::Matrix<TYPE, 3, 1> &vector)
             {
                 setTranslation(vector(0), vector(1), vector(2));
@@ -225,7 +225,7 @@ namespace frl
             *
             * @param matrix
             */
-            template<class TYPE>
+            template<typename TYPE>
             void setAsTranspose(const Eigen::Matrix<TYPE, 4, 4> &matrix)
             {
                 double tmp10 = matrix(1, 0);
@@ -256,7 +256,7 @@ namespace frl
                 mat23 = 0.0;
             }
 
-            template<class TYPE>
+            template<typename TYPE>
             void setRotation(const Eigen::Matrix<TYPE, 3, 3> &matrix)
             {
                 this->mat00 = matrix(0, 0);
@@ -270,13 +270,13 @@ namespace frl
                 this->mat22 = matrix(2, 2);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
             void setRotation(const Eigen::Quaternion<TYPE> &quat)
             {
                 setRotationWithQuaternion(quat.x(),quat.y(),quat.z(),quat.w());
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void setRotation(const Eigen::AngleAxis<TYPE> &axisAngle)
             {
                 setRotationWithAxisAngle(axisAngle.axis()[0], axisAngle.axis()[1], axisAngle.axis()[2], axisAngle.angle());
@@ -359,21 +359,21 @@ namespace frl
 //                }
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void setRotationAndZeroTranslation(const Eigen::Matrix<TYPE,3,3> &matrix)
             {
                 setRotation(matrix);
                 setTranslation(0.0,0.0,0.0);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void setRotationAndZeroTranslation(const Eigen::Quaternion<TYPE> &quat)
             {
                 setRotation(quat);
                 setTranslation(0.0,0.0,0.0);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void setRotationAndZeroTranslation(const Eigen::AngleAxis<TYPE> &axisAngle)
             {
                 setRotation(axisAngle);
@@ -386,7 +386,7 @@ namespace frl
             *
             * @param vector
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void setTranslationAndIdentityRotation(const Eigen::Matrix<TYPE,3,1> &vector)
             {
                 setTranslation(vector(0), vector(1), vector(2));
@@ -420,7 +420,7 @@ namespace frl
             *
             * @param vector
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void setEulerXYZ(const Eigen::Matrix<TYPE,3,1> &vector)
             {
                 setEulerXYZ(vector(0), vector(1), vector(2));
@@ -483,7 +483,7 @@ namespace frl
             *
             * @param matrix
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void getRotation(Eigen::Matrix<TYPE,3,3> &matrix) const
             {
                 matrix(0, 0) = mat00;
@@ -502,7 +502,7 @@ namespace frl
             *
             * @param Eigen::Quaternion quat
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void getRotation(Eigen::Quaternion<TYPE> &quat) const
             {
                 TYPE trace = mat00 + mat11 + mat22;
@@ -548,7 +548,7 @@ namespace frl
             *
             * @param axisAngle
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void getRotation(Eigen::AngleAxis<TYPE> &axisAngle) const
             {
                 getRotation(axisAngle,1.0e-12);
@@ -559,7 +559,7 @@ namespace frl
             *
             * @param vector
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void getTranslation(Eigen::Matrix<TYPE,3,1> &vector) const
             {
                 vector(0) = mat03;
@@ -572,7 +572,7 @@ namespace frl
             *
             * @param point
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void getTranslation(Point3<TYPE> &point) const
             {
                 point.x = mat03;
@@ -585,7 +585,7 @@ namespace frl
             *
             * @param matrix
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void get(Eigen::Matrix<TYPE,4,4> &matrix) const
             {
                 matrix(0, 0) = mat00;
@@ -609,28 +609,28 @@ namespace frl
                 matrix(3, 3) = 1;
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void get(Eigen::Matrix<TYPE,3,3> &matrix, Eigen::Matrix<TYPE,3,1> &vector) const
             {
                 getRotation(matrix);
                 getTranslation(vector);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void get(Eigen::Quaternion<TYPE> &quat, Eigen::Matrix<TYPE,3,1> &vector) const
             {
                 getRotation(quat);
                 getTranslation(vector);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void get(Eigen::Quaternion<TYPE> &quat, Point3<TYPE> &point) const
             {
                 getRotation(quat);
                 getTranslation(point);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void applyTranslation(const Eigen::Matrix<TYPE,3,1> &translation)
             {
                 Point3<TYPE> temp(translation(0),translation(1),translation(2));
@@ -646,7 +646,7 @@ namespace frl
             *
             * @param point
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void transform(Point3<TYPE> &point)
             {
                 TYPE x = mat00 * point.x + mat01 * point.y + mat02 * point.z + mat03;
@@ -663,7 +663,7 @@ namespace frl
             *
             * @param vector
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void transform(Eigen::Matrix<TYPE,4,1> &vector)
             {
                 TYPE x = mat00 * vector(0) + mat01 * vector(1) + mat02 * vector(2) + mat03;
@@ -680,7 +680,7 @@ namespace frl
              *
              * @param vector
              */
-            template<class TYPE>
+            template<typename TYPE>
 			void transform(Eigen::Matrix<TYPE,3,1> &vector)
             {
                 TYPE x = mat00 * vector(0) + mat01 * vector(1) + mat02 * vector(2);
@@ -697,7 +697,7 @@ namespace frl
             *
             * @param vector
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void transform(const Eigen::Matrix<TYPE,3,1> &vectorIn, Eigen::Matrix<TYPE,3,1> &vectorOut)
             {
                 vectorOut(0) = mat00 * vectorIn(0) + mat01 * vectorIn(1) + mat02 * vectorIn(2);
@@ -711,7 +711,7 @@ namespace frl
             * @param vectorIn
             * @param vectorOut
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void transform(const Eigen::Matrix<TYPE,4,1> &vectorIn, Eigen::Matrix<TYPE,4,1> &vectorOut)
             {
                 vectorOut(0) = mat00 * vectorIn(0) + mat01 * vectorIn(1) + mat02 * vectorIn(2) + mat03;
@@ -726,7 +726,7 @@ namespace frl
             *
             * @param point
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void transform(const Point3<TYPE> &pointIn, Point3<TYPE> &pointOut)
             {
                 pointOut.x = mat00 * pointIn.x + mat01 * pointIn.y + mat02 * pointIn.z + mat03;
@@ -845,7 +845,7 @@ namespace frl
             *
             * @param transform
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void multiply(const RigidBodyTransform<TYPE> &transform)
             {
                 T tmp00 = mat00 * transform.mat00 + mat01 * transform.mat10 + mat02 * transform.mat20;
@@ -884,7 +884,7 @@ namespace frl
             * @param transform1
             * @param transform
             */
-            template<class TYPE>
+            template<typename TYPE>
 			void multiply(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform)
             {
                 T tmp00 = transform1.mat00 * transform.mat00 + transform1.mat01 * transform.mat10 + transform1.mat02 * transform.mat20;
@@ -1077,7 +1077,7 @@ namespace frl
                 mat22 = mat22 / magZ;
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			static Eigen::Matrix<TYPE,3,1> getTranslationDifference(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform2)
             {
                 Eigen::Matrix<TYPE,3,1> pos1;
@@ -1088,7 +1088,7 @@ namespace frl
                 return (pos2 - pos1);
             }
 
-            template<class TYPE>
+            template<typename TYPE>
 			void getRotation(Eigen::AngleAxis<TYPE> &axisAngle, const double epsilon) const
             {
 //                Eigen::Matrix<TYPE,3,3> m;
@@ -1203,21 +1203,21 @@ namespace frl
                 return os;
             }
 
-            template<class TYPE>
+            template<typename TYPE>
             RigidBodyTransform<T>& operator=(RigidBodyTransform<TYPE> rhs)
             {
-                mat00 = static_cast<T>(rhs.mat00);
-                mat01 = static_cast<T>(rhs.mat01);
-                mat02 = static_cast<T>(rhs.mat02);
-                mat03 = static_cast<T>(rhs.mat03);
-                mat10 = static_cast<T>(rhs.mat10);
-                mat11 = static_cast<T>(rhs.mat11);
-                mat12 = static_cast<T>(rhs.mat12);
-                mat13 = static_cast<T>(rhs.mat13);
-                mat20 = static_cast<T>(rhs.mat20);
-                mat21 = static_cast<T>(rhs.mat21);
-                mat22 = static_cast<T>(rhs.mat22);
-                mat23 = static_cast<T>(rhs.mat23);
+                mat00 = rhs.mat00;
+                mat01 = rhs.mat01;
+                mat02 = rhs.mat02;
+                mat03 = rhs.mat03;
+                mat10 = rhs.mat10;
+                mat11 = rhs.mat11;
+                mat12 = rhs.mat12;
+                mat13 = rhs.mat13;
+                mat20 = rhs.mat20;
+                mat21 = rhs.mat21;
+                mat22 = rhs.mat22;
+                mat23 = rhs.mat23;
 
                 return *this;
             }

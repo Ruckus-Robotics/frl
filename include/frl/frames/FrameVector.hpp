@@ -12,36 +12,122 @@
 
 namespace frl
 {
-
     namespace frames
     {
+        template<typename T>
         class FrameVector : public ReferenceFrameHolder
         {
         public:
-            FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const double &x, const double &y, const double &z);
+            template<typename TYPE>
+            FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const TYPE x, const TYPE y, const TYPE z) : vector(x,y,z)
+            {
+                if (!referenceFrame)
+                {
+                    throw std::runtime_error("Reference frame cannot be nullptr!");
+                }
 
-            FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const Eigen::Vector3d &vector);
+                this->name = name;
+                this->referenceFrame = referenceFrame;
+            }
+
+            template<typename TYPE>
+            FrameVector(const std::string &name, ReferenceFrame *referenceFrame, const Eigen::Matrix<TYPE,3,1> &vector) : vector(vector)
+            {
+                if (!referenceFrame)
+                {
+                    throw std::runtime_error("Reference frame cannot be nullptr!");
+                }
+
+                this->name = name;
+                this->referenceFrame = referenceFrame;
+            }
 
             ~FrameVector()
             { };
 
-            void setIncludingFrame(const double &x, const double &y, const double &z, ReferenceFrame *referenceFrame);
+            template<typename TYPE>
+            void setIncludingFrame(const TYPE x, const TYPE y, const TYPE z, ReferenceFrame *referenceFrame)
+            {
+                vector(0) = x;
+                vector(1) = y;
+                vector(2) = z;
 
-            void setIncludingFrame(const Eigen::Vector3d &vector, ReferenceFrame *referenceFrame);
+                this->referenceFrame = referenceFrame;
+            }
 
-            void setAndKeepFrame(const double &x, const double &y, const double &z);
+            template<typename TYPE>
+            void setIncludingFrame(const Eigen::Matrix<TYPE,3,1> &vector, ReferenceFrame *referenceFrame)
+            {
+                this->vector(0) = vector(0);
+                this->vector(1) = vector(1);
+                this->vector(2) = vector(2);
 
-            void setAndKeepFrame(const Eigen::Vector3d vector);
+                this->referenceFrame = referenceFrame;
+            }
 
-            double dot(const FrameVector &frameVector) const;
+            template<typename TYPE>
+            void setAndKeepFrame(const TYPE x, const TYPE y, const TYPE z)
+            {
+                vector(0) = x;
+                vector(1) = y;
+                vector(2) = z;
+            }
 
-            void cross(const FrameVector &frameVector, FrameVector &frameVectorToPack) const;
+            template<typename TYPE>
+            void setAndKeepFrame(const Eigen::Matrix<TYPE,3,1> vector)
+            {
+                this->vector(0) = vector(0);
+                this->vector(1) = vector(1);
+                this->vector(2) = vector(2);
+            }
 
-            Eigen::Vector3d cross(const FrameVector &frameVector) const;
+            template<typename TYPE>
+            T dot(const FrameVector<TYPE> &frameVector) const
+            {
+                checkReferenceFramesMatch(&frameVector);
+                return this->vector.dot(frameVector.getVector());
+            }
 
-            void changeFrame(ReferenceFrame *desiredFrame);
+            template<typename TYPE>
+            void cross(const FrameVector<TYPE> &frameVector, FrameVector<TYPE> &frameVectorToPack) const
+            {
+                checkReferenceFramesMatch(&frameVector);
+                checkReferenceFramesMatch(&frameVectorToPack);
+                Eigen::Matrix<T,3,1> tmpVector3 = this->vector.cross(frameVector.getVector());
+                frameVectorToPack.setAndKeepFrame(tmpVector3(0), tmpVector3(1), tmpVector3(2));
+            }
 
-            double length() const
+            template<typename TYPE>
+            Eigen::Matrix<TYPE,3,1> cross(const FrameVector<TYPE> &frameVector) const
+            {
+                checkReferenceFramesMatch(&frameVector);
+                return this->vector.cross(frameVector.getVector());
+            };
+
+            void changeFrame(ReferenceFrame *desiredFrame)
+            {
+                if (desiredFrame != this->referenceFrame)
+                {
+                    this->referenceFrame->verifyFramesHaveSameRoot(desiredFrame);
+
+                    geometry::RigidBodyTransform<T> thisFramesTransformToRoot, desiredFramesInverseTransformToRoot;
+                    thisFramesTransformToRoot = this->referenceFrame->getTransformToRoot();
+                    desiredFramesInverseTransformToRoot = desiredFrame->getInverseTransformToRoot();
+
+                    if (this->referenceFrame && desiredFrame)
+                    {
+                        thisFramesTransformToRoot.transform(vector);
+                        desiredFramesInverseTransformToRoot.transform(vector);
+                        this->referenceFrame = desiredFrame;
+                    }
+                    else
+                    {
+                        throw std::runtime_error("Cannot change the frame of a FrameVector if either this's reference frame or the desired frame is nullptr!");
+                    }
+                }
+            }
+
+            T length() const
             {
                 return this->vector.norm();
             }
@@ -51,35 +137,62 @@ namespace frl
                 return name;
             }
 
-            double getX() const
+            T getX() const
             {
                 return vector(0);
             }
 
-            double getY() const
+            T getY() const
             {
                 return vector(1);
             }
 
-            double getZ() const
+            T getZ() const
             {
                 return vector(2);
             }
 
-            double getAngleBetweenVectors(const FrameVector &frameVector) const;
+            template<typename TYPE>
+            T getAngleBetweenVectors(const FrameVector<TYPE> &frameVector) const
+            {
+                checkReferenceFramesMatch(&frameVector);
+
+                T vDot = this->vector.dot(frameVector.getVector()) / (this->vector.norm() * frameVector.getVector().norm());
+
+                if (vDot < -1.0)
+                {
+                    vDot = -1.0;
+                }
+                else if (vDot > 1.0)
+                {
+                    vDot = 1.0;
+                }
+
+                return acos(vDot);
+            }
 
             ReferenceFrame *getReferenceFrame() const
             {
                 return this->referenceFrame;
             }
 
-            Eigen::Vector3d getVector() const
+            Eigen::Matrix<T,3,1> getVector() const
             {
                 return this->vector;
             }
 
+            template<typename TYPE>
+            FrameVector<T>& operator=(FrameVector<TYPE> rhs)
+            {
+                vector = rhs.vector;
+                name = rhs.name;
+                referenceFrame = rhs.referenceFrame;
+
+                return *this;
+            }
+
         private:
-            Eigen::Vector3d vector;
+            Eigen::Matrix<T,3,1> vector;
             ReferenceFrame *referenceFrame;
             std::string name;
         };
