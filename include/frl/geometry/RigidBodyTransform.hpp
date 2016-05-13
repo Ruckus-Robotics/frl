@@ -57,7 +57,7 @@ namespace frl
             template<typename TYPE>
             RigidBodyTransform(const Eigen::Quaternion<TYPE> &quat)
             {
-                setRotation(quat);
+                setRotation(quat.w(),quat.x(),quat.y(),quat.z());
                 setTranslation(0.0, 0.0, 0.0);
             }
 
@@ -77,35 +77,28 @@ namespace frl
             */
             void setIdentity()
             {
-                this->mat00 = 1.0;
-                this->mat01 = 0.0;
-                this->mat02 = 0.0;
-                this->mat03 = 0.0;
-                this->mat10 = 0.0;
-                this->mat11 = 1.0;
-                this->mat12 = 0.0;
-                this->mat13 = 0.0;
-                this->mat20 = 0.0;
-                this->mat21 = 0.0;
-                this->mat22 = 1.0;
-                this->mat23 = 0.0;
+
+                qw = 1.0;
+                qx = 0.0;
+                qy = 0.0;
+                qz = 0.0;
+
+                x = 0.0;
+                y = 0.0;
+                z = 0.0;
             }
 
             template<typename TYPE>
             void set(const RigidBodyTransform<TYPE> &transform)
             {
-                this->mat00 = transform.mat00;
-                this->mat01 = transform.mat01;
-                this->mat02 = transform.mat02;
-                this->mat03 = transform.mat03;
-                this->mat10 = transform.mat10;
-                this->mat11 = transform.mat11;
-                this->mat12 = transform.mat12;
-                this->mat13 = transform.mat13;
-                this->mat20 = transform.mat20;
-                this->mat21 = transform.mat21;
-                this->mat22 = transform.mat22;
-                this->mat23 = transform.mat23;
+                qw = transform.qw;
+                qx = transform.qx;
+                qy = transform.qy;
+                qz = transform.qz;
+
+                x = transform.x;
+                y = transform.y;
+                z = transform.z;
             }
 
             /**
@@ -116,6 +109,7 @@ namespace frl
             template<typename TYPE>
             void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
             {
+                //FIX ME
                 this->mat00 = matrix(0, 0);
                 this->mat01 = matrix(0, 1);
                 this->mat02 = matrix(0, 2);
@@ -128,6 +122,8 @@ namespace frl
                 this->mat21 = matrix(2, 1);
                 this->mat22 = matrix(2, 2);
                 this->mat23 = matrix(2, 3);
+
+
             }
 
             /**
@@ -183,9 +179,9 @@ namespace frl
             template<typename TYPE>
             void setTranslation(const TYPE x, const TYPE y, const TYPE z)
             {
-                this->mat03 = x;
-                this->mat13 = y;
-                this->mat23 = z;
+                this->x = x;
+                this->y = y;
+                this->z = z;
             }
 
             /**
@@ -196,7 +192,9 @@ namespace frl
             template<typename TYPE>
             void setTranslation(const Eigen::Matrix<TYPE, 3, 1> &vector)
             {
-                setTranslation(vector(0), vector(1), vector(2));
+                this->x = vector(0);
+                this->y = vector(1);
+                this->z = vector(2);
             }
 
             /**
@@ -208,6 +206,7 @@ namespace frl
             template<typename TYPE>
             void setAsTranspose(const Eigen::Matrix<TYPE, 4, 4> &matrix)
             {
+                // @TODO update!
                 double tmp10 = matrix(1, 0);
                 double tmp20 = matrix(2, 0);
                 double tmp21 = matrix(2, 1);
@@ -231,23 +230,63 @@ namespace frl
 
             void zeroTranslation()
             {
-                mat03 = 0.0;
-                mat13 = 0.0;
-                mat23 = 0.0;
+                x = 0.0;
+                y = 0.0;
+                z = 0.0;
             }
 
             template<typename TYPE>
-            void setRotation(const Eigen::Matrix<TYPE, 3, 3> &matrix)
+            void setRotation(Eigen::Matrix<TYPE, 3, 3> matrix)
             {
-                this->mat00 = matrix(0, 0);
-                this->mat01 = matrix(0, 1);
-                this->mat02 = matrix(0, 2);
-                this->mat10 = matrix(1, 0);
-                this->mat11 = matrix(1, 1);
-                this->mat12 = matrix(1, 2);
-                this->mat20 = matrix(2, 0);
-                this->mat21 = matrix(2, 1);
-                this->mat22 = matrix(2, 2);
+                matrix.normalize();
+
+                T t = matrix(0,0) + matrix(1,1) + matrix(2,2);
+
+                if (t >= 0)
+                {
+                    T s = sqrt(t + 1);
+                    qw = 0.5 * s;
+                    s = 0.5 / s;
+                    qx = (matrix(2,1) - matrix(1,2)) * s;
+                    qy = (matrix(0,2) - matrix(2,0)) * s;
+                    qz = (matrix(1,0) - matrix(0,1)) * s;
+                }
+                else if ((matrix(0,0) > matrix(1,1)) && (matrix(0,0) > matrix(2,2)))
+                {
+                    float s = sqrt(1.0 + matrix(0,0) - matrix(1,1) - matrix(2,2));
+                    qx = s * 0.5;
+                    s = 0.5 / s;
+                    qy = (matrix(1,0) + matrix(0,1)) * s;
+                    qz = (matrix(0,2) + matrix(2,0)) * s;
+                    qw = (matrix(2,1) - matrix(1,2)) * s;
+                }
+                else if (matrix(1,1) > matrix(2,2))
+                {
+                    float s = sqrt(1.0 + matrix(1,1) - matrix(0,0) - matrix(2,2));
+                    qy = s * 0.5;
+                    s = 0.5 / s;
+                    qx = (matrix(1,0) + matrix(0,1)) * s;
+                    qz = (matrix(2,1) + matrix(1,2)) * s;
+                    qw = (matrix(0,2) - matrix(2,0)) * s;
+                }
+                else
+                {
+                    float s = sqrt(1.0 + matrix(2,2) - matrix(0,0) - matrix(1,1));
+                    qz = s * 0.5;
+                    s = 0.5 / s;
+                    qx = (matrix(0,2) + matrix(2,0)) * s;
+                    qy = (matrix(2,1) + matrix(1,2)) * s;
+                    qw = (matrix(1,0) - matrix(0,1)) * s;
+                }
+
+            }
+
+            void setRotation(const T qw, const T qx, const T qy, const T qz)
+            {
+                this->qx = qx;
+                this->qy = qy;
+                this->qz = qz;
+                this->qw = qw;
             }
 
             template<typename TYPE>
@@ -459,6 +498,20 @@ namespace frl
             }
 
             /**
+            * Return rotation in quaternion form.
+            *
+            * @param Eigen::Quaternion quat
+            */
+            template<typename TYPE>
+            void getQuaternion(Eigen::Quaternion<TYPE> &q) const
+            {
+                q.x() = qx;
+                q.y() = qy;
+                q.z() = qz;
+                q.w() = qw;
+            }
+
+            /**
             * Return rotation matrix
             *
             * @param matrix
@@ -475,52 +528,6 @@ namespace frl
                 matrix(2, 0) = mat20;
                 matrix(2, 1) = mat21;
                 matrix(2, 2) = mat22;
-            }
-
-            /**
-            * Return rotation in quaternion form.
-            *
-            * @param Eigen::Quaternion quat
-            */
-            template<typename TYPE>
-			void getRotation(Eigen::Quaternion<TYPE> &quat) const
-            {
-                TYPE trace = mat00 + mat11 + mat22;
-                TYPE val;
-
-                if (trace > 0.0)
-                {
-                    val = sqrt(trace + 1.0) * 2.0;
-                    quat.x() = (mat21 - mat12) / val;
-                    quat.y() = (mat02 - mat20) / val;
-                    quat.z() = (mat10 - mat01) / val;
-                    quat.w() = 0.25 * val;
-                }
-                else if (mat11 > mat22)
-                {
-                    TYPE temp = std::max(0.0, 1.0 + mat11 - mat00 - mat22);
-                    val = sqrt(temp) * 2.0;
-                    quat.x() = (mat01 + mat10) / val;
-                    quat.y() = 0.25 * val;
-                    quat.z() = (mat12 + mat21) / val;
-                    quat.w() = (mat02 - mat20) / val;
-                }
-                else if ((mat00 > mat11) && (mat00 > mat22))
-                {
-                    val = sqrt(1.0 + mat00 - mat11 - mat22) * 2.0;
-                    quat.x() = 0.25 * val;
-                    quat.y() = (mat01 + mat10) / val;
-                    quat.z() = (mat02 + mat20) / val;
-                    quat.w() = (mat21 - mat12) / val;
-                }
-                else
-                {
-                    val = sqrt(1.0 + mat22 - mat00 - mat11) * 2.0;
-                    quat.x() = (mat02 + mat20) / val;
-                    quat.y() = (mat12 + mat21) / val;
-                    quat.z() = 0.25 * val;
-                    quat.w() = (mat10 - mat01) / val;
-                }
             }
 
             /**
@@ -542,9 +549,9 @@ namespace frl
             template<typename TYPE>
 			void getTranslation(Eigen::Matrix<TYPE,3,1> &vector) const
             {
-                vector(0) = mat03;
-                vector(1) = mat13;
-                vector(2) = mat23;
+                vector(0) = x;
+                vector(1) = y;
+                vector(2) = z;
             }
 
             /**
@@ -555,9 +562,9 @@ namespace frl
             template<typename TYPE>
 			void getTranslation(Point3<TYPE> &point) const
             {
-                point.x = mat03;
-                point.y = mat13;
-                point.z = mat23;
+                point.x = x;
+                point.y = y;
+                point.z = z;
             }
 
             /**
@@ -568,6 +575,7 @@ namespace frl
             template<typename TYPE>
 			void get(Eigen::Matrix<TYPE,4,4> &matrix) const
             {
+                //@TODO update
                 matrix(0, 0) = mat00;
                 matrix(0, 1) = mat01;
                 matrix(0, 2) = mat02;
@@ -1217,6 +1225,9 @@ namespace frl
             T mat21;
             T mat22;
             T mat23;
+
+            T x,y,z;
+            T qx,qy,qz,qw;
 
         private:
             /**

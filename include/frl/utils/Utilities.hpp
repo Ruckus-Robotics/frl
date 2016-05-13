@@ -71,6 +71,23 @@ namespace frl
         {
             return ((a < epsilon) && (a > -epsilon));
         }
+
+        template<typename T1,typename T2>
+        static Eigen::Matrix<T1,3,3> getRotationMatrix(const Eigen::Matrix<T2,4,4> &matrix)
+        {
+            Eigen::Matrix<T1,3,3> ret;
+            ret(0,0) = matrix(0,0);
+            ret(0,1) = matrix(0,1);
+            ret(0,2) = matrix(0,2);
+            ret(1,0) = matrix(1,0);
+            ret(1,1) = matrix(1,1);
+            ret(1,2) = matrix(1,2);
+            ret(2,0) = matrix(2,0);
+            ret(2,1) = matrix(2,1);
+            ret(2,2) = matrix(2,2);
+
+            return ret;
+        };
     }
 }
 
