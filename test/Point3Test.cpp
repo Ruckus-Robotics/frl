@@ -521,6 +521,10 @@ TEST_F(Point3Test, testTemplateTypeInference)
     EXPECT_NEAR(point3.getZ(),point1.getZ(),1e-5);
 
     Point3d point4(point3);
+
+    EXPECT_NEAR(point3.getX(),point4.getX(),1e-5);
+    EXPECT_NEAR(point3.getY(),point4.getY(),1e-5);
+    EXPECT_NEAR(point3.getZ(),point4.getZ(),1e-5);
 }
 
 
