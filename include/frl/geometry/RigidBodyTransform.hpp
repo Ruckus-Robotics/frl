@@ -17,7 +17,8 @@ namespace frl
                 setIdentity();
             }
 
-            RigidBodyTransform(const RigidBodyTransform &transform)
+            template<typename TYPE>
+            RigidBodyTransform(const RigidBodyTransform<TYPE> &transform)
             {
                 set(transform);
             }
@@ -90,7 +91,8 @@ namespace frl
                 this->mat23 = 0.0;
             }
 
-            void set(const RigidBodyTransform &transform)
+            template<typename TYPE>
+            void set(const RigidBodyTransform<TYPE> &transform)
             {
                 this->mat00 = transform.mat00;
                 this->mat01 = transform.mat01;
@@ -107,7 +109,7 @@ namespace frl
             }
 
             /**
-             * Set elements of transform equal to elements of the Eigen::Matrix4d.
+             * Set elements of transform
              *
              * @param matrix
              */
@@ -127,28 +129,6 @@ namespace frl
                 this->mat22 = matrix(2, 2);
                 this->mat23 = matrix(2, 3);
             }
-//
-//            /**
-//             * Set elements of the transform
-//             *
-//             * @param matrix
-//             */
-//            template<typename TYPE>
-//            void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
-//            {
-//                this->mat00 = matrix(0, 0);
-//                this->mat01 = matrix(0, 1);
-//                this->mat02 = matrix(0, 2);
-//                this->mat03 = matrix(0, 3);
-//                this->mat10 = matrix(1, 0);
-//                this->mat11 = matrix(1, 1);
-//                this->mat12 = matrix(1, 2);
-//                this->mat13 = matrix(1, 3);
-//                this->mat20 = matrix(2, 0);
-//                this->mat21 = matrix(2, 1);
-//                this->mat22 = matrix(2, 2);
-//                this->mat23 = matrix(2, 3);
-//            }
 
             /**
             * Set this transform to have translation described in vector
@@ -928,7 +908,8 @@ namespace frl
             * and store the result in this.
             * @param transform
             */
-			void invert(const RigidBodyTransform &transform)
+            template<typename TYPE>
+			void invert(const RigidBodyTransform<TYPE> &transform)
             {
                 set(transform);
                 invert();
@@ -962,7 +943,8 @@ namespace frl
             * @param epsilon
             * @return
             */
-			bool epsilonEquals(const RigidBodyTransform &transform, const double &epsilon) const
+            template<typename TYPE>
+			bool epsilonEquals(const RigidBodyTransform<TYPE> &transform, const double &epsilon) const
             {
                 if (!fabs(mat00 - transform.mat00) < epsilon)
                 {
@@ -1188,7 +1170,8 @@ namespace frl
                 }
             }
 
-            RigidBodyTransform<T>& operator*=(const RigidBodyTransform &transform)
+            template<typename TYPE>
+            RigidBodyTransform<T>& operator*=(const RigidBodyTransform<TYPE> &transform)
             {
                 this->multiply(transform);
                 return *this;
