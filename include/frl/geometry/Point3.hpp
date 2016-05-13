@@ -15,8 +15,7 @@ namespace frl
         class Point3
         {
         public:
-            template<typename TYPE>
-            Point3(const TYPE x, const TYPE y, const TYPE z)
+            Point3(const T x, const T y, const T z)
             {
                 set(x, y, z);
             }
@@ -27,7 +26,8 @@ namespace frl
                 set(vector[0], vector[1], vector[2]);
             }
 
-            Point3(const Point3 &point)
+            template<typename TYPE>
+            Point3(const Point3<TYPE> &point)
             {
                 set(point.x, point.y, point.z);
             }
@@ -57,6 +57,12 @@ namespace frl
             }
 
             template<typename TYPE>
+            void set(const Point3<TYPE> &point)
+            {
+                set(point.x,point.y,point.z);
+            }
+
+            template<typename TYPE>
             void set(const TYPE x, const TYPE y, const TYPE z)
             {
                 this->x = x;
@@ -64,29 +70,27 @@ namespace frl
                 this->z = z;
             }
 
-            bool epsilonEquals(const Point3 &point, const double epsilon)
+            template<typename TYPE>
+            bool epsilonEquals(const Point3<TYPE> &point, const double epsilon)
             {
                 return (fabs(this->x - point.x) < epsilon && fabs(this->y - point.y) < epsilon && fabs(this->z - point.z) < epsilon);
             }
 
-            template<typename TYPE>
-            void clampMin(const TYPE min)
+            void clampMin(const T min)
             {
                 frl::utils::clampMin(x,min);
                 frl::utils::clampMin(y,min);
                 frl::utils::clampMin(z,min);
             }
 
-            template<typename TYPE>
-            void clampMax(const TYPE max)
+            void clampMax(const T max)
             {
                 frl::utils::clampMax(x,max);
                 frl::utils::clampMax(y,max);
                 frl::utils::clampMax(z,max);
             }
 
-            template<typename TYPE>
-            void clampMinMax(const TYPE min, const TYPE max)
+            void clampMinMax(const T min, const T max)
             {
                 clampMin(min);
                 clampMax(max);
@@ -99,22 +103,26 @@ namespace frl
                 this->z = fabs(this->z);
             }
 
-            T distanceSquared(const Point3 &point) const
+            template<typename TYPE>
+            T distanceSquared(const Point3<TYPE> &point) const
             {
                 return frl::utils::computeDistanceBetweenPointsSquared(x,y,z,point.x,point.y,point.z);
             }
 
-            T distance(const Point3 &point) const
+            template<typename TYPE>
+            T distance(const Point3<TYPE> &point) const
             {
                 return frl::utils::computeDistanceBetweenPoints(x,y,z,point.x,point.y,point.z);
             }
 
-            T distanceL1(const Point3 &point) const
+            template<typename TYPE>
+            T distanceL1(const Point3<TYPE> &point) const
             {
                 return frl::utils::distanceL1(x,y,z,point.x,point.y,point.z);
             }
 
-            T distanceLinf(const Point3 &point) const
+            template<typename TYPE>
+            T distanceLinf(const Point3<TYPE> &point) const
             {
                 return frl::utils::distanceLinf(x,y,z,point.x,point.y,point.z);
             }
@@ -134,25 +142,23 @@ namespace frl
                 return this->z;
             };
 
-            template<typename TYPE>
-            void setX(TYPE x)
+            void setX(T x)
             {
                 this->x = x;
             }
 
-            template<typename TYPE>
-            void setY(TYPE y)
+            void setY(T y)
             {
                 this->y = y;
             }
 
-            template<typename TYPE>
-            void setZ(TYPE z)
+            void setZ(T z)
             {
                 this->z = z;
             }
 
-            Point3<T>& operator+=(const Point3 &point)
+            template<typename TYPE>
+            Point3<T>& operator+=(const Point3<TYPE> &point)
             {
                 this->x += point.x;
                 this->y += point.y;
@@ -161,7 +167,8 @@ namespace frl
                 return *this;
             }
 
-            Point3<T>& operator-=(const Point3 &point)
+            template<typename TYPE>
+            Point3<T>& operator-=(const Point3<TYPE> &point)
             {
                 this->x -= point.x;
                 this->y -= point.y;
@@ -193,7 +200,7 @@ namespace frl
             T x, y, z;
         };
 
-        template<class T>
+        template<typename T>
         inline Point3<T> operator+(Point3<T> leftHandSide, const Point3<T> &point)
         {
             leftHandSide.x += point.x;
@@ -203,7 +210,7 @@ namespace frl
             return leftHandSide;
         }
 
-        template<class T>
+        template<typename T>
         inline Point3<T> operator-(Point3<T> leftHandSide, const Point3<T> &point)
         {
             leftHandSide.x -= point.x;
@@ -213,7 +220,7 @@ namespace frl
             return leftHandSide;
         }
 
-        template<class T>
+        template<typename T>
         inline Point3<T> operator*(Point3<T> leftHandSide, const T &scale)
         {
             leftHandSide.x *= scale;
@@ -223,7 +230,7 @@ namespace frl
             return leftHandSide;
         }
 
-        template<class T>
+        template<typename T>
         inline bool operator==(const Point3<T>& lhs, const Point3<T>& rhs)
         {
             if(lhs.x!=rhs.x)
@@ -244,13 +251,13 @@ namespace frl
             return true;
         }
 
-        template<class T>
+        template<typename T>
         inline bool operator!=(const Point3<T>& lhs, const Point3<T>& rhs)
         {
             return !operator==(lhs,rhs);
         }
 
-        template<class T>
+        template<typename T>
         std::ostream &operator<<(std::ostream &os, const Point3<T> &point)
         {
             os << "x: " << point.x << '\n' << "y: " << point.y << '\n' << "z: " << point.z << "\n";

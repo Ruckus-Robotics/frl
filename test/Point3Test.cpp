@@ -496,6 +496,33 @@ TEST_F(Point3Test, testEqualsEquals)
     }
 }
 
+TEST_F(Point3Test, testTemplateTypeInference)
+{
+    double x = GeometryUtilitiesTestHelper::getRandomDouble();
+    double y = GeometryUtilitiesTestHelper::getRandomDouble();
+    double z = GeometryUtilitiesTestHelper::getRandomDouble();
+    std::vector<float> v;
+    v[0] = x;
+    v[1] = y;
+    v[2] = z;
+    Point3d point1(v);
+    Point3f point2(x,y,z);
+
+    EXPECT_NEAR(point1.getX(),point2.getX(),1e-5);
+    EXPECT_NEAR(point1.getY(),point2.getY(),1e-5);
+    EXPECT_NEAR(point1.getZ(),point2.getZ(),1e-5);
+
+    Point3f point3 = GeometryUtilitiesTestHelper::getRandomPoint3<float>();
+
+    point1.set(point3);
+
+    EXPECT_NEAR(point3.getX(),point1.getX(),1e-5);
+    EXPECT_NEAR(point3.getY(),point1.getY(),1e-5);
+    EXPECT_NEAR(point3.getZ(),point1.getZ(),1e-5);
+
+    Point3d point4(point3);
+}
+
 
 int main(int argc, char **argv)
 {
