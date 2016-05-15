@@ -109,21 +109,8 @@ namespace frl
             template<typename TYPE>
             void set(const Eigen::Matrix<TYPE, 4, 4> &matrix)
             {
-                //FIX ME
-                this->mat00 = matrix(0, 0);
-                this->mat01 = matrix(0, 1);
-                this->mat02 = matrix(0, 2);
-                this->mat03 = matrix(0, 3);
-                this->mat10 = matrix(1, 0);
-                this->mat11 = matrix(1, 1);
-                this->mat12 = matrix(1, 2);
-                this->mat13 = matrix(1, 3);
-                this->mat20 = matrix(2, 0);
-                this->mat21 = matrix(2, 1);
-                this->mat22 = matrix(2, 2);
-                this->mat23 = matrix(2, 3);
-
-
+                setRotationWithRotationMatrix(matrix(0,0),matrix(1,0),matrix(2,0),matrix(0,1),matrix(1,1),matrix(2,1),matrix(0,2),matrix(1,2),matrix(2,2));
+                setTranslation(matrix(0,3),matrix(1,3),matrix(2,3));
             }
 
             /**
@@ -197,37 +184,6 @@ namespace frl
                 this->z = vector(2);
             }
 
-            /**
-            * This method is for when the matrix is column major and needs to
-            * be transposed.
-            *
-            * @param matrix
-            */
-            template<typename TYPE>
-            void setAsTranspose(const Eigen::Matrix<TYPE, 4, 4> &matrix)
-            {
-                // @TODO update!
-                double tmp10 = matrix(1, 0);
-                double tmp20 = matrix(2, 0);
-                double tmp21 = matrix(2, 1);
-                double tmp30 = matrix(3, 0);
-                double tmp31 = matrix(3, 1);
-                double tmp32 = matrix(3, 2);
-
-                mat00 = matrix(0, 0);
-                mat11 = matrix(1, 1);
-                mat22 = matrix(2, 2);
-                mat10 = matrix(0, 1);
-                mat20 = matrix(0, 2);
-                mat21 = matrix(1, 2);
-                mat01 = tmp10;
-                mat03 = tmp30;
-                mat13 = tmp31;
-                mat23 = tmp32;
-                mat02 = tmp20;
-                mat12 = tmp21;
-            }
-
             void zeroTranslation()
             {
                 x = 0.0;
@@ -238,47 +194,7 @@ namespace frl
             template<typename TYPE>
             void setRotation(Eigen::Matrix<TYPE, 3, 3> matrix)
             {
-                matrix.normalize();
-
-                T t = matrix(0,0) + matrix(1,1) + matrix(2,2);
-
-                if (t >= 0)
-                {
-                    T s = sqrt(t + 1);
-                    qw = 0.5 * s;
-                    s = 0.5 / s;
-                    qx = (matrix(2,1) - matrix(1,2)) * s;
-                    qy = (matrix(0,2) - matrix(2,0)) * s;
-                    qz = (matrix(1,0) - matrix(0,1)) * s;
-                }
-                else if ((matrix(0,0) > matrix(1,1)) && (matrix(0,0) > matrix(2,2)))
-                {
-                    float s = sqrt(1.0 + matrix(0,0) - matrix(1,1) - matrix(2,2));
-                    qx = s * 0.5;
-                    s = 0.5 / s;
-                    qy = (matrix(1,0) + matrix(0,1)) * s;
-                    qz = (matrix(0,2) + matrix(2,0)) * s;
-                    qw = (matrix(2,1) - matrix(1,2)) * s;
-                }
-                else if (matrix(1,1) > matrix(2,2))
-                {
-                    float s = sqrt(1.0 + matrix(1,1) - matrix(0,0) - matrix(2,2));
-                    qy = s * 0.5;
-                    s = 0.5 / s;
-                    qx = (matrix(1,0) + matrix(0,1)) * s;
-                    qz = (matrix(2,1) + matrix(1,2)) * s;
-                    qw = (matrix(0,2) - matrix(2,0)) * s;
-                }
-                else
-                {
-                    float s = sqrt(1.0 + matrix(2,2) - matrix(0,0) - matrix(1,1));
-                    qz = s * 0.5;
-                    s = 0.5 / s;
-                    qx = (matrix(0,2) + matrix(2,0)) * s;
-                    qy = (matrix(2,1) + matrix(1,2)) * s;
-                    qw = (matrix(1,0) - matrix(0,1)) * s;
-                }
-
+                setRotationWithRotationMatrix(matrix(0,0),matrix(1,0),matrix(2,0),matrix(0,1),matrix(1,1),matrix(2,1),matrix(0,2),matrix(1,2),matrix(2,2));
             }
 
             void setRotation(const T qw, const T qx, const T qy, const T qz)
@@ -292,7 +208,10 @@ namespace frl
             template<typename TYPE>
             void setRotation(const Eigen::Quaternion<TYPE> &quat)
             {
-                setRotationWithQuaternion(quat.x(),quat.y(),quat.z(),quat.w());
+                this->qx = quat.x();
+                this->qy = quat.y();
+                this->qz = quat.z();
+                this->qw = quat.w();
             }
 
             template<typename TYPE>
@@ -302,80 +221,18 @@ namespace frl
             }
 
 			template<typename TYPE>
-			void setRotationWithQuaternion(const TYPE qx, const TYPE qy, const TYPE qz, const TYPE qw)
-            {
-                TYPE yy2 = 2.0 * qy * qy;
-                TYPE zz2 = 2.0 * qz * qz;
-                TYPE xx2 = 2.0 * qx * qx;
-                TYPE xy2 = 2.0 * qx * qy;
-                TYPE wz2 = 2.0 * qw * qz;
-                TYPE xz2 = 2.0 * qx * qz;
-                TYPE wy2 = 2.0 * qw * qy;
-                TYPE yz2 = 2.0 * qy * qz;
-                TYPE wx2 = 2.0 * qw * qx;
-
-                this->mat00 = (1.0 - yy2 - zz2);
-                this->mat01 = (xy2 - wz2);
-                this->mat02 = (xz2 + wy2);
-                this->mat10 = (xy2 + wz2);
-                this->mat11 = (1.0 - xx2 - zz2);
-                this->mat12 = (yz2 - wx2);
-                this->mat20 = (xz2 - wy2);
-                this->mat21 = (yz2 + wx2);
-                this->mat22 = (1.0 - xx2 - yy2);
-            }
-
-			template<typename TYPE>
 			void setRotationWithAxisAngle(const TYPE axisAngleX, const TYPE axisAngleY, const TYPE &axisAngleZ, const TYPE axisAngleTheta)
             {
-//                TYPE mag = sqrt(axisAngleX * axisAngleX + axisAngleY * axisAngleY + axisAngleZ * axisAngleZ);
-
-                Eigen::Matrix<TYPE,3,1> v(axisAngleX,axisAngleY,axisAngleZ);
-                Eigen::AngleAxis<TYPE> blh(axisAngleTheta,v);
-
-                Eigen::Matrix<TYPE,3,3> mat = blh.toRotationMatrix();
-
-                mat00 = mat(0,0);
-                mat01 = mat(0,1);
-                mat02 = mat(0,2);
-                mat10 = mat(1,0);
-                mat11 = mat(1,1);
-                mat12 = mat(1,2);
-                mat20 = mat(2,0);
-                mat21 = mat(2,1);
-                mat22 = mat(2,2);
-
-//                if (frl::utils::almostZero(mag))
-//                {
-//                    setIdentity();
-//                }
-//                else
-//                {
-//                    mag = 1.0 / mag;
-//                    TYPE ax = axisAngleX * mag;
-//                    TYPE ay = axisAngleY * mag;
-//                    TYPE az = axisAngleZ * mag;
-//
-//                    TYPE sinTheta = sin(axisAngleTheta);
-//                    TYPE cosTheta = cos(axisAngleTheta);
-//                    TYPE t = 1.0 - cosTheta;
-//
-//                    TYPE xz = ax * az;
-//                    TYPE xy = ax * ay;
-//                    TYPE yz = ay * az;
-//
-//                    mat00 = (t * ax * ax + cosTheta);
-//                    mat01 = (t * xy - sinTheta * az);
-//                    mat02 = (t * xz + sinTheta * ay);
-//
-//                    mat10 = (t * xy + sinTheta * az);
-//                    mat11 = (t * ay * ay + cosTheta);
-//                    mat12 = (t * yz - sinTheta * ax);
-//
-//                    mat20 = (t * xz - sinTheta * ay);
-//                    mat21 = (t * yz + sinTheta * ax);
-//                    mat22 = (t * az * az + cosTheta);
-//                }
+                qx = axisAngleX;
+                qy = axisAngleY;
+                qz = axisAngleZ;
+                T n = sqrt(qx*qx + qy*qy + qz*qz);
+                // Division by zero might happen here. Meh
+                T s = sin(0.5*axisAngleTheta)/n;
+                qx *= s;
+                qy *= s;
+                qz *= s;
+                qw = cos(0.5*axisAngleTheta);
             }
 
             template<typename TYPE>
@@ -458,27 +315,30 @@ namespace frl
              * @param rotZ
              */
             template<typename TYPE>
-			void setEulerXYZ(const TYPE rotX, const TYPE rotY, const TYPE rotZ)
+			void setEulerXYZ(const TYPE roll, const TYPE pitch, const TYPE yaw)
             {
-                double sina = sin(rotX);
-                double sinb = sin(rotY);
-                double sinc = sin(rotZ);
-                double cosa = cos(rotX);
-                double cosb = cos(rotY);
-                double cosc = cos(rotZ);
+                T halfYaw = yaw/2;
+                T halfRoll = roll/2;
+                T halfPitch = pitch/2;
 
-                this->mat00 = cosb * cosc;
-                this->mat01 = -(cosa * sinc) + (sina * sinb * cosc);
-                this->mat02 = (sina * sinc) + (cosa * sinb * cosc);
-                this->mat10 = cosb * sinc;
-                this->mat11 = (cosa * cosc) + (sina * sinb * sinc);
-                this->mat12 = -(sina * cosc) + (cosa * sinb * sinc);
-                this->mat20 = -sinb;
-                this->mat21 = sina * cosb;
-                this->mat22 = cosa * cosb;
-                this->mat03 = 0.0;
-                this->mat13 = 0.0;
-                this->mat23 = 0.0;
+                T cosYaw = cos(halfYaw);
+                T cosRoll = cos(halfRoll);
+                T cosPitch = cos(halfPitch);
+                T sinYaw = sin(halfYaw);
+                T sinRoll = sin(halfRoll);
+                T sinPitch = sin(halfPitch);
+
+                T cosRollCosPitch = cosRoll*cosPitch;
+                T sinRollSinPitch = sinRoll*sinPitch;
+                T cosRollSinPitch = cosRoll*sinPitch;
+                T sinRollCosPitch = sinRoll*cosPitch;
+
+                qw = cosRollCosPitch*cosYaw - sinRollSinPitch*sinYaw;
+                qx = sinRollCosPitch*cosYaw + cosRollSinPitch*sinYaw;
+                qy = cosRollSinPitch*cosYaw - sinRollCosPitch*sinYaw;
+                qz = sinRollSinPitch*cosYaw + cosRollCosPitch*sinYaw;
+
+                normalize();
             }
 
             /**
@@ -836,33 +696,28 @@ namespace frl
             template<typename TYPE>
 			void multiply(const RigidBodyTransform<TYPE> &transform)
             {
-                T tmp00 = mat00 * transform.mat00 + mat01 * transform.mat10 + mat02 * transform.mat20;
-                T tmp01 = mat00 * transform.mat01 + mat01 * transform.mat11 + mat02 * transform.mat21;
-                T tmp02 = mat00 * transform.mat02 + mat01 * transform.mat12 + mat02 * transform.mat22;
-                T tmp03 = mat00 * transform.mat03 + mat01 * transform.mat13 + mat02 * transform.mat23 + mat03;
+                T tmpQw = qw*transform.qw - qx*transform.qx - qy*transform.qy - qz*transform.qz;
+                T tmpQx = qx*transform.qw + qw*transform.qx - qz*transform.qy + qy*transform.qz;
+                T tmpQy = qy*transform.qw + qz*transform.qx + qw*transform.qy - qx*transform.qz;
+                T tmpQz = qz*transform.qw - qy*transform.qx + qx*transform.qy + qw*transform.qz;
 
-                T tmp10 = mat10 * transform.mat00 + mat11 * transform.mat10 + mat12 * transform.mat20;
-                T tmp11 = mat10 * transform.mat01 + mat11 * transform.mat11 + mat12 * transform.mat21;
-                T tmp12 = mat10 * transform.mat02 + mat11 * transform.mat12 + mat12 * transform.mat22;
-                T tmp13 = mat10 * transform.mat03 + mat11 * transform.mat13 + mat12 * transform.mat23 + mat13;
+                T tmpX = (pow(qw,2) + pow(qx,2) - pow(qy,2) - pow(qz,2))*transform.x +
+                         2*(qx*qy - qw*qz)*transform.y + 2*(qw*qy + qx*qz)*transform.z + x;
 
-                T tmp20 = mat20 * transform.mat00 + mat21 * transform.mat10 + mat22 * transform.mat20;
-                T tmp21 = mat20 * transform.mat01 + mat21 * transform.mat11 + mat22 * transform.mat21;
-                T tmp22 = mat20 * transform.mat02 + mat21 * transform.mat12 + mat22 * transform.mat22;
-                T tmp23 = mat20 * transform.mat03 + mat21 * transform.mat13 + mat22 * transform.mat23 + mat23;
+                T tmpY = 2*(qx*qy + qw*qz)*transform.x + (pow(qw,2) - pow(qx,2) + pow(qy,2) - pow(qz,2))*transform.y +
+                        2*(-qw*qx + qy*qz)*transform.z + y;
 
-                mat00 = tmp00;
-                mat01 = tmp01;
-                mat02 = tmp02;
-                mat03 = tmp03;
-                mat10 = tmp10;
-                mat11 = tmp11;
-                mat12 = tmp12;
-                mat13 = tmp13;
-                mat20 = tmp20;
-                mat21 = tmp21;
-                mat22 = tmp22;
-                mat23 = tmp23;
+                T tmpZ = (-2*qw*qy + 2*qx*qz)*transform.x + 2*(qw*qx + qy*qz)*transform.y +
+                        (pow(qw,2) - pow(qx,2) - pow(qy,2) + pow(qz,2))*transform.z + z;
+
+                qw = tmpQw;
+                qx = tmpQx;
+                qy = tmpQy;
+                qz = tmpQz;
+
+                x = tmpX;
+                y = tmpY;
+                z = tmpZ;
             }
 
             /**
@@ -873,41 +728,35 @@ namespace frl
             * @param transform
             */
             template<typename TYPE>
-			void multiply(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform)
+			void multiply(const RigidBodyTransform<TYPE> &transform1, const RigidBodyTransform<TYPE> &transform2)
             {
-                T tmp00 = transform1.mat00 * transform.mat00 + transform1.mat01 * transform.mat10 + transform1.mat02 * transform.mat20;
-                T tmp01 = transform1.mat00 * transform.mat01 + transform1.mat01 * transform.mat11 + transform1.mat02 * transform.mat21;
-                T tmp02 = transform1.mat00 * transform.mat02 + transform1.mat01 * transform.mat12 + transform1.mat02 * transform.mat22;
-                T tmp03 = transform1.mat00 * transform.mat03 + transform1.mat01 * transform.mat13 + transform1.mat02 * transform.mat23 + transform1.mat03;
+                T tmpQw = transform1.qw*transform2.qw - transform1.qx*transform2.qx - transform1.qy*transform2.qy - transform1.qz*transform2.qz;
+                T tmpQx = transform1.qx*transform2.qw + transform1.qw*transform2.qx - transform1.qz*transform2.qy + transform1.qy*transform2.qz;
+                T tmpQy = transform1.qy*transform2.qw + transform1.qz*transform2.qx + transform1.qw*transform2.qy - transform1.qx*transform2.qz;
+                T tmpQz = transform1.qz*transform2.qw - transform1.qy*transform2.qx + transform1.qx*transform2.qy + transform1.qw*transform2.qz;
 
-                T tmp10 = transform1.mat10 * transform.mat00 + transform1.mat11 * transform.mat10 + transform1.mat12 * transform.mat20;
-                T tmp11 = transform1.mat10 * transform.mat01 + transform1.mat11 * transform.mat11 + transform1.mat12 * transform.mat21;
-                T tmp12 = transform1.mat10 * transform.mat02 + transform1.mat11 * transform.mat12 + transform1.mat12 * transform.mat22;
-                T tmp13 = transform1.mat10 * transform.mat03 + transform1.mat11 * transform.mat13 + transform1.mat12 * transform.mat23 + transform1.mat13;
+                T tmpX = (pow(transform1.qw,2) + pow(transform1.qx,2) - pow(transform1.qy,2) - pow(transform1.qz,2))*transform2.x +
+                         2.0*(transform1.qx*transform1.qy - transform1.qw*transform1.qz)*transform2.y + 2.0*(transform1.qw*transform1.qy + transform1.qx*transform1.qz)*transform2.z + transform1.x;
 
-                T tmp20 = transform1.mat20 * transform.mat00 + transform1.mat21 * transform.mat10 + transform1.mat22 * transform.mat20;
-                T tmp21 = transform1.mat20 * transform.mat01 + transform1.mat21 * transform.mat11 + transform1.mat22 * transform.mat21;
-                T tmp22 = transform1.mat20 * transform.mat02 + transform1.mat21 * transform.mat12 + transform1.mat22 * transform.mat22;
-                T tmp23 = transform1.mat20 * transform.mat03 + transform1.mat21 * transform.mat13 + transform1.mat22 * transform.mat23 + transform1.mat23;
+                T tmpY = 2.0*(transform1.qx*transform1.qy + transform1.qw*transform1.qz)*transform2.x + (pow(transform1.qw,2) - pow(transform1.qx,2) + pow(transform1.qy,2) - pow(transform1.qz,2))*transform2.y +
+                         2.0*(-transform1.qw*transform1.qx + transform1.qy*transform1.qz)*transform2.z + transform1.y;
 
-                mat00 = tmp00;
-                mat01 = tmp01;
-                mat02 = tmp02;
-                mat03 = tmp03;
-                mat10 = tmp10;
-                mat11 = tmp11;
-                mat12 = tmp12;
-                mat13 = tmp13;
-                mat20 = tmp20;
-                mat21 = tmp21;
-                mat22 = tmp22;
-                mat23 = tmp23;
+                T tmpZ = (-2.0*transform1.qw*transform1.qy + 2*transform1.qx*transform1.qz)*transform2.x + 2.0*(transform1.qw*transform1.qx + transform1.qy*transform1.qz)*transform2.y +
+                         (pow(transform1.qw,2) - pow(transform1.qx,2) - pow(transform1.qy,2) + pow(transform1.qz,2))*transform2.z + transform1.z;
+
+                qw = tmpQw;
+                qx = tmpQx;
+                qy = tmpQy;
+                qz = tmpQz;
+
+                x = tmpX;
+                y = tmpY;
+                z = tmpZ;
             }
 
 			bool isRotationMatrixEpsilonIdentity(const double epsilon) const
             {
-                return fabs(mat01) < epsilon && fabs(mat02) < epsilon && fabs(mat10) < epsilon && fabs(mat12) < epsilon && fabs(mat20) < epsilon &&
-                       fabs(mat21) < epsilon && fabs(mat00 - 1.0) < epsilon && fabs(mat11 - 1.0) < epsilon && fabs(mat22 - 1.0) - epsilon;
+                return fabs(qx) < epsilon && fabs(qy) < epsilon && fabs(qz) < epsilon && fabs(1-qw);
             }
 
             /**
@@ -925,22 +774,27 @@ namespace frl
 
 			void invert()
             {
-                invertOrthogonal();
+                T n = norm();
+                qx/=-n;
+                qy/=-n;
+                qz/=-n;
+                qw/=n;
+
+                T tempX = pow(qw,2)*x + pow(qx,2)*x - (pow(qy,2) + pow(qz,2))*x + qw*(-2*qz*y + 2*qy*z) +2*qx*(qy*y + qz*z);
+                T tempY = 2*qx*qy*x + 2*qw*qz*x + pow(qw,2)*y - pow(qx,2)*y + pow(qy,2)*y - pow(qz,2)*y - 2*qw*qx*z + 2*qy*qz*z;
+                z = qw (-2*qy*x + 2*qx*y) + 2*qz*(qx*x + qy*y) + pow(qw,2)*z - (pow(qx,2) + pow(qy,2) - pow(qz,2))*z;
+
+                x = tempX;
+                y = tempY;
             }
 
 			void invertRotationButKeepTranslation()
             {
-                double tmp01 = mat01;
-                double tmp02 = mat02;
-                double tmp12 = mat12;
-
-                // For orthogonal matrix, R^{-1} = R^{T}
-                mat01 = mat10;
-                mat02 = mat20;
-                mat12 = mat21;
-                mat10 = tmp01;
-                mat20 = tmp02;
-                mat21 = tmp12;
+                T n = norm();
+                qx/=-n;
+                qy/=-n;
+                qz/=-n;
+                qw/=n;
             }
 
             /**
@@ -954,62 +808,37 @@ namespace frl
             template<typename TYPE>
 			bool epsilonEquals(const RigidBodyTransform<TYPE> &transform, const double &epsilon) const
             {
-                if (!fabs(mat00 - transform.mat00) < epsilon)
+                if (!fabs(qx - transform.qx) < epsilon)
                 {
                     return false;
                 }
 
-                if (!fabs(mat01 - transform.mat01) < epsilon)
+                if (!fabs(qy - transform.qy) < epsilon)
                 {
                     return false;
                 }
 
-                if (!fabs(mat02 - transform.mat02) < epsilon)
+                if (!fabs(qz - transform.qz) < epsilon)
                 {
                     return false;
                 }
 
-                if (!fabs(mat03 - transform.mat03) < epsilon)
+                if (!fabs(qw - transform.qw) < epsilon)
                 {
                     return false;
                 }
 
-                if (!fabs(mat10 - transform.mat10) < epsilon)
+                if (!fabs(x - transform.x) < epsilon)
                 {
                     return false;
                 }
 
-                if (!fabs(mat11 - transform.mat11) < epsilon)
+                if (!fabs(y - transform.y) < epsilon)
                 {
                     return false;
                 }
 
-                if (!fabs(mat12 - transform.mat12) < epsilon)
-                {
-                    return false;
-                }
-
-                if (!fabs(mat13 - transform.mat13) < epsilon)
-                {
-                    return false;
-                }
-
-                if (!fabs(mat20 - transform.mat20) < epsilon)
-                {
-                    return false;
-                }
-
-                if (!fabs(mat21 - transform.mat21) < epsilon)
-                {
-                    return false;
-                }
-
-                if (!fabs(mat22 - transform.mat22) < epsilon)
-                {
-                    return false;
-                }
-
-                if (!fabs(mat23 - transform.mat23) < epsilon)
+                if (!fabs(z - transform.z) < epsilon)
                 {
                     return false;
                 }
@@ -1018,53 +847,26 @@ namespace frl
             }
 
             /**
-            * Return the determinant of this transform.
-            *
-            * @return
-            */
-			T determinant() const
-            {
-                return (mat00 * (mat11 * mat22 - mat12 * mat21) - mat01 * (mat10 * mat22 - mat12 * mat20) + mat02 * (mat10 * mat21 - mat11 * mat20));
-            }
-
-            /**
             * Orthonormalization of the rotation matrix using Gram-Schmidt method.
             */
 			void normalize()
             {
-                T xdoty = mat00 * mat01 + mat10 * mat11 + mat20 * mat21;
-                T xdotx = mat00 * mat00 + mat10 * mat10 + mat20 * mat20;
-                T tmp = xdoty / xdotx;
+                T norm = norm();
 
-                mat01 -= tmp * mat00;
-                mat11 -= tmp * mat10;
-                mat21 -= tmp * mat20;
+                qx/=norm;
+                qy/=norm;
+                qz/=norm;
+                qw/=norm;
+            }
 
-                T zdoty = mat02 * mat01 + mat12 * mat11 + mat22 * mat21;
-                T zdotx = mat02 * mat00 + mat12 * mat10 + mat22 * mat20;
-                T ydoty = mat01 * mat01 + mat11 * mat11 + mat21 * mat21;
+            T norm()
+            {
+                return sqrt(qx*qx + qy*qy + qz*qz + qw*qw);
+            }
 
-                tmp = zdotx / xdotx;
-                T tmp1 = zdoty / ydoty;
-
-                mat02 = mat02 - (tmp * mat00 + tmp1 * mat01);
-                mat12 = mat12 - (tmp * mat10 + tmp1 * mat11);
-                mat22 = mat22 - (tmp * mat20 + tmp1 * mat21);
-
-                // Compute orthogonalized vector magnitudes and normalize
-                T magX = sqrt(mat00 * mat00 + mat10 * mat10 + mat20 * mat20);
-                T magY = sqrt(mat01 * mat01 + mat11 * mat11 + mat21 * mat21);
-                T magZ = sqrt(mat02 * mat02 + mat12 * mat12 + mat22 * mat22);
-
-                mat00 = mat00 / magX;
-                mat10 = mat10 / magX;
-                mat20 = mat20 / magX;
-                mat01 = mat01 / magY;
-                mat11 = mat11 / magY;
-                mat21 = mat21 / magY;
-                mat02 = mat02 / magZ;
-                mat12 = mat12 / magZ;
-                mat22 = mat22 / magZ;
+            T normSquared()
+            {
+                return qx*qx + qy*qy + qz*qz + qw*qw;
             }
 
             template<typename TYPE>
@@ -1230,29 +1032,47 @@ namespace frl
             T qx,qy,qz,qw;
 
         private:
-            /**
-             * Invert this assuming an orthogonal rotation portion.
-             */
-            void invertOrthogonal()
+
+            void setRotationWithRotationMatrix(const T xx, const T xy, const T xz, const T yx, const T yy, const T yz, const T zx, const T zy, const T zz)
             {
-                T tmp01 = mat01;
-                T tmp02 = mat02;
-                T tmp12 = mat12;
+                T t = xx + yy + zz;
 
-                // For orthogonal matrix, R^{-1} = R^{T}
-                mat01 = mat10;
-                mat02 = mat20;
-                mat12 = mat21;
-                mat10 = tmp01;
-                mat20 = tmp02;
-                mat21 = tmp12;
-
-                // New translation vector becomes -R^{T} * p
-                T newTransX = -(mat23 * mat02 + mat00 * mat03 + mat01 * mat13);
-                T newTransY = -(mat03 * mat10 + mat23 * mat12 + mat11 * mat13);
-                mat23 = -(mat22 * mat23 + mat03 * mat20 + mat13 * mat21);
-                mat03 = newTransX;
-                mat13 = newTransY;
+                if (t >= 0)
+                {
+                    T s = sqrt(t + 1);
+                    qw = 0.5 * s;
+                    s = 0.5 / s;
+                    qx = (yz - zy) * s;
+                    qy = (zx - xz) * s;
+                    qz = (xy - yx) * s;
+                }
+                else if ((xx > yy) && (xx > zz))
+                {
+                    T s = sqrt(1.0 + xx - yy - zz);
+                    qx = s * 0.5;
+                    s = 0.5 / s;
+                    qy = (xy + yx) * s;
+                    qz = (zx + xz) * s;
+                    qw = (yz - zy) * s;
+                }
+                else if (yy > zz)
+                {
+                    T s = sqrt(1.0 + yy - xx - zz);
+                    qy = s * 0.5;
+                    s = 0.5 / s;
+                    qx = (xy + yx) * s;
+                    qz = (yz + zy) * s;
+                    qw = (zx - xz) * s;
+                }
+                else
+                {
+                    T s = sqrt(1.0 + zz - xx - yy);
+                    qz = s * 0.5;
+                    s = 0.5 / s;
+                    qx = (zx + xz) * s;
+                    qy = (yz + zy) * s;
+                    qw = (xy - yx) * s;
+                }
             }
 		};
 
