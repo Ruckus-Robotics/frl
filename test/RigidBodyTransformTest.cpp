@@ -48,183 +48,137 @@ TEST_F(RigidBodyTransformTest, testSetRotationAndZeroTranslationWithAxisAngle)
     }
 }
 
-//TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngle4dAndRandomVector3d)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Vector3d vector;
-//
-//        vector = GeometryUtilitiesTestHelper::createRandomVector3<double>();
-//        Eigen::AngleAxis<double> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
-//
-//        RigidBodyTransform<double> transform(axisAngle, vector);
-//
-//        Eigen::AngleAxis<double> axisAngleToCheck;
-//
-//        transform.getRotation(axisAngleToCheck);
-//
-//        ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<double>(axisAngle, axisAngleToCheck, 1e-5));
-//    }
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Vector3f vector;
-//
-//        vector = GeometryUtilitiesTestHelper::createRandomVector3<float>();
-//        Eigen::AngleAxis<float> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle<float>();
-//
-//        RigidBodyTransform<float> transform(axisAngle, vector);
-//
-//        Eigen::AngleAxis<float> axisAngleToCheck;
-//
-//        transform.getRotation(axisAngleToCheck);
-//
-//        ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<float>(axisAngle, axisAngleToCheck, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testNormalize)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix<double,4,4> matrix = GeometryUtilitiesTestHelper::createRandomMatrix4<double>();
-//
-//        RigidBodyTransform<double> transform(matrix);
-//
-//        transform.normalize();
-//
-//        Eigen::Matrix<double,4,4> matrixToCheck;
-//        transform.get(matrixToCheck);
-//
-//        if (!GeometryUtilitiesTestHelper::checkOrthogonality<double>(matrixToCheck))
-//        {
-//            std::cout << matrixToCheck << std::endl;
-//            std::cout << matrix << std::endl;
-//            ASSERT_TRUE(false);
-//        }
-//    }
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix<float,4,4> matrix = GeometryUtilitiesTestHelper::createRandomMatrix4<float>();
-//
-//        RigidBodyTransform<float> transform(matrix);
-//
-//        transform.normalize();
-//
-//        Eigen::Matrix<float,4,4> matrixToCheck;
-//        transform.get(matrixToCheck);
-//
-//        if (!GeometryUtilitiesTestHelper::checkOrthogonality<float>(matrixToCheck,1e-5))
-//        {
-//            std::cout << matrixToCheck << std::endl;
-//            std::cout << matrix << std::endl;
-//            ASSERT_TRUE(false);
-//        }
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testUseQuaternions_1)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Quaternion<double> quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion<double>();
-//
-//        RigidBodyTransform<double> transform;
-//        transform.setRotationAndZeroTranslation(quat1);
-//
-//        Eigen::Quaternion<double> quatToCheck;
-//        transform.getRotation(quatToCheck);
-//
-//        bool success = GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual<double>(quat1, quatToCheck, 1e-5);
-//        if (!success)
-//        {
-//            ASSERT_TRUE(false);
-//        }
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testCreateTransformWithQuaternionAndVector3)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix<double,3,1> vector = GeometryUtilitiesTestHelper::createRandomVector3<double>();
-//        Eigen::Quaternion<double> quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion<double>();
-//
-//        RigidBodyTransform<double> transform(quat1, vector);
-//
-//        Eigen::Quaternion<double> quatCheck;
-//        Eigen::Matrix<double,3,1> vecCheck;
-//
-//        transform.getRotation(quatCheck);
-//        transform.getTranslation(vecCheck);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual<double>(quat1, quatCheck, 1e-5));
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3sEpsilonEqual<double>(vector, vecCheck, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngleAndVector3)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix<double,3,1> vector = GeometryUtilitiesTestHelper::createRandomVector3<double>();
-//        Eigen::AngleAxis<double> a1 = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
-//
-//        RigidBodyTransform<double> transform(a1, vector);
-//
-//        Eigen::AngleAxis<double> axisAngleCheck;
-//        Eigen::Matrix<double,3,1> vecCheck;
-//
-//        transform.getRotation(axisAngleCheck);
-//        transform.getTranslation(vecCheck);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<double>(a1, axisAngleCheck, 1e-5));
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3sEpsilonEqual<double>(vector, vecCheck, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testSetWithEuler)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix<double,3,1> rpy;
-//
-//        rpy(0) = 2 * M_PI * rand() / RAND_MAX - M_PI;
-//        rpy(1) = 2 * (M_PI / 2 - 0.01) * rand() / RAND_MAX - (M_PI / 2 - 0.01);
-//        rpy(2) = 2 * M_PI * rand() / RAND_MAX - M_PI;
-//
-//        RigidBodyTransform<double> transform;
-//        transform.setEulerXYZ(rpy);
-//
-//        Eigen::Matrix<double,3,1> rpyCheck;
-//        transform.getEulerXYZ(rpyCheck);
-//
-//        EXPECT_TRUE(fabs(rpy(0) - rpyCheck(0)) < 1e-5);
-//        EXPECT_TRUE(fabs(rpy(1) - rpyCheck(1)) < 1e-5);
-//        EXPECT_TRUE(fabs(rpy(2) - rpyCheck(2)) < 1e-5);
-//    }
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix<float,3,1> rpy;
-//
-//        rpy(0) = 2 * M_PI * rand() / RAND_MAX - M_PI;
-//        rpy(1) = 2 * (M_PI / 2 - 0.01) * rand() / RAND_MAX - (M_PI / 2 - 0.01);
-//        rpy(2) = 2 * M_PI * rand() / RAND_MAX - M_PI;
-//
-//        RigidBodyTransform<float> transform;
-//        transform.setEulerXYZ(rpy);
-//
-//        Eigen::Matrix<float,3,1> rpyCheck;
-//        transform.getEulerXYZ(rpyCheck);
-//
-//        EXPECT_TRUE(fabs(rpy(0) - rpyCheck(0)) < 1e-5);
-//        EXPECT_TRUE(fabs(rpy(1) - rpyCheck(1)) < 1e-5);
-//        EXPECT_TRUE(fabs(rpy(2) - rpyCheck(2)) < 1e-5);
-//    }
-//}
-//
+TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngle4dAndRandomVector3d)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Vector3d vector;
+
+        vector = GeometryUtilitiesTestHelper::createRandomVector3<double>();
+        Eigen::AngleAxis<double> axisAngle = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
+
+        RigidBodyTransform<double> transform(axisAngle, vector);
+
+        Eigen::AngleAxis<double> axisAngleToCheck;
+
+        transform.getRotation(axisAngleToCheck);
+
+        ASSERT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<double>(axisAngle, axisAngleToCheck, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testNormalize)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix<double,4,4> matrix = GeometryUtilitiesTestHelper::createRandomMatrix4<double>();
+
+        RigidBodyTransform<double> transform(matrix);
+
+        transform.normalize();
+
+        Eigen::Matrix<double,4,4> matrixToCheck;
+        transform.get(matrixToCheck);
+
+        if (!GeometryUtilitiesTestHelper::checkOrthogonality<double>(matrixToCheck))
+        {
+            std::cout << matrixToCheck << std::endl;
+            std::cout << matrix << std::endl;
+            ASSERT_TRUE(false);
+        }
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testUseQuaternions_1)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Quaternion<double> quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion<double>();
+
+        RigidBodyTransform<double> transform;
+        transform.setRotationAndZeroTranslation(quat1);
+
+        Eigen::Quaternion<double> quatToCheck;
+        transform.getRotation(quatToCheck);
+
+        bool success = GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual<double>(quat1, quatToCheck, 1e-5);
+        if (!success)
+        {
+            ASSERT_TRUE(false);
+        }
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testCreateTransformWithQuaternionAndVector3)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix<double,3,1> vector = GeometryUtilitiesTestHelper::createRandomVector3<double>();
+        Eigen::Quaternion<double> quat1 = GeometryUtilitiesTestHelper::createRandomQuaternion<double>();
+
+        RigidBodyTransform<double> transform(quat1, vector);
+
+        Eigen::Quaternion<double> quatCheck;
+        Eigen::Matrix<double,3,1> vecCheck;
+
+        transform.getRotation(quatCheck);
+        transform.getTranslation(vecCheck);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual<double>(quat1, quatCheck, 1e-5));
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3sEpsilonEqual<double>(vector, vecCheck, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testCreateTransformWithAxisAngleAndVector3)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix<double,3,1> vector = GeometryUtilitiesTestHelper::createRandomVector3<double>();
+        Eigen::AngleAxis<double> a1 = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
+
+        RigidBodyTransform<double> transform(a1, vector);
+
+        Eigen::AngleAxis<double> axisAngleCheck;
+        Eigen::Matrix<double,3,1> vecCheck;
+
+        transform.getRotation(axisAngleCheck);
+        transform.getTranslation(vecCheck);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<double>(a1, axisAngleCheck, 1e-5));
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3sEpsilonEqual<double>(vector, vecCheck, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testSetWithEuler)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix<double,3,1> rpy;
+
+        rpy(0) = 2.0 * M_PI * rand() / RAND_MAX - M_PI;
+        rpy(1) = 2.0 * (M_PI / 2.0 - 0.01) * rand() / RAND_MAX - (M_PI / 2.0 - 0.01);
+        rpy(2) = 2.0 * M_PI * rand() / RAND_MAX - M_PI;
+
+        RigidBodyTransform<double> transform;
+        transform.setEulerXYZ(rpy);
+
+        Eigen::Matrix<double,3,1> rpyCheck;
+        transform.getEulerXYZ(rpyCheck);
+
+        bool xYes = fabs(rpy(0) - rpyCheck(0)) < 1e-5;
+        bool yYes = fabs(rpy(1) - rpyCheck(1)) < 1e-5;
+        bool zYes = fabs(rpy(2) - rpyCheck(2)) < 1e-5;
+        if(!xYes || !yYes || !zYes)
+        {
+            std::cout << rpy(0) - rpyCheck(0) << std::endl;
+            std::cout << rpy(1) - rpyCheck(1) << std::endl;
+            std::cout << rpy(2) - rpyCheck(2) << std::endl;
+
+            ASSERT_TRUE(false);
+        }
+    }
+}
+
 //TEST_F(RigidBodyTransformTest, testZeroTranslation)
 //{
 //    Eigen::Matrix4d m1;

@@ -317,28 +317,30 @@ namespace frl
             template<typename TYPE>
 			void setEulerXYZ(const TYPE roll, const TYPE pitch, const TYPE yaw)
             {
-                T halfYaw = yaw/2;
-                T halfRoll = roll/2;
-                T halfPitch = pitch/2;
+                Eigen::Matrix<T,3,3> m;
 
-                T cosYaw = cos(halfYaw);
-                T cosRoll = cos(halfRoll);
-                T cosPitch = cos(halfPitch);
-                T sinYaw = sin(halfYaw);
-                T sinRoll = sin(halfRoll);
-                T sinPitch = sin(halfPitch);
+                T sina = sin(roll);
+                T sinb = sin(pitch);
+                T sinc = sin(yaw);
+                T cosa = cos(roll);
+                T cosb = cos(pitch);
+                T cosc = cos(yaw);
 
-                T cosRollCosPitch = cosRoll*cosPitch;
-                T sinRollSinPitch = sinRoll*sinPitch;
-                T cosRollSinPitch = cosRoll*sinPitch;
-                T sinRollCosPitch = sinRoll*cosPitch;
+                m(0,0) = cosb * cosc;
+                m(0,1) = -(cosa * sinc) + (sina * sinb * cosc);
+                m(0,2) = (sina * sinc) + (cosa * sinb * cosc);
+                m(1,0) = cosb * sinc;
+                m(1,1) = (cosa * cosc) + (sina * sinb * sinc);
+                m(1,2) = -(sina * cosc) + (cosa * sinb * sinc);
+                m(2,0) = -sinb;
+                m(2,1) = sina * cosb;
+                m(2,2) = cosa * cosb;
 
-                qw = cosRollCosPitch*cosYaw - sinRollSinPitch*sinYaw;
-                qx = sinRollCosPitch*cosYaw + cosRollSinPitch*sinYaw;
-                qy = cosRollSinPitch*cosYaw - sinRollCosPitch*sinYaw;
-                qz = sinRollSinPitch*cosYaw + cosRollCosPitch*sinYaw;
+                setRotation(m);
 
-                normalize();
+                x = 0.0;
+                y = 0.0;
+                z = 0.0;
             }
 
             /**
@@ -352,9 +354,12 @@ namespace frl
             template<typename TYPE>
 			void getEulerXYZ(Eigen::Matrix<TYPE,3,1> &vector) const
             {
-                vector(0) = atan2(2.0*(qw*qx+qy*qz),1.0-2.0*qx*qx+qy*qy);
-                vector(1) = asin(2*(qw*qy-qz*qx));
-                vector(2) = atan2(2.0*(qw*qz+qx*qy),1.0-2.0*(qy*qy+qz*qz));
+                Eigen::Matrix<T,3,3> m;
+                getRotation(m);
+
+                vector(0) = atan2(m(2,1), m(2,2));
+                vector(1) = atan2(-m(2,0), sqrt(m(2,1) * m(2,1) + m(2,2) * m(2,2)));
+                vector(2) = atan2(m(1,0), m(0,0));
             }
 
             /**
