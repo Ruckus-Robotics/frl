@@ -179,278 +179,278 @@ TEST_F(RigidBodyTransformTest, testSetWithEuler)
     }
 }
 
-//TEST_F(RigidBodyTransformTest, testZeroTranslation)
-//{
-//    Eigen::Matrix4d m1;
-//    Eigen::Vector3d translation;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        m1 = GeometryUtilitiesTestHelper::createRandomMatrix4<double>();
-//        RigidBodyTransform<double> transform(m1);
-//
-//        transform.zeroTranslation();
-//
-//        transform.getTranslation(translation);
-//
-//        ASSERT_TRUE(translation(0) == 0.0);
-//        ASSERT_TRUE(translation(1) == 0.0);
-//        ASSERT_TRUE(translation(2) == 0.0);
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testSetRotationWithRotationMatrix)
-//{
-//    Eigen::Matrix3d rot1;
-//    Eigen::Matrix3d rot2;
-//
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        rot1 = GeometryUtilitiesTestHelper::createRandomRotationMatrix<double>();
-//
-//        RigidBodyTransform<double> transform(rot1);
-//
-//        transform.getRotation(rot2);
-//
-//        bool tmp = GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rot1, rot2, 10);
-//
-//        EXPECT_TRUE(tmp);
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testSetRotationWithQuaternion)
-//{
-//    Eigen::Quaternion<double> q1;
-//    Eigen::Quaternion<double> q2;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        q1 = GeometryUtilitiesTestHelper::createRandomQuaternion<double>();
-//
-//        RigidBodyTransform<double> transform(q1);
-//
-//        transform.getRotation(q2);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual<double>(q1, q2, 1e-4));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testSetRotationWithAxisAngle)
-//{
-//    Eigen::AngleAxis<double> a1;
-//    Eigen::AngleAxis<double> a2;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        a1 = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
-//
-//        RigidBodyTransform<double> transform(a1);
-//
-//        transform.getRotation(a2);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<double>(a1, a2, 1e-4));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testApplyRotationX)
-//{
-//    Eigen::Matrix3d rotX;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        rotX(0, 0) = 1;
-//        rotX(0, 1) = 0;
-//        rotX(0, 2) = 0;
-//        rotX(1, 0) = 0;
-//        rotX(2, 0) = 0;
-//
-//        double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
-//        rotX(1, 1) = cos(angle);
-//        rotX(2, 2) = cos(angle);
-//        rotX(1, 2) = -sin(angle);
-//        rotX(2, 1) = sin(angle);
-//
-//        RigidBodyTransform<double> transform;
-//
-//        transform.applyRotationX(angle);
-//
-//        Eigen::Matrix3d rot;
-//
-//        transform.getRotation(rot);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rotX, rot, 1e-5));
-//    }
-//
-//}
-//
-//TEST_F(RigidBodyTransformTest, testApplyRotationY)
-//{
-//    Eigen::Matrix3d rotY;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        rotY(2, 1) = 0;
-//        rotY(0, 1) = 0;
-//        rotY(1, 0) = 0;
-//        rotY(1, 1) = 1;
-//        rotY(1, 2) = 0;
-//
-//        double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
-//        rotY(0, 0) = cos(angle);
-//        rotY(2, 2) = cos(angle);
-//        rotY(2, 0) = -sin(angle);
-//        rotY(0, 2) = sin(angle);
-//
-//        RigidBodyTransform<double> transform;
-//
-//        transform.applyRotationY(angle);
-//
-//        Eigen::Matrix3d rot;
-//
-//        transform.getRotation(rot);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rotY, rot, 1e-5));
-//    }
-//
-//}
-//
-//TEST_F(RigidBodyTransformTest, testApplyRotationZ)
-//{
-//    Eigen::Matrix3d rotZ;
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        rotZ(0, 2) = 0;
-//        rotZ(1, 2) = 0;
-//        rotZ(2, 0) = 0;
-//        rotZ(2, 1) = 0;
-//        rotZ(2, 2) = 1;
-//
-//        double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
-//        rotZ(0, 0) = cos(angle);
-//        rotZ(1, 1) = cos(angle);
-//        rotZ(0, 1) = -sin(angle);
-//        rotZ(1, 0) = sin(angle);
-//
-//        RigidBodyTransform<double> transform;
-//
-//        transform.applyRotationZ(angle);
-//
-//        Eigen::Matrix3d rot;
-//
-//        transform.getRotation(rot);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rotZ, rot, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testMultiply1)
-//{
-//    Eigen::Matrix4d mat1;
-//    Eigen::Matrix4d mat2;
-//    Eigen::Matrix4d mat3;
-//
-//    RigidBodyTransform<double> transform1;
-//    RigidBodyTransform<double> transform2;
-//    RigidBodyTransform<double> transform3;
-//
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        mat1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        mat2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//
-//        transform1.set(mat1);
-//        transform2.set(mat2);
-//
-//        transform3.multiply(transform1, transform2);
-//        mat3 = mat1 * mat2;
-//
-//        Eigen::Matrix4d mat4;
-//
-//        transform3.get(mat4);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(mat4, mat3, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testMultiply2)
-//{
-//    Eigen::Matrix4d mat1;
-//    Eigen::Matrix4d mat2;
-//    Eigen::Matrix4d mat3;
-//
-//    RigidBodyTransform<double> transform1;
-//    RigidBodyTransform<double> transform2;
-//
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        mat1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        mat2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//
-//        transform1.set(mat1);
-//        transform2.set(mat2);
-//
-//        transform1.multiply(transform2);
-//
-//        mat3 = mat1 * mat2;
-//
-//        Eigen::Matrix4d mat4;
-//
-//        transform1.get(mat4);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(mat4, mat3, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testMultiply3)
-//{
-//    Eigen::Matrix4d mat1;
-//    Eigen::Matrix4d mat2;
-//    Eigen::Matrix4d mat3;
-//
-//    RigidBodyTransform<double> transform1;
-//    RigidBodyTransform<double> transform2;
-//    RigidBodyTransform<double> transform3;
-//
-//
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        mat1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        mat2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//
-//        transform1.set(mat1);
-//        transform2.set(mat2);
-//
-//        transform3 = transform1 * transform2;
-//
-//        mat3 = mat1 * mat2;
-//
-//        Eigen::Matrix4d mat4;
-//
-//        transform3.get(mat4);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(mat4, mat3, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testIsRotationMatrixEpsilonIdentity)
-//{
-//    RigidBodyTransform<double> transform1;
-//
-//    EXPECT_TRUE(transform1.isRotationMatrixEpsilonIdentity(1e-10));
-//
-//    Eigen::Matrix3d matrix;
-//
-//    matrix << 1.1, 0, 0, 0, 1.0, 0, 0, 0, 0.9;
-//
-//    transform1.setRotation(matrix);
-//
+TEST_F(RigidBodyTransformTest, testZeroTranslation)
+{
+    Eigen::Matrix4d m1;
+    Eigen::Vector3d translation;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        m1 = GeometryUtilitiesTestHelper::createRandomMatrix4<double>();
+        RigidBodyTransform<double> transform(m1);
+
+        transform.zeroTranslation();
+
+        transform.getTranslation(translation);
+
+        ASSERT_TRUE(translation(0) == 0.0);
+        ASSERT_TRUE(translation(1) == 0.0);
+        ASSERT_TRUE(translation(2) == 0.0);
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testSetRotationWithRotationMatrix)
+{
+    Eigen::Matrix3d rot1;
+    Eigen::Matrix3d rot2;
+
+
+    for (int i = 0; i < nTests; i++)
+    {
+        rot1 = GeometryUtilitiesTestHelper::createRandomRotationMatrix<double>();
+
+        RigidBodyTransform<double> transform(rot1);
+
+        transform.getRotation(rot2);
+
+        bool tmp = GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rot1, rot2, 10);
+
+        EXPECT_TRUE(tmp);
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testSetRotationWithQuaternion)
+{
+    Eigen::Quaternion<double> q1;
+    Eigen::Quaternion<double> q2;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        q1 = GeometryUtilitiesTestHelper::createRandomQuaternion<double>();
+
+        RigidBodyTransform<double> transform(q1);
+
+        transform.getRotation(q2);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areQuaternionsEpsilonEqual<double>(q1, q2, 1e-4));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testSetRotationWithAxisAngle)
+{
+    Eigen::AngleAxis<double> a1;
+    Eigen::AngleAxis<double> a2;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        a1 = GeometryUtilitiesTestHelper::createRandomAxisAngle<double>();
+
+        RigidBodyTransform<double> transform(a1);
+
+        transform.getRotation(a2);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areAxisAngleEpsilonEqual<double>(a1, a2, 1e-4));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testApplyRotationX)
+{
+    Eigen::Matrix3d rotX;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        rotX(0, 0) = 1;
+        rotX(0, 1) = 0;
+        rotX(0, 2) = 0;
+        rotX(1, 0) = 0;
+        rotX(2, 0) = 0;
+
+        double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+        rotX(1, 1) = cos(angle);
+        rotX(2, 2) = cos(angle);
+        rotX(1, 2) = -sin(angle);
+        rotX(2, 1) = sin(angle);
+
+        RigidBodyTransform<double> transform;
+
+        transform.applyRotationX(angle);
+
+        Eigen::Matrix3d rot;
+
+        transform.getRotation(rot);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rotX, rot, 1e-5));
+    }
+
+}
+
+TEST_F(RigidBodyTransformTest, testApplyRotationY)
+{
+    Eigen::Matrix3d rotY;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        rotY(2, 1) = 0;
+        rotY(0, 1) = 0;
+        rotY(1, 0) = 0;
+        rotY(1, 1) = 1;
+        rotY(1, 2) = 0;
+
+        double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+        rotY(0, 0) = cos(angle);
+        rotY(2, 2) = cos(angle);
+        rotY(2, 0) = -sin(angle);
+        rotY(0, 2) = sin(angle);
+
+        RigidBodyTransform<double> transform;
+
+        transform.applyRotationY(angle);
+
+        Eigen::Matrix3d rot;
+
+        transform.getRotation(rot);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rotY, rot, 1e-5));
+    }
+
+}
+
+TEST_F(RigidBodyTransformTest, testApplyRotationZ)
+{
+    Eigen::Matrix3d rotZ;
+
+    for (int i = 0; i < nTests; i++)
+    {
+        rotZ(0, 2) = 0;
+        rotZ(1, 2) = 0;
+        rotZ(2, 0) = 0;
+        rotZ(2, 1) = 0;
+        rotZ(2, 2) = 1;
+
+        double angle = (2 * M_PI * rand() / RAND_MAX - M_PI);
+        rotZ(0, 0) = cos(angle);
+        rotZ(1, 1) = cos(angle);
+        rotZ(0, 1) = -sin(angle);
+        rotZ(1, 0) = sin(angle);
+
+        RigidBodyTransform<double> transform;
+
+        transform.applyRotationZ(angle);
+
+        Eigen::Matrix3d rot;
+
+        transform.getRotation(rot);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix3EpsilonEqual<double>(rotZ, rot, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testMultiply1)
+{
+    Eigen::Matrix4d mat1;
+    Eigen::Matrix4d mat2;
+    Eigen::Matrix4d mat3;
+
+    RigidBodyTransform<double> transform1;
+    RigidBodyTransform<double> transform2;
+    RigidBodyTransform<double> transform3;
+
+
+    for (int i = 0; i < nTests; i++)
+    {
+        mat1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        mat2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+
+        transform1.set(mat1);
+        transform2.set(mat2);
+
+        transform3.multiply(transform1, transform2);
+        mat3 = mat1 * mat2;
+
+        Eigen::Matrix4d mat4;
+
+        transform3.get(mat4);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(mat4, mat3, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testMultiply2)
+{
+    Eigen::Matrix4d mat1;
+    Eigen::Matrix4d mat2;
+    Eigen::Matrix4d mat3;
+
+    RigidBodyTransform<double> transform1;
+    RigidBodyTransform<double> transform2;
+
+
+    for (int i = 0; i < nTests; i++)
+    {
+        mat1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        mat2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+
+        transform1.set(mat1);
+        transform2.set(mat2);
+
+        transform1.multiply(transform2);
+
+        mat3 = mat1 * mat2;
+
+        Eigen::Matrix4d mat4;
+
+        transform1.get(mat4);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(mat4, mat3, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testMultiply3)
+{
+    Eigen::Matrix4d mat1;
+    Eigen::Matrix4d mat2;
+    Eigen::Matrix4d mat3;
+
+    RigidBodyTransform<double> transform1;
+    RigidBodyTransform<double> transform2;
+    RigidBodyTransform<double> transform3;
+
+
+    for (int i = 0; i < nTests; i++)
+    {
+        mat1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        mat2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+
+        transform1.set(mat1);
+        transform2.set(mat2);
+
+        transform3 = transform1 * transform2;
+
+        mat3 = mat1 * mat2;
+
+        Eigen::Matrix4d mat4;
+
+        transform3.get(mat4);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(mat4, mat3, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testIsRotationMatrixEpsilonIdentity)
+{
+    RigidBodyTransform<double> transform1;
+
+    EXPECT_TRUE(transform1.isRotationMatrixEpsilonIdentity(1e-10));
+
+    Eigen::Matrix3d matrix;
+
+    matrix << 1.1, 0, 0, 0, 1.0, 0, 0, 0, 0.9;
+
+    transform1.setRotation(matrix);
+
 //    EXPECT_FALSE(transform1.isRotationMatrixEpsilonIdentity(1e-5));
-//}
-//
+}
+
 //TEST_F(RigidBodyTransformTest, testOverloadTimesEquals)
 //{
 //    for (int i = 0; i < nTests; i++)

@@ -484,6 +484,11 @@ namespace frl
                 matrix(0,3) = x;
                 matrix(1,3) = y;
                 matrix(2,3) = z;
+
+                matrix(3,0) = 0.0;
+                matrix(3,1) = 0.0;
+                matrix(3,2) = 0.0;
+                matrix(3,3) = 1.0;
             }
 
             template<typename TYPE>
@@ -755,7 +760,7 @@ namespace frl
 
 			bool isRotationMatrixEpsilonIdentity(const double epsilon) const
             {
-                return fabs(qx) < epsilon && fabs(qy) < epsilon && fabs(qz) < epsilon && fabs(1-qw);
+                return fabs(qx) < epsilon && fabs(qy) < epsilon && fabs(qz) < epsilon && fabs(1-qw) < epsilon;
             }
 
             /**
