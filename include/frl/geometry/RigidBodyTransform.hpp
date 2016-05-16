@@ -784,9 +784,9 @@ namespace frl
                 qz/=-n;
                 qw/=n;
 
-                T tempX = qw*qw*x + qx*qx*x - (qy*qy + qz*qz)*x + qw*(-2.0*qz*y + 2.0*qy*z) +2.0*qx*(qy*y + qz*z);
-                T tempY = 2.0*qx*qy*x + 2.0*qw*qz*x + qw*qw*y - qx*qx*y + qy*qy*y - qz*qz*y - 2.0*qw*qx*z + 2.0*qy*qz*z;
-                z = qw*(-2.0*qy*x + 2.0*qx*y) + 2.0*qz*(qx*x + qy*y) + qw*qw*z - (qx*qx + qy*qy - qz*qz)*z;
+                T tempX = -(qw*qw*x + qx*qx*x - (qy*qy + qz*qz)*x + qw*(-2.0*qz*y + 2.0*qy*z) +2.0*qx*(qy*y + qz*z));
+                T tempY = -(2.0*qx*qy*x + 2.0*qw*qz*x + qw*qw*y - qx*qx*y + qy*qy*y - qz*qz*y - 2.0*qw*qx*z + 2.0*qy*qz*z);
+                z = -(qw*(-2.0*qy*x + 2.0*qx*y) + 2.0*qz*(qx*x + qy*y) + qw*qw*z - (qx*qx + qy*qy - qz*qz)*z);
 
                 x = tempX;
                 y = tempY;

@@ -444,137 +444,168 @@ TEST_F(RigidBodyTransformTest, testIsRotationMatrixEpsilonIdentity)
 
     Eigen::Matrix3d matrix;
 
-    matrix << 1.1, 0, 0, 0, 1.0, 0, 0, 0, 0.9;
+    transform1.setRotation(0.2,-0.5,0.9,0.8);
 
-    transform1.setRotation(matrix);
+    EXPECT_FALSE(transform1.isRotationMatrixEpsilonIdentity(1e-5));
 
-//    EXPECT_FALSE(transform1.isRotationMatrixEpsilonIdentity(1e-5));
+    transform1.setRotation(1.-5,1e-5,1e-5,1);
+
+    EXPECT_FALSE(transform1.isRotationMatrixEpsilonIdentity(1e-6));
 }
 
-//TEST_F(RigidBodyTransformTest, testOverloadTimesEquals)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        Eigen::Matrix4d m2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        RigidBodyTransform<double> t1(m1);
-//        RigidBodyTransform<double> t2(m2);
-//        RigidBodyTransform<double> t3;
-//        RigidBodyTransform<double> t4 = t1;
-//
-//        t3.multiply(t1, t2);
-//
-//        t4 *= t2;
-//
-//        t4.get(m1);
-//        t3.get(m2);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(m1, m2, 1e-5));
-//
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testInvert1)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        Eigen::Matrix4d m2 = m1;
-//
-//        RigidBodyTransform<double> t1(m1);
-//        RigidBodyTransform<double> t2(m1);
-//
-//        t1.invert();
-//
-//        t1.get(m1);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(m1, m2.inverse(), 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testInvert2)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        Eigen::Matrix4d m2;
-//
-//        RigidBodyTransform<double> t1(m1);
-//        RigidBodyTransform<double> t2;
-//
-//        t2.invert(t1);
-//
-//        t1.invert();
-//
-//        t1.get(m1);
-//        t2.get(m2);
-//
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(m1, m2, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testGetTranslationDifference)
-//{
-//    for (int i = 0; i < nTests; i++)
-//    {
-//        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        Eigen::Matrix4d m2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//        Eigen::Vector3d v1;
-//        Eigen::Vector3d v2;
-//
-//        RigidBodyTransform<double> t1(m1);
-//        RigidBodyTransform<double> t2(m2);
-//
-//        t1.getTranslation(v1);
-//        t2.getTranslation(v2);
-//
-//        Eigen::Matrix<double,3,1> vec = RigidBodyTransform<double>::getTranslationDifference(t1, t2);
-//        EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3sEpsilonEqual<double>(vec, v2 - v1, 1e-5));
-//    }
-//}
-//
-//TEST_F(RigidBodyTransformTest, testTransformVector3)
-//{
-//    Eigen::Vector3d v1(1, 2, 3);
-//
-//    RigidBodyTransform<double> transform;
-//    transform.setEulerXYZ(0.0, 0.0, -M_PI / 2);
-//
-//    transform.transform(v1);
-//    EXPECT_TRUE(v1(0) == 2);
-//    EXPECT_TRUE(v1(1) - (-1) < 1e-15);
-//    EXPECT_TRUE(v1(2) == 3);
-//}
-//
-//TEST_F(RigidBodyTransformTest, testTransformPoints1)
-//{
-//    Point3d p1(3, 2, 4);
-//    Point3d p2;
-//
-//    RigidBodyTransform<double> t1;
-//    t1.setEulerXYZ(-M_PI / 2, 0.0, 0.0);
-//
-//    t1.transform(p1, p2);
-//
-//    EXPECT_TRUE(p2.getX() - 3 < 1e-15);
-//    EXPECT_TRUE(p2.getY() - 4 < 1e-15);
-//    EXPECT_TRUE(p2.getZ() - (-2) < 1e-15);
-//}
-//
-//TEST_F(RigidBodyTransformTest, testEqualsOperator)
-//{
-//    RigidBodyTransform3d t1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
-//    RigidBodyTransform3f t2;
-//
-//    t2=t1;
-//
-//    Eigen::Matrix4d m1,m2;
-//
-//    t1.get(m1);
-//    t2.get(m2);
-//
-//    GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual(m1,m2,1e-5);
-//}
+TEST_F(RigidBodyTransformTest, testOverloadTimesEquals)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        Eigen::Matrix4d m2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        RigidBodyTransform<double> t1(m1);
+        RigidBodyTransform<double> t2(m2);
+        RigidBodyTransform<double> t3;
+        RigidBodyTransform<double> t4 = t1;
+
+        t3.multiply(t1, t2);
+
+        t4 *= t2;
+
+        t4.get(m1);
+        t3.get(m2);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(m1, m2, 1e-5));
+
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testInvert1)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        Eigen::Matrix4d m2 = m1;
+
+        RigidBodyTransform<double> t1(m1);
+
+        t1.invert();
+
+        t1.get(m1);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(m1, m2.inverse(), 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testInvert2)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        Eigen::Matrix4d m2;
+
+        RigidBodyTransform<double> t1(m1);
+        RigidBodyTransform<double> t2;
+
+        t2.invert(t1);
+
+        t1.invert();
+
+        t1.get(m1);
+        t2.get(m2);
+
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual<double>(m1, m2, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testGetTranslationDifference)
+{
+    for (int i = 0; i < nTests; i++)
+    {
+        Eigen::Matrix4d m1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        Eigen::Matrix4d m2 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+        Eigen::Vector3d v1;
+        Eigen::Vector3d v2;
+
+        RigidBodyTransform<double> t1(m1);
+        RigidBodyTransform<double> t2(m2);
+
+        t1.getTranslation(v1);
+        t2.getTranslation(v2);
+
+        Eigen::Matrix<double,3,1> vec = RigidBodyTransform<double>::getTranslationDifference(t1, t2);
+        EXPECT_TRUE(GeometryUtilitiesTestHelper::areVector3sEpsilonEqual<double>(vec, v2 - v1, 1e-5));
+    }
+}
+
+TEST_F(RigidBodyTransformTest, testTransformVector3)
+{
+    Eigen::Vector3d v1(1, 2, 3);
+
+    RigidBodyTransform<double> transform;
+    transform.setEulerXYZ(0.0, 0.0, -M_PI / 2);
+
+    transform.transform(v1);
+    EXPECT_TRUE(v1(0) == 2);
+    EXPECT_TRUE(v1(1) - (-1) < 1e-15);
+    EXPECT_TRUE(v1(2) == 3);
+}
+
+TEST_F(RigidBodyTransformTest, testTransformVector3_2)
+{
+    Eigen::Vector3d v1(1, 2, 3),v2;
+
+
+    RigidBodyTransform<double> transform;
+    transform.setEulerXYZ(0.0, 0.0, -M_PI / 2);
+
+    transform.transform(v1,v2);
+
+    EXPECT_TRUE(v2(0) == 2);
+    EXPECT_TRUE(v2(1) - (-1) < 1e-15);
+    EXPECT_TRUE(v2(2) == 3);
+}
+
+TEST_F(RigidBodyTransformTest, testTransformPoints1)
+{
+    Point3d p1(3, 2, 4);
+    Point3d p2;
+
+    RigidBodyTransform<double> t1;
+    t1.setEulerXYZ(-M_PI / 2, 0.0, 0.0);
+
+    t1.transform(p1, p2);
+
+    EXPECT_TRUE(p2.getX() - 3 < 1e-15);
+    EXPECT_TRUE(p2.getY() - 4 < 1e-15);
+    EXPECT_TRUE(p2.getZ() - (-2) < 1e-15);
+}
+
+TEST_F(RigidBodyTransformTest, testTransformPoints2)
+{
+    Point3d p1(3, 2, 4);
+    Point3d p2;
+
+    RigidBodyTransform<double> t1;
+    t1.setEulerXYZ(-M_PI / 2, 0.0, 0.0);
+
+    t1.transform(p1);
+
+    EXPECT_TRUE(p1.getX() - 3 < 1e-15);
+    EXPECT_TRUE(p1.getY() - 4 < 1e-15);
+    EXPECT_TRUE(p1.getZ() - (-2) < 1e-15);
+}
+
+TEST_F(RigidBodyTransformTest, testEqualsOperator)
+{
+    RigidBodyTransform3d t1 = GeometryUtilitiesTestHelper::createRandomTransformationMatrix<double>();
+    RigidBodyTransform3f t2;
+
+    t2=t1;
+
+    Eigen::Matrix4d m1,m2;
+
+    t1.get(m1);
+    t2.get(m2);
+
+    GeometryUtilitiesTestHelper::areMatrix4EpsilonEqual(m1,m2,1e-5);
+}
 
 
 int main(int argc, char **argv)
