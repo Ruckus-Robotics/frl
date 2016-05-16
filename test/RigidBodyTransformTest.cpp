@@ -562,6 +562,36 @@ TEST_F(RigidBodyTransformTest, testTransformVector3_2)
     EXPECT_TRUE(v2(2) == 3);
 }
 
+TEST_F(RigidBodyTransformTest, testTransformVector4)
+{
+    Eigen::Vector4d v1(1, 2, 3,1);
+
+    RigidBodyTransform<double> transform;
+    transform.setEulerXYZ(0.0, 0.0, -M_PI / 2);
+    transform.setTranslation(-1,-2,-3);
+
+    transform.transform(v1);
+
+    EXPECT_TRUE(v1(0) == 1);
+    EXPECT_TRUE(v1(1) - (-3) < 1e-15);
+    EXPECT_TRUE(v1(2) == 0);
+}
+
+TEST_F(RigidBodyTransformTest, testTransformVector4_2)
+{
+    Eigen::Vector4d v1(1, 2, 3,1),v2;
+
+    RigidBodyTransform<double> transform;
+    transform.setEulerXYZ(0.0, 0.0, -M_PI / 2);
+    transform.setTranslation(-1,-2,-3);
+
+    transform.transform(v1,v2);
+
+    EXPECT_TRUE(v2(0) == 1);
+    EXPECT_TRUE(v2(1) - (-3) < 1e-15);
+    EXPECT_TRUE(v2(2) == 0);
+}
+
 TEST_F(RigidBodyTransformTest, testTransformPoints1)
 {
     Point3d p1(3, 2, 4);

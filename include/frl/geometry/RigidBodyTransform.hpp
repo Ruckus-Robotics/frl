@@ -542,8 +542,8 @@ namespace frl
                 TYPE tmpY = 2.0*(qx*qy + qw*qz)*vector(0) + (qw*qw - qx*qx + qy*qy - qz*qz)*vector(1) + 2.0*(-qw*qx + qy*qz)*vector(2) + y;
                 vector(2) = (-2.0*qw*qy + 2.0*qx*qz)*vector(0) + 2.0*(qw*qx + qy*qz)*vector(1) + (qw*qw - qx*qx - qy*qy + qz*qz)*vector(2) + z;
                 
-                vector(0) = x;
-                vector(1) = y;
+                vector(0) = tmpX;
+                vector(1) = tmpY;
                 vector(3) = 1.0;
             }
 
