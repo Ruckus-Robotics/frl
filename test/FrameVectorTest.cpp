@@ -124,7 +124,7 @@ TEST_F(FrameVectorTest, testChangeFrame)
     geometry::RigidBodyTransform<double> transform1;
 
     transform1.setIdentity();
-    Eigen::Vector3d rpy(M_PI/2, 0, 0);
+    Eigen::Vector3d rpy(M_PI/2, 0.0, 0.0);
     Eigen::Vector3d translation(5.0, 0.0, 0.0);
     transform1.setEulerXYZ(rpy);
     transform1.setTranslation(translation);
@@ -133,8 +133,9 @@ TEST_F(FrameVectorTest, testChangeFrame)
 
     transform1.setIdentity();
     rpy.setZero();
-    rpy << 0, M_PI/2, 0.0;
-    translation << 5.0, 0, 0;
+    rpy << 0.0, M_PI/2, 0.0;
+    Eigen::Quaternion<double> q0(cos(M_PI/4.0),0.0,sin(M_PI/4),0.0);
+    translation << 5.0, 0.0, 0.0;
     transform1.setEulerXYZ(rpy);
     transform1.setTranslation(translation);
 
@@ -142,9 +143,10 @@ TEST_F(FrameVectorTest, testChangeFrame)
 
     transform1.setIdentity();
     rpy.setZero();
-    rpy << 0, 0, M_PI/2;
-    translation << 5.0, 0, 0;
-    transform1.setEulerXYZ(rpy);
+    rpy << 0.0, 0.0, M_PI/2;
+    Eigen::Quaternion<double> q1(cos(M_PI/4.0),0.0,0.0,sin(M_PI/4));
+    translation << 5.0, 0.0, 0.0;
+    transform1.setRotation(q1);
     transform1.setTranslation(translation);
 
     std::shared_ptr<ReferenceFrame> frameC(new RandomUnchangingFrame("C", frameB.get(), transform1));
@@ -158,13 +160,13 @@ TEST_F(FrameVectorTest, testChangeFrame)
 
     EXPECT_TRUE(frameVector.getX()-(-1)<1e-15 );
     EXPECT_TRUE(frameVector.getY()-3<1e-15);
-    EXPECT_TRUE(frameVector.getZ()-(-9)<1e-15);
+    EXPECT_TRUE(frameVector.getZ()-(-9)<1e-14);
 
     frameVector.changeFrame(frameA.get());
 
-    EXPECT_TRUE(frameVector.getX()-(-9)<1e-15 );
-    EXPECT_TRUE(frameVector.getY()-3<1e-15);
-    EXPECT_TRUE(frameVector.getZ()-1<1e-15);
+    EXPECT_TRUE(frameVector.getX()-(-9)<1e-14 );
+    EXPECT_TRUE(frameVector.getY()-3<1e-14);
+    EXPECT_TRUE(frameVector.getZ()-1<1e-14);
 }
 
 TEST_F(FrameVectorTest, testVectorLength)

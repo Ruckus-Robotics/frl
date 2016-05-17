@@ -501,7 +501,7 @@ TEST_F(Point3Test, testTemplateTypeInference)
     double x = GeometryUtilitiesTestHelper::getRandomDouble();
     double y = GeometryUtilitiesTestHelper::getRandomDouble();
     double z = GeometryUtilitiesTestHelper::getRandomDouble();
-    std::vector<float> v;
+    std::vector<float> v(3);
     v[0] = x;
     v[1] = y;
     v[2] = z;

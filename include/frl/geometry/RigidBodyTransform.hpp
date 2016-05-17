@@ -347,7 +347,7 @@ namespace frl
             * Computes the RPY angles from the rotation matrix for rotations about the
             * X, Y, and Z axes respectively. Note that this method is here for the
             * purpose of unit testing the method setEuler. This particular solution is
-            * only valid for -pi/2 < vector.y < pi/2 and for vector.y != 0.
+            * only valid for -pi/2.0 < vector.y < pi/2.0 and for vector.y != 0.
             *
             * @param vector
             */
@@ -521,9 +521,9 @@ namespace frl
             template<typename TYPE>
 			void transform(Point3<TYPE> &point)
             {
-                TYPE tmpX = (qw*qw + qx*qx - qy*qy - qz*qz)*point.x + 2.0*(qx*qy - qw*qz)*point.y + 2.0*(qw*qy + qx*qz)*point.z;
-                TYPE tmpY = 2.0*(qx*qy + qw*qz)*point.x + (qw*qw - qx*qx + qy*qy - qz*qz)*point.y + 2.0*(-qw*qx + qy*qz)*point.z;
-                point.z = (-2.0*qw*qy + 2.0*qx*qz)*point.x + 2.0*(qw*qx + qy*qz)*point.y + (qw*qw - qx*qx - qy*qy + qz*qz)*point.z;
+                TYPE tmpX = (qw*qw + qx*qx - qy*qy - qz*qz)*point.x + 2.0*(qx*qy - qw*qz)*point.y + 2.0*(qw*qy + qx*qz)*point.z + x;
+                TYPE tmpY = 2.0*(qx*qy + qw*qz)*point.x + (qw*qw - qx*qx + qy*qy - qz*qz)*point.y + 2.0*(-qw*qx + qy*qz)*point.z + y;
+                point.z = (-2.0*qw*qy + 2.0*qx*qz)*point.x + 2.0*(qw*qx + qy*qz)*point.y + (qw*qw - qx*qx - qy*qy + qz*qz)*point.z + z;
 
                 point.x = tmpX;
                 point.y = tmpY;
@@ -538,9 +538,14 @@ namespace frl
             template<typename TYPE>
 			void transform(Eigen::Matrix<TYPE,4,1> &vector)
             {
-                TYPE tmpX = (qw*qw + qx*qx - qy*qy - qz*qz)*vector(0) + 2.0*(qx*qy - qw*qz)*vector(1) + 2.0*(qw*qy + qx*qz)*vector(2) + x;
-                TYPE tmpY = 2.0*(qx*qy + qw*qz)*vector(0) + (qw*qw - qx*qx + qy*qy - qz*qz)*vector(1) + 2.0*(-qw*qx + qy*qz)*vector(2) + y;
-                vector(2) = (-2.0*qw*qy + 2.0*qx*qz)*vector(0) + 2.0*(qw*qx + qy*qz)*vector(1) + (qw*qw - qx*qx - qy*qy + qz*qz)*vector(2) + z;
+                T qwS = qw*qw;
+                T qxS = qx*qx;
+                T qyS = qy*qy;
+                T qzS = qz*qz;
+
+                TYPE tmpX = (qwS + qxS - qyS - qzS)*vector(0) + 2.0*(qx*qy - qw*qz)*vector(1) + 2.0*(qw*qy + qx*qz)*vector(2) + x;
+                TYPE tmpY = 2.0*(qx*qy + qw*qz)*vector(0) + (qwS - qxS + qyS - qzS)*vector(1) + 2.0*(-qw*qx + qy*qz)*vector(2) + y;
+                vector(2) = (-2.0*qw*qy + 2.0*qx*qz)*vector(0) + 2.0*(qw*qx + qy*qz)*vector(1) + (qwS - qxS - qyS + qzS)*vector(2) + z;
                 
                 vector(0) = tmpX;
                 vector(1) = tmpY;
@@ -556,9 +561,14 @@ namespace frl
             template<typename TYPE>
 			void transform(Eigen::Matrix<TYPE,3,1> &vector)
             {
-                TYPE tmpX = (qw*qw + qx*qx - qy*qy - qz*qz)*vector(0) + 2.0*(qx*qy - qw*qz)*vector(1) + 2.0*(qw*qy + qx*qz)*vector(2);
-                TYPE tmpY = 2.0*(qx*qy + qw*qz)*vector(0) + (qw*qw - qx*qx + qy*qy - qz*qz)*vector(1) + 2.0*(-qw*qx + qy*qz)*vector(2);
-                vector(2) = (-2.0*qw*qy + 2.0*qx*qz)*vector(0) + 2.0*(qw*qx + qy*qz)*vector(1) + (qw*qw - qx*qx - qy*qy + qz*qz)*vector(2);
+                T qwS = qw*qw;
+                T qxS = qx*qx;
+                T qyS = qy*qy;
+                T qzS = qz*qz;
+                
+                T tmpX = (qwS + qxS - qyS - qzS)*vector(0) + 2.0*(qx*qy - qw*qz)*vector(1) + 2.0*(qw*qy + qx*qz)*vector(2);
+                T tmpY = 2.0*(qx*qy + qw*qz)*vector(0) + (qwS - qxS + qyS - qzS)*vector(1) + 2.0*(-qw*qx + qy*qz)*vector(2);
+                vector(2) = (-2.0*qw*qy + 2.0*qx*qz)*vector(0) + 2.0*(qw*qx + qy*qz)*vector(1) + (qwS - qxS - qyS + qzS)*vector(2);
 
                 vector(0) = tmpX;
                 vector(1) = tmpY;
@@ -573,9 +583,14 @@ namespace frl
             template<typename TYPE>
 			void transform(const Eigen::Matrix<TYPE,3,1> &vectorIn, Eigen::Matrix<TYPE,3,1> &vectorOut)
             {
-                vectorOut(0) = (qw*qw + qx*qx - qy*qy - qz*qz)*vectorIn(0) + 2.0*(qx*qy - qw*qz)*vectorIn(1) + 2.0*(qw*qy + qx*qz)*vectorIn(2);
-                vectorOut(1) = 2.0*(qx*qy + qw*qz)*vectorIn(0) + (qw*qw - qx*qx + qy*qy - qz*qz)*vectorIn(1) + 2.0*(-qw*qx + qy*qz)*vectorIn(2);
-                vectorOut(2) = (-2.0*qw*qy + 2.0*qx*qz)*vectorIn(0) + 2.0*(qw*qx + qy*qz)*vectorIn(1) + (qw*qw - qx*qx - qy*qy + qz*qz)*vectorIn(2);
+                T qwS = qwS;
+                T qxS = qxS;
+                T qyS = qyS;
+                T qzS = qzS;
+
+                vectorOut(0) = (qwS + qxS - qyS - qzS)*vectorIn(0) + 2.0*(qx*qy - qw*qz)*vectorIn(1) + 2.0*(qw*qy + qx*qz)*vectorIn(2);
+                vectorOut(1) = 2.0*(qx*qy + qw*qz)*vectorIn(0) + (qwS - qxS + qyS - qzS)*vectorIn(1) + 2.0*(-qw*qx + qy*qz)*vectorIn(2);
+                vectorOut(2) = (-2.0*qw*qy + 2.0*qx*qz)*vectorIn(0) + 2.0*(qw*qx + qy*qz)*vectorIn(1) + (qwS - qxS - qyS + qzS)*vectorIn(2);
             }
 
             /**
@@ -602,9 +617,9 @@ namespace frl
             template<typename TYPE>
 			void transform(const Point3<TYPE> &pointIn, Point3<TYPE> &pointOut)
             {
-                pointOut.x = (qw*qw + qx*qx - qy*qy - qz*qz)*pointIn.x + 2.0*(qx*qy - qw*qz)*pointIn.y + 2.0*(qw*qy + qx*qz)*pointIn.z;
-                pointOut.y = 2.0*(qx*qy + qw*qz)*pointIn.x + (qw*qw - qx*qx + qy*qy - qz*qz)*pointIn.y + 2.0*(-qw*qx + qy*qz)*pointIn.z;
-                pointOut.z = (-2.0*qw*qy + 2.0*qx*qz)*pointIn.x + 2.0*(qw*qx + qy*qz)*pointIn.y + (qw*qw - qx*qx - qy*qy + qz*qz)*pointIn.z;
+                pointOut.x = (qw*qw + qx*qx - qy*qy - qz*qz)*pointIn.x + 2.0*(qx*qy - qw*qz)*pointIn.y + 2.0*(qw*qy + qx*qz)*pointIn.z + x;
+                pointOut.y = 2.0*(qx*qy + qw*qz)*pointIn.x + (qw*qw - qx*qx + qy*qy - qz*qz)*pointIn.y + 2.0*(-qw*qx + qy*qz)*pointIn.z + y;
+                pointOut.z = (-2.0*qw*qy + 2.0*qx*qz)*pointIn.x + 2.0*(qw*qx + qy*qz)*pointIn.y + (qw*qw - qx*qx - qy*qy + qz*qz)*pointIn.z + z;
             }
 
             /**
@@ -647,10 +662,10 @@ namespace frl
                 y = 0.0;
                 z = 0.0;
 
-                qx = sin(angle/2);
+                qx = sin(angle/2.0);
                 qy = 0.0;
                 qz = 0.0;
-                qw = cos(angle/2);
+                qw = cos(angle/2.0);
             }
 
             /**
@@ -667,9 +682,9 @@ namespace frl
                 z = 0.0;
 
                 qx = 0.0;
-                qy = sin(angle/2);
+                qy = sin(angle/2.0);
                 qz = 0.0;
-                qw = cos(angle/2);
+                qw = cos(angle/2.0);
             }
 
             /**
@@ -687,8 +702,8 @@ namespace frl
 
                 qx = 0.0;
                 qy = 0.0;
-                qz = sin(angle/2);
-                qw = cos(angle/2);
+                qz = sin(angle/2.0);
+                qw = cos(angle/2.0);
             }
 
             /**
@@ -706,12 +721,12 @@ namespace frl
                 T tmpQz = qz*transform.qw - qy*transform.qx + qx*transform.qy + qw*transform.qz;
 
                 T tmpX = (qw*qw + qx*qx - qy*qy - qz*qz)*transform.x +
-                         2*(qx*qy - qw*qz)*transform.y + 2*(qw*qy + qx*qz)*transform.z + x;
+                         2.0*(qx*qy - qw*qz)*transform.y + 2.0*(qw*qy + qx*qz)*transform.z + x;
 
-                T tmpY = 2*(qx*qy + qw*qz)*transform.x + (qw*qw - qx*qx + qy*qy - qz*qz)*transform.y +
-                        2*(-qw*qx + qy*qz)*transform.z + y;
+                T tmpY = 2.0*(qx*qy + qw*qz)*transform.x + (qw*qw - qx*qx + qy*qy - qz*qz)*transform.y +
+                        2.0*(-qw*qx + qy*qz)*transform.z + y;
 
-                T tmpZ = (-2*qw*qy + 2*qx*qz)*transform.x + 2*(qw*qx + qy*qz)*transform.y +
+                T tmpZ = (-2.0*qw*qy + 2.0*qx*qz)*transform.x + 2.0*(qw*qx + qy*qz)*transform.y +
                         (qw*qw - qx*qx - qy*qy + qz*qz)*transform.z + z;
 
                 qw = tmpQw;
@@ -745,7 +760,7 @@ namespace frl
                 T tmpY = 2.0*(transform1.qx*transform1.qy + transform1.qw*transform1.qz)*transform2.x + (transform1.qw*transform1.qw - transform1.qx*transform1.qx + transform1.qy*transform1.qy - transform1.qz*transform1.qz)*transform2.y +
                          2.0*(-transform1.qw*transform1.qx + transform1.qy*transform1.qz)*transform2.z + transform1.y;
 
-                T tmpZ = (-2.0*transform1.qw*transform1.qy + 2*transform1.qx*transform1.qz)*transform2.x + 2.0*(transform1.qw*transform1.qx + transform1.qy*transform1.qz)*transform2.y +
+                T tmpZ = (-2.0*transform1.qw*transform1.qy + 2.0*transform1.qx*transform1.qz)*transform2.x + 2.0*(transform1.qw*transform1.qx + transform1.qy*transform1.qz)*transform2.y +
                          (transform1.qw*transform1.qw - transform1.qx*transform1.qx - transform1.qy*transform1.qy + transform1.qz*transform1.qz)*transform2.z + transform1.z;
 
                 qw = tmpQw;

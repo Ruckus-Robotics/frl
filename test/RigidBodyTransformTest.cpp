@@ -559,7 +559,7 @@ TEST_F(RigidBodyTransformTest, testTransformVector3_2)
 
     EXPECT_TRUE(v2(0) == 2);
     EXPECT_TRUE(v2(1) - (-1) < 1e-15);
-    EXPECT_TRUE(v2(2) == 3);
+    EXPECT_TRUE(v2(2) - 3 < 1e-15);
 }
 
 TEST_F(RigidBodyTransformTest, testTransformVector4)
