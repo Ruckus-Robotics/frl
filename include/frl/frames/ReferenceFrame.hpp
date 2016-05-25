@@ -306,9 +306,6 @@ namespace frl
 			bool isWorldFrame;
 			bool isBodyCenteredFrame;
 		};
-
-		std::unique_ptr<ReferenceFrame> ReferenceFrame::worldFrame = ReferenceFrame::createAWorldFrame("World");
-		long ReferenceFrame::nextTransformToRootID = 1;
 	}
 
 }

@@ -29,7 +29,7 @@ include_directories(${INCLUDES_DIR} ${EIGEN3_INCLUDE_DIR})
 
 ## Declare a cpp library
  add_library(${PROJECT_NAME}
-   ${INCLUDES}
+   src/ReferenceFrame.cpp
  )
 
 set_target_properties(${PROJECT_NAME} PROPERTIES LINKER_LANGUAGE CXX)
